@@ -1,0 +1,278 @@
+"use client";
+
+import { useEffect, useState } from "react";
+import { Button } from "@/components/ui/button";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import notification from "../../../public/svgs/notifications.svg";
+import activenotification from "../../../public/svgs/activenotification.svg";
+import Image from "next/image";
+import accept from "../../../public/svgs/accept.svg";
+import { parseISO, formatDistanceToNow } from "date-fns";
+import reject from "../../../public/svgs/reject.svg";
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
+import { useRouter } from "next/navigation";
+
+export default function NotificationsDrawer({ onNotificationChange }) {
+  const [notifications, setNotifications] = useState([]); // Initialize as an empty array
+  const [isOpen, setIsOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [loading1, setLoading1] = useState(false);
+  const router = useRouter();
+
+  const handleNotificationClick = () => {
+    setIsOpen(!isOpen);
+  };
+
+  // API call to fetch notifications
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    const axios = require("axios");
+    let data = JSON.stringify({
+      token: token,
+    });
+
+    let config = {
+      method: "post",
+      maxBodyLength: Infinity,
+      url: "https://talktango.estamart.com/api/get_notifications",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      data: data,
+    };
+
+    axios
+      .request(config)
+      .then((response) => {
+        const notificationsData = response.data.data;
+        if (Array.isArray(notificationsData)) {
+          setNotifications(notificationsData);
+        } else {
+          console.log("Invalid response data", response.data);
+          if (response.data.error === "Invalid login credentials") {
+            localStorage.clear();
+            router.push("/");
+          }
+          setNotifications([]);
+        }
+      })
+      .catch((error) => {
+        console.log("error", error);
+        setNotifications([]);
+      });
+  }, []);
+
+  const getNotificationText = (notification) => {
+    switch (notification.amount) {
+      case "send":
+        return `Send $${notification.amount} to you`;
+      case "request":
+        return `send you Payment Request of $${notification.amount}`;
+      case "accept":
+        return `Accepted your Payment Request and send you $${notification.amount}`;
+      default:
+        return "";
+    }
+  };
+
+  const handleAction = (id, amount, action) => {
+    setNotifications((prevNotifications) =>
+      prevNotifications.filter((notification) => notification.id !== id)
+    );
+
+    // Handle accept and reject actions
+    if (action === "accept") {
+      acceptRequest(id, amount);
+    } else if (action === "reject") {
+      rejectRequest(id, amount);
+    }
+  };
+
+  // Reject request API call
+  const rejectRequest = async (id, amount) => {
+    const token = localStorage.getItem("token");
+    const axios = require("axios");
+    let data = JSON.stringify({
+      status: 2,
+      id: id,
+      token: token,
+      amount: amount,
+    });
+
+    let config = {
+      method: "get",
+      maxBodyLength: Infinity,
+      url: "https://talktango.estamart.com/api/request_status",
+      headers: {
+        "Content-Type": "application/json",
+        Cookie: "ci_session=5fjjciomorjdiu6cevvge75mnnku5659",
+      },
+      data: data,
+    };
+
+    axios
+      .request(config)
+      .then((response) => {
+        console.log(JSON.stringify(response.data));
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  // Accept request API call
+  const acceptRequest = async (id, amount) => {
+    const token = localStorage.getItem("token");
+    const axios = require("axios");
+    let data = JSON.stringify({
+      status: 1,
+      id: id,
+      token: token,
+      amount: amount,
+    });
+
+    let config = {
+      method: "get",
+      maxBodyLength: Infinity,
+      url: "https://talktango.estamart.com/api/request_status",
+      headers: {
+        "Content-Type": "application/json",
+        Cookie: "ci_session=5fjjciomorjdiu6cevvge75mnnku5659",
+      },
+      data: data,
+    };
+
+    axios
+      .request(config)
+      .then((response) => {
+        console.log(JSON.stringify(response.data));
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  return (
+    <Sheet open={isOpen} onOpenChange={setIsOpen}>
+      <SheetTrigger asChild>
+        <button onClick={handleNotificationClick}>
+          {isOpen ? (
+            <Image
+              src={activenotification}
+              alt="Notifications"
+              loading="lazy"
+            />
+          ) : (
+            <Image src={notification} alt="Notifications" loading="lazy" />
+          )}
+        </button>
+      </SheetTrigger>
+      <SheetContent className="w-[300px] sm:w-[540px] left-auto right-0 sm:left-32 sm:right-auto">
+        <SheetHeader>
+          <SheetTitle className="text-[#049C01] font-medium">
+            Notifications
+          </SheetTitle>
+        </SheetHeader>
+        <ScrollArea className="h-[calc(100vh-80px)] pr-4">
+          {notifications.length === 0 ? (
+            <p className=" text-gray-500">No notifications</p>
+          ) : (
+            notifications.map((notification) => (
+              <div key={notification.id} className="flex items-start gap-3">
+                <div className="w-10 h-10 rounded-full  flex items-center justify-center">
+                  <Image
+                    src={notification.profile_pic}
+                    alt="User"
+                    width={100}
+                    height={100}
+                    className="rounded-full"
+                  />
+                </div>
+
+                <div className="flex min-w-1">
+                  <div className="flex items-start">
+                    <div className="text-sm">
+                      <p className="text-black">
+                        {notification.name || "no contact name"}
+                        {notification.p_status === "0" &&
+                          ` sent you a Payment Request of $${notification.amount}`}
+                        {notification.p_status === "2" &&
+                          `Your Payment Request was ${
+                            notification.request_status === "1"
+                              ? "approved"
+                              : "rejected"
+                          }`}
+                      </p>
+
+                      <p className="text-sm text-muted-foreground">
+                        {formatDistanceToNow(
+                          parseISO(notification.created_at),
+                          {
+                            addSuffix: true,
+                          }
+                        )}
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Display buttons for pending requests */}
+                  {notification.p_status === "0" &&
+                    notification.request_status === "0" && (
+                      <div className="flex gap-3 ml-1">
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          className="h-8 bg-none border-none p-0"
+                          onClick={() =>
+                            handleAction(
+                              notification.id,
+                              notification.amount,
+                              "accept"
+                            )
+                          }
+                        >
+                          <Image
+                            src={accept}
+                            width={45}
+                            alt="Accept"
+                            loading="lazy"
+                          />
+                          <span className="sr-only">Accept request</span>
+                        </Button>
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          className="h-8 bg-none border-none p-0"
+                          onClick={() =>
+                            handleAction(
+                              notification.id,
+                              notification.amount,
+                              "reject"
+                            )
+                          }
+                        >
+                          <Image
+                            src={reject}
+                            width={45}
+                            alt="Reject"
+                            loading="lazy"
+                          />
+                          <span className="sr-only">Reject request</span>
+                        </Button>
+                      </div>
+                    )}
+                </div>
+              </div>
+            ))
+          )}
+        </ScrollArea>
+      </SheetContent>
+    </Sheet>
+  );
+}

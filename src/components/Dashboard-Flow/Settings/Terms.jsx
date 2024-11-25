@@ -7,8 +7,10 @@ import Image from "next/image";
 
 export default function terms() {
   const [termsConditions, setTermsConditions] = useState("");
+  const [loading, setloading] = useState(false);
 
   useEffect(() => {
+    setloading(true);
     const axios = require("axios");
     let data = JSON.stringify({
       slug: "Terms", // Replace this with the correct slug for your API
@@ -27,11 +29,13 @@ export default function terms() {
     axios
       .request(config)
       .then((response) => {
+        setloading(false);
         // Set the Terms & Conditions content (assuming it's HTML)
         setTermsConditions(response.data.data.content);
       })
       .catch((error) => {
         console.log(error);
+        setloading(false);
       });
   }, []);
 
@@ -49,11 +53,13 @@ export default function terms() {
           <h1 className="text-lg font-medium">Terms & Conditions</h1>
         </div>
         <div className="flex flex-col gap-6">
-          {/* Render the Terms & Conditions using dangerouslySetInnerHTML */}
-          <p
-            className="text-[#333333] text-sm"
-            dangerouslySetInnerHTML={{ __html: termsConditions }}
-          />
+
+          {/* Render the Privacy Policy using dangerouslySetInnerHTML */}
+          {loading ? (
+            <p>Fetching Terms & Conditions...</p>
+          ) : (
+            <div dangerouslySetInnerHTML={{ __html: termsConditions }}></div>
+          )}
         </div>
       </div>
     </SidebarLayout>

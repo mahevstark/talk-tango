@@ -4,6 +4,7 @@ import SidebarLayout from "../../../components/Layouts/SideBarLayout";
 import Image from "next/image";
 import arrow from "../../../../public/svgs/arrow.svg";
 import receive from "../../../../public/svgs/receive.svg";
+import { parseISO, formatDistanceToNow } from "date-fns";
 
 export default function Page() {
   const paymentData = [
@@ -40,9 +41,9 @@ export default function Page() {
     },
   ];
 
-  const [data, setData] = useState();
-
-  useEffect(() => {
+  const [Data, setData] = useState();
+  const [payment, setpayment] = useState([]);
+  const fetchpayment = async () => {
     const token = localStorage.getItem("token");
     const axios = require("axios");
     let data = JSON.stringify({
@@ -62,64 +63,68 @@ export default function Page() {
     axios
       .request(config)
       .then((response) => {
+        if (response.data.action === "success") {
+          setpayment(response.data.data);
 
-       if(response.action === 'success'){
-        console.log(response.data);
-        setData(response.data);
-       }
-
-        
+         
+        }
       })
       .catch((error) => {
         console.log(error);
       });
-  }, []);
+  };
+  useEffect(() => {
+    fetchpayment();
+   
+  }, [fetchpayment]);
 
   return (
     <SidebarLayout>
       <div className="pt-6 pl-6 sm:w-[1311px] w-auto">
         <p className="text-[#049C01] font-semibold">Payment History</p>
 
-        {data ? (
-  data.map((day, index) => (
-    <div key={index} className="mt-12">
-      <p className="text-[#6D6D6D]">{day.date}</p>
-      {day.transactions.map((transaction, idx) => (
-        <div
-          key={idx}
-          className="flex sm:items-center sm:justify-between pt-5 w-full flex-col justify-start items-start gap-4 sm:gap-0 sm:flex-row"
-        >
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-green-50 rounded-full flex items-center justify-center">
-              <Image src={transaction.icon} alt="something" loading="lazy" />
+        {payment ? (
+          payment?.map((day, index) => (
+            <div key={index} className="mt-4">
+              <div
+                key={index}
+                className="flex sm:items-center sm:justify-between pt-5 w-full flex-col justify-start items-start gap-4 sm:gap-0 sm:flex-row"
+              >
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 bg-green-50 rounded-full flex items-center justify-center">
+                    {day.approval_status === "1" ? (
+                      <Image src={receive} alt="Received" />
+                    ) : (
+                      <Image src={arrow} alt="Sent" />
+                    )}
+                  </div>
+                  <div className="flex flex-col">
+                    <span className="text-sm text-black">
+                      {day.approval_status === "1" ? "Received" : "Sent"}
+                    </span>
+                    <span className="text-sm text-[#666666]">
+                      0817239419528913
+                    </span>
+                  </div>
+                </div>
+                <div className="flex flex-col items-end">
+                  <span className="font-medium text-black">$ {day.amount}</span>
+                  <span className="text-sm text-[#666666]">
+                    {day.created_at
+                      .split(" ")[1]
+                      .split(":")
+                      .slice(0, 2)
+                      .join(":")}
+                  </span>
+                </div>
+              </div>
             </div>
-            <div className="flex flex-col">
-              <span className="text-sm text-black">
-                {transaction.type}
-              </span>
-              <span className="text-sm text-[#666666]">
-                {transaction.account}
-              </span>
-            </div>
+          ))
+        ) : (
+          <div className="flex items-center justify-center h-[50vh]">
+            <p className="text-[#666666] text-2xl">No Payment history yet</p>
           </div>
-          <div className="flex flex-col items-end">
-            <span className="font-medium text-black">
-              {transaction.amount}
-            </span>
-            <span className="text-sm text-[#666666]">
-              {transaction.time}
-            </span>
-          </div>
-        </div>
-      ))}
-    </div>
-  ))
-) : (
-  <div className="flex items-center justify-center h-[50vh]">
-    <p className="text-[#666666] text-2xl">No Payment history yet</p>
-  </div>
-)}
-
+        )}
       </div>
     </SidebarLayout>
   );

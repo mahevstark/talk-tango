@@ -30,7 +30,8 @@ export default function NotificationsDrawer({ onNotificationChange }) {
   };
 
   // API call to fetch notifications
-  useEffect(() => {
+
+  const fetchnotifications = async () => {
     const token = localStorage.getItem("token");
     const axios = require("axios");
     let data = JSON.stringify({
@@ -51,6 +52,8 @@ export default function NotificationsDrawer({ onNotificationChange }) {
       .request(config)
       .then((response) => {
         const notificationsData = response.data.data;
+        console.log("notificationsData", notificationsData);
+
         if (Array.isArray(notificationsData)) {
           setNotifications(notificationsData);
         } else {
@@ -66,6 +69,10 @@ export default function NotificationsDrawer({ onNotificationChange }) {
         console.log("error", error);
         setNotifications([]);
       });
+  };
+
+  useEffect(() => {
+    fetchnotifications();
   }, []);
 
   const getNotificationText = (notification) => {
@@ -96,22 +103,23 @@ export default function NotificationsDrawer({ onNotificationChange }) {
 
   // Reject request API call
   const rejectRequest = async (id, amount) => {
+    // console.log("rejectRequest");
+    // return;
     const token = localStorage.getItem("token");
     const axios = require("axios");
     let data = JSON.stringify({
       status: 2,
-      id: id,
+      id: parseInt(id),
       token: token,
       amount: amount,
     });
 
     let config = {
-      method: "get",
+      method: "post",
       maxBodyLength: Infinity,
       url: "https://talktango.estamart.com/api/request_status",
       headers: {
         "Content-Type": "application/json",
-        Cookie: "ci_session=5fjjciomorjdiu6cevvge75mnnku5659",
       },
       data: data,
     };
@@ -119,7 +127,9 @@ export default function NotificationsDrawer({ onNotificationChange }) {
     axios
       .request(config)
       .then((response) => {
-        console.log(JSON.stringify(response.data));
+        if (response.data.action === "success") {
+          fetchnotifications();
+        }
       })
       .catch((error) => {
         console.log(error);
@@ -129,21 +139,23 @@ export default function NotificationsDrawer({ onNotificationChange }) {
   // Accept request API call
   const acceptRequest = async (id, amount) => {
     const token = localStorage.getItem("token");
+
+    console.log("acceptRequest", id, token);
+
     const axios = require("axios");
     let data = JSON.stringify({
       status: 1,
-      id: id,
+      id: parseInt(id),
       token: token,
       amount: amount,
     });
 
     let config = {
-      method: "get",
+      method: "post",
       maxBodyLength: Infinity,
       url: "https://talktango.estamart.com/api/request_status",
       headers: {
         "Content-Type": "application/json",
-        Cookie: "ci_session=5fjjciomorjdiu6cevvge75mnnku5659",
       },
       data: data,
     };
@@ -151,7 +163,10 @@ export default function NotificationsDrawer({ onNotificationChange }) {
     axios
       .request(config)
       .then((response) => {
-        console.log(JSON.stringify(response.data));
+        if (response.data.action === "success") {
+          fetchnotifications();
+       
+        }
       })
       .catch((error) => {
         console.log(error);
@@ -184,7 +199,7 @@ export default function NotificationsDrawer({ onNotificationChange }) {
             <p className=" text-gray-500">No notifications</p>
           ) : (
             notifications.map((notification) => (
-              <div key={notification.id} className="flex items-start gap-3">
+              <div key={notification.id} className="flex items-start gap-3 mt-3">
                 <div className="w-10 h-10 rounded-full  flex items-center justify-center">
                   <Image
                     src={notification.profile_pic}
@@ -195,7 +210,7 @@ export default function NotificationsDrawer({ onNotificationChange }) {
                   />
                 </div>
 
-                <div className="flex min-w-1">
+                <div className="flex min-w-1 ">
                   <div className="flex items-start">
                     <div className="text-sm">
                       <p className="text-black">
@@ -203,7 +218,13 @@ export default function NotificationsDrawer({ onNotificationChange }) {
                         {notification.p_status === "0" &&
                           ` sent you a Payment Request of $${notification.amount}`}
                         {notification.p_status === "2" &&
-                          `Your Payment Request was ${
+                          ` Payment Request was ${
+                            notification.request_status === "1"
+                              ? "approved"
+                              : "rejected"
+                          }`}
+                            {notification.p_status === "1" &&
+                          ` Payment Request was ${
                             notification.request_status === "1"
                               ? "approved"
                               : "rejected"

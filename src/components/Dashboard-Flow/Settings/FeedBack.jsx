@@ -49,10 +49,10 @@ export default function Component() {
       <div className="sm:w-[540px] w-full p-4 mt-10 sm:mt-3">
         <div className="flex items-center gap-3 mb-8">
           <Link
-            href="dashboard/settings"
+            href="/dashboard/settings"
             className="inline-flex items-center justify-center rounded-md text-sm font-medium hover:bg-accent hover:text-accent-foreground h-9 w-9"
           >
-            <Image src={Back} alt="something"  />
+            <Image src={Back} alt="something" />
             <span className="sr-only">Go back</span>
           </Link>
           <h1 className="text-lg font-medium">Feedback</h1>

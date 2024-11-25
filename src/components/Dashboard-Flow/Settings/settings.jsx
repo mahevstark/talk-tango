@@ -80,6 +80,7 @@ export default function Settings() {
   const handleLogout = () => {
     if (isClient) {
       localStorage.clear();
+
       router.push("/");
     }
   };
@@ -218,10 +219,10 @@ export default function Settings() {
                 >
                   {setting.label === "Logout" ? (
                     <Button variant="ghost" className="hover:bg-white px-2">
-                      <Image src={logout} alt="Logout" width={18} loading="lazy" />
+                      <Image src={logout} alt="Logout" width={18} />
                     </Button>
                   ) : (
-                    <Image src={setting.icon} alt="Setting" width={18} loading="lazy" />
+                    <Image src={setting.icon} alt="Setting" width={18} />
                   )}
                   <Link href={setting.link}>
                     <span>{setting.label}</span>

@@ -7,8 +7,10 @@ import Image from "next/image";
 
 export default function privacypolicy() {
   const [PrivacyPolicy, setPrivacyPolicy] = useState("");
+  const [loading, setloading] = useState(false);
 
   useEffect(() => {
+    setloading(true);
     const axios = require("axios");
     let data = JSON.stringify({
       slug: "Policy",
@@ -27,11 +29,12 @@ export default function privacypolicy() {
     axios
       .request(config)
       .then((response) => {
-        // Set the policy content (assuming it's HTML)
         setPrivacyPolicy(response.data.data.content);
+        setloading(false);
       })
       .catch((error) => {
         console.log(error);
+        setloading(false);
       });
   }, []);
 
@@ -50,10 +53,11 @@ export default function privacypolicy() {
         </div>
         <div className="flex flex-col gap-6">
           {/* Render the Privacy Policy using dangerouslySetInnerHTML */}
-          <p
-            className="text-[#333333] text-sm"
-            dangerouslySetInnerHTML={{ __html: PrivacyPolicy }}
-          />
+          {loading ? (
+            <p>Fetching Privacy Policy...</p>
+          ) : (
+            <div dangerouslySetInnerHTML={{ __html: PrivacyPolicy }}></div>
+          )}
         </div>
       </div>
     </SidebarLayout>

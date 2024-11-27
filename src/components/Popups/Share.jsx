@@ -13,7 +13,7 @@ import whatsapp from "../../../public/svgs/whatssapp.svg";
 import copy from "../../../public/svgs/copy.svg";
 import facebookIcon from "../../../public/svgs/facebook.svg";
 import twitterIcon from "../../../public/svgs/twiter.svg";
-import instagramIcon from "../../../public/svgs/Instagram.svg";
+import instagramIcon from "../../../public/svgs/instagram.svg";
 import linkedinIcon from "../../../public/svgs/linkedin.svg";
 import userShareIcon from "../../../public/svgs/usershare.svg";
 

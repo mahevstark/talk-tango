@@ -101,6 +101,8 @@ export default function AudioRecordingPopup({ onRecordingComplete }) {
   };
 
   const handleSendRecording = async () => {
+    console.log("Uploading audio...");
+
     if (!audioBlob) {
       console.error("No audio blob found");
       return;

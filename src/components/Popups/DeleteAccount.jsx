@@ -101,7 +101,7 @@ export default function Component() {
         }
         return prev - 1;
       });
-    }, 1000);
+    }, 40000);
   };
 
   const handleNext = async () => {
@@ -140,7 +140,7 @@ export default function Component() {
           setSecondModalOpen(false);
           console.log(JSON.stringify(response.data));
 
-          routerrouter.push("/");
+          router.push("/");
         } else {
           console.log(response.data.action);
 

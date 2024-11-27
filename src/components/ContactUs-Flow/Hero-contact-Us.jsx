@@ -4,7 +4,7 @@ import React from "react";
 import { motion } from "framer-motion";
 import ContactForm from "../ContactUs-Flow/ContactForm";
 import Mainlayout from "../Layout-home";
-export default function Hero() {
+export default function herocontactus() {
   const fadeInUp = {
     hidden: { opacity: 0, y: 20 },
     visible: { opacity: 1, y: 0, transition: { duration: 0.6 } },

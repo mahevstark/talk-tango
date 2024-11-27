@@ -12,6 +12,7 @@ import loginIllustation from "../../../public/assets/login-image.png";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import Loader from "../loader";
+import Errorpopup from "../.../../../components/Popups/ErrorPopup";
 export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [animate, setAnimate] = useState(false);
@@ -21,6 +22,7 @@ export default function LoginPage() {
   const [errorMessage, setErrorMessage] = useState(null);
   const [loading, setloading] = useState(false);
   const Router = useRouter();
+  const [error, setError] = useState("");
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -34,19 +36,20 @@ export default function LoginPage() {
     event.preventDefault();
     setErrorMessage(null);
     setloading(true);
+
+    if (username === "" || password === "") {
+      setErrorMessage("One or more fields are empty");
+      setError("One or more fields are empty");
+      setloading(false);
+
+      return;
+    }
     if (!/\S+@\S+\.\S+/.test(username)) {
-      setErrorMessage("Invalid Email");
+      setError("Invalid Email");
       setloading(false);
       return;
     }
     const values = { email: username, password };
-
-    if (username === "" || password === "") {
-      setErrorMessage("One or more fields are empty");
-      setloading(false);
-
-      return;
-    }
 
     try {
       const response = await axios.post(
@@ -68,7 +71,7 @@ export default function LoginPage() {
         Router.push("/dashboard/messages");
       } else {
         console.log("Unexpected response status:", response);
-        setErrorMessage("Invalid credentials");
+        setError("Invalid credentials");
         setloading(false);
       }
     } catch (error) {
@@ -271,6 +274,7 @@ export default function LoginPage() {
             </motion.button>
           </motion.div>
         </div>
+        {error && <Errorpopup message={error} onClose={() => setError("")} />}
       </motion.div>
     </div>
   );

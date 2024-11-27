@@ -60,7 +60,6 @@ export default function Messages() {
       contact.title.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  console.log("filteredContacts", filteredContacts);
 
   var channel = pusher.subscribe("chat-channel");
 
@@ -143,7 +142,6 @@ export default function Messages() {
     setnewid(newid);
     setProfilePic(img);
 
-    console.log("contactId", newid);
     localStorage.setItem("newid", newid); //
 
     localStorage.setItem("chatuserid", userid); //
@@ -191,7 +189,6 @@ export default function Messages() {
             const audios = URL.createObjectURL(audioBlob);
 
             setAudioBlob(audios);
-            console.log("audiossssss ubaid", element.audio);
           }
         });
 
@@ -303,7 +300,6 @@ export default function Messages() {
     const selectedFile = event.target.files[0];
     if (selectedFile) {
       setFile(selectedFile);
-      console.log("Selected file:", selectedFile);
     }
   };
   const [isBlockUserOpen, setIsBlockUserOpen] = useState(false);
@@ -441,6 +437,7 @@ export default function Messages() {
       return;
     }
 
+    
     const response = await fetch(
       "https://talktango.estamart.com/api/profile_picture",
       {

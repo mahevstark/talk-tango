@@ -11,6 +11,7 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
 import Loader from "../loader";
+import Errorpopup from "../.../../../components/Popups/ErrorPopup";
 
 export default function Signup() {
   const [showPassword, setShowPassword] = useState(false);
@@ -20,6 +21,7 @@ export default function Signup() {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
   const [loading, setloading] = useState(false);
+  const [error, setError] = useState("");
 
   //signup api
   const Router = useRouter();
@@ -37,24 +39,25 @@ export default function Signup() {
     setErrorMessage(null);
     setloading(true);
     const values = { email: username, password };
-    console.log(values);
     const validateEmail = (email) => {
       const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
       return emailRegex.test(email);
     };
-
     if (username === "" || password === "") {
-      setErrorMessage("One or more fields are empty");
+      setError("One or more fields are empty");
       setloading(false);
 
       return;
     } else if (password.length < 8) {
-      setErrorMessage("Password must be 8 characters long");
+      setError("Password must be 8 characters long");
       setloading(false);
+      return;
     } else if (!validateEmail(username)) {
-      setErrorMessage("Invalid Email");
+      setError("Invalid Email");
       setloading(false);
+      return;
     }
+
     // else if (password !== showConfirmPassword) {
     //   setErrorMessage("Password does not match");
     //   setloading(false);
@@ -67,29 +70,23 @@ export default function Signup() {
         values
       );
 
-      console.log('kfkrfkrm',response.data);
-      
-
-     
-
-
       if (response.data.action === "success") {
         const token = response.data.data.token;
-
+        localStorage.removeItem("token");
         localStorage.setItem("token", token);
 
         setloading(false);
 
         Router.push("/auth/otp");
       } else {
-        setErrorMessage("user already exists please try with another email");
+        setError("user already exists please try with another email");
         setloading(false);
 
         console.log("Unexpected response status:", response.status);
       }
     } catch (error) {
       console.log("signup failed", error);
-      setErrorMessage("Signup failed");
+      setError("Signup failed");
 
       setloading(false);
     }
@@ -126,7 +123,7 @@ export default function Signup() {
           src={loginIllustation}
           alt="Login Illustration"
           className="max-w-full h-auto p-4"
-            loading="lazy"
+          loading="lazy"
         />
       </motion.div>
 
@@ -304,6 +301,7 @@ export default function Signup() {
           </motion.div>
         </motion.div>
       </motion.div>
+      {error && <Errorpopup message={error} onClose={() => setError("")} />}
     </div>
   );
 }

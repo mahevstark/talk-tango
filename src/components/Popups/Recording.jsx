@@ -138,7 +138,6 @@ export default function AudioRecordingPopup({ onRecordingComplete }) {
         const finalUrl = responseJson.filename;
         setAudioUrl(finalUrl);
         sendtoparent(finalUrl);
-        console.log("Audio successfully uploaded:", finalUrl);
         setIsOpen(false);
       } else {
         console.error("Upload failed", responseJson);

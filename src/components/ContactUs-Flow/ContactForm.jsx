@@ -23,13 +23,13 @@ export default function ContactForm() {
   };
 
   return (
-    <div className="bg-white px-16">
+    <div className="bg-white sm:px-16  px-4">
       <motion.div
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, amount: 0.3 }}
         variants={staggerChildren}
-        className="container mx-auto flex flex-col md:flex-row items-center pb-[100px] justify-center md:space-x-[30px] space-y-[15px] md:space-y-0 max-md:pl-[10px] bg-white text-black min-h-screen"
+        className="container mx-auto flex flex-col md:flex-row items-center justify-center  bg-white text-black min-h-screen space-y-6"
       >
         <motion.div variants={fadeInUp} className="md:w-1/2 mt-[100px] w-full">
           <motion.h2

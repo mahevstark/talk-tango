@@ -117,6 +117,8 @@ export default function OTPPage() {
       ? (url = "https://talktango.estamart.com/api/confirm_forgot_otp")
       : (url = "https://talktango.estamart.com/api/confirm_otp");
 
+    console.log("token", token);
+
     try {
       const response = await axios.post(
         url,
@@ -137,7 +139,7 @@ export default function OTPPage() {
         username
           ? router.push("/auth/create-password")
           : router.push("/auth/create-profile");
-        localStorage.remove("username__");
+        localStorage.removeItem("username__");
       } else {
         setError("Invalid OTP");
 
@@ -145,7 +147,6 @@ export default function OTPPage() {
       }
     } catch (error) {
       console.log("error of api of otp", error);
-      setError("Error occurred while validating OTP");
       setloading(false);
       resetTimer(); // Restart the timer on API error
     }
@@ -215,7 +216,7 @@ export default function OTPPage() {
       const response = await axios.request(config);
 
       if (response.data.action === "success") {
-        setError("OTP sent successfully!");
+        setErrorMessage("OTP sent successfully!");
         setloading(false);
       } else {
         console.log("Unexpected response:", response);

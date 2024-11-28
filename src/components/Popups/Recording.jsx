@@ -126,14 +126,14 @@ export default function AudioRecordingPopup({ onRecordingComplete }) {
         "https://talktango.estamart.com/api/upload_audio",
         {
           method: "POST",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+
           body: formData,
         }
       );
 
       const responseJson = await response.json();
+      console.log("my response", responseJson);
+
       if (responseJson.action === "success") {
         const finalUrl = responseJson.filename;
         setAudioUrl(finalUrl);

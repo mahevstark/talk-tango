@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, use } from "react";
 import { ArrowLeft, MoreVertical, X, Search } from "lucide-react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
@@ -59,7 +59,6 @@ export default function Messages() {
       contact.title &&
       contact.title.toLowerCase().includes(searchTerm.toLowerCase())
   );
-
 
   var channel = pusher.subscribe("chat-channel");
 
@@ -270,6 +269,8 @@ export default function Messages() {
     axios
       .request(config)
       .then((response) => {
+        console.log("response from send messssage", response);
+
         setloadingmessages(false);
         fetchusercontacts();
         displaymessages(convoid);
@@ -318,11 +319,14 @@ export default function Messages() {
   const [unblock, setunblock] = useState();
   const handleToggleModal = () => {
     setunblock(1);
-    setIsBlockUserOpen((prevState) => !prevState); // Toggle block user modal state
+    setIsBlockUserOpen((prevState) => !prevState);
   };
   const handleToggleModals = () => {
     setunblock(0);
     setIsBlockUserOpen((prevState) => !prevState); // Toggle block user modal state
+    const contactid = localStorage.getItem("contactId");
+
+    displaymessages(contactid);
   };
 
   // Function to open Reportuser modal
@@ -415,7 +419,6 @@ export default function Messages() {
   };
   const handleImageUpload = async (file) => {
     setloadingmessages(true);
-
     if (!file) {
       alert("Please select an image to upload.");
       setloadingmessages(false);
@@ -437,32 +440,27 @@ export default function Messages() {
       return;
     }
 
-    
     const response = await fetch(
       "https://talktango.estamart.com/api/profile_picture",
       {
         method: "POST",
-        headers: {
-          Authorization: `Bearer ${token}`, // Pass token
-        },
+
         body: formData, // Send formData with the file
       }
     );
     const result = await response.json();
 
-    console.log("file", result.filename);
-    setProfileImage(result.filename);
-    sendimage();
-    return;
-    if (result.success) {
+    console.log("result", result);
+
+    if (result.action === "success") {
       setProfileImage(result.filename);
       sendimage();
-      setUploadedUrl(result.filename);
-      setProfileImage(result.filename); // Dynamically update profile image after successful upload
-      alert("Image uploaded successfully");
     } else {
-      alert("Error uploading image");
+      setError("Error uploading image");
     }
+
+    // setProfileImage(result.filename);
+    // sendimage();
   };
 
   function isValidUrl(url) {
@@ -473,6 +471,12 @@ export default function Messages() {
       return false;
     }
   }
+
+  useEffect(() => {
+    setTimeout(() => {
+      fetchusercontacts();
+    }, 1000);
+  }, []);
 
   return (
     <SidebarLayout>
@@ -594,7 +598,7 @@ export default function Messages() {
           </div>
         </div>
         {selectedContact ? (
-          <div className="flex-1 flex flex-col sm:ml-4 ml-0 sm:mr-4 mr-0 sm:h-auto  sm:mt-0 mt-12">
+          <div className="flex-1 flex flex-col sm:ml-4 ml-0 sm:mr-4 mr-0 sm:h-auto  sm:mt-0 mt-12 border-l pl-4">
             <div className="flex items-center justify-between p-4 border-b">
               <div className="flex items-center gap-3">
                 <Button
@@ -655,9 +659,6 @@ export default function Messages() {
                     <DropdownMenuItem>
                       <button onClick={handleReportUserClick}>Report</button>
                     </DropdownMenuItem>
-                    <DropdownMenuItem>
-                      <button onClick={handleclearchat}>Clear Chat</button>
-                    </DropdownMenuItem>
                   </DropdownMenuContent>
                 </DropdownMenu>
               </div>
@@ -705,7 +706,7 @@ export default function Messages() {
                             ? "text-white bg-[#049C01]"
                             : !message.audio
                             ? "text-black bg-none"
-                            : "text-black bg-[#f1f1f1]"
+                            : "text-black "
                         }`}
                       >
                         {message?.image && (

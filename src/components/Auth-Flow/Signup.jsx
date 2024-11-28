@@ -69,11 +69,13 @@ export default function Signup() {
         "https://talktango.estamart.com/api/signup",
         values
       );
-
+      console.log(response);
+      
       if (response.data.action === "success") {
         const token = response.data.data.token;
         localStorage.removeItem("token");
         localStorage.setItem("token", token);
+        localStorage.removeItem("username__");
 
         setloading(false);
 

@@ -7,7 +7,7 @@ export default function FeatureSection() {
   return (
     <div className="w-full">
       {/* Hero Section with Background Pattern */}
-      <section className="relative bg-[#049C01] py-20 px-16">
+      <section className="relative bg-[#049C01] py-20 sm:px-16 px-4">
         <motion.div
           className="relative mx-auto max-w-2xl px-4 text-center"
           initial={{ opacity: 0, y: 30 }}
@@ -43,7 +43,7 @@ export default function FeatureSection() {
           whileInView={{ opacity: 1, x: 0 }} // Triggering on view
           transition={{ duration: 0.8, delay: 0.3 }}
         >
-          <div className="relative md:w-1/2 max-md:mr-4 px-16">
+          <div className="relative md:w-1/2 max-md:mr-4 sm:px-16 px-4">
             {/* Background container behind the card */}
             <motion.div
               className="absolute inset-0 bg-[#DFE1E1] rounded-2xl "
@@ -88,7 +88,7 @@ export default function FeatureSection() {
           </div>
 
           <motion.div
-            className="space-y-[24px] px-16"
+            className="space-y-[24px] sm:px-16 px-4"
             initial={{ opacity: 0, x: 30 }}
             whileInView={{ opacity: 1, x: 0 }} // Triggering opacity and x-axis transition on view
             transition={{ duration: 0.8, delay: 0.4 }}
@@ -105,7 +105,7 @@ export default function FeatureSection() {
               <br /> securely, making payments a breeze.
             </p>
            <Link href="/auth/login">
-           <button className="rounded-full py-3 text-[20px] font-medium px-6 border-2 border-black bg-white text-black transition-all duration-300 hover:text-white hover:border-[#049C01] hover:bg-[#049C01]">
+           <button className="rounded-full mt-5 py-3 text-[20px] font-medium px-6 border-2 border-black bg-white text-black transition-all duration-300 hover:text-white hover:border-[#049C01] hover:bg-[#049C01]">
               Get Started For Free
             </button></Link>
           </motion.div>

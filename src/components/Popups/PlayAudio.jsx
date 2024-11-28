@@ -33,7 +33,7 @@ export default function CustomAudioPlayer({ audioUri }) {
   };
 
   return (
-    <div className="bg-gray-800 text-white p-4 rounded-lg max-w-md mx-auto shadow-md">
+    <div className="bg-gray-800 text-white p-2 rounded-lg max-w-md mx-auto shadow-md">
       <audio
   ref={audioRef}
   preload="auto"
@@ -67,16 +67,7 @@ export default function CustomAudioPlayer({ audioUri }) {
               WebkitAppearance: "none",
             }}
           />
-          <IoEllipse
-            size={16}
-            color="#10b981"
-            className="absolute"
-            style={{
-              top: "-8px",
-              left: `${(currentTime / duration) * 100}%`,
-              transform: "translate(-50%)",
-            }}
-          />
+         
         </div>
       </div>
 

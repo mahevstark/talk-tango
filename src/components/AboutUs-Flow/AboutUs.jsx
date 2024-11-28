@@ -36,7 +36,7 @@ export default function aboutus() {
           whileInView="visible"
           viewport={{ once: true, amount: 0.3 }}
           variants={staggerChildren}
-          className="text-black bg-[#049C01] pt-8 md:pt-24 gap-6 px-16
+          className="text-black bg-[#049C01] pt-8 md:pt-24 gap-6 sm:px-16 px-4
         justify-center items-start container mx-auto flex flex-col md:flex-row"
         >
           <motion.div

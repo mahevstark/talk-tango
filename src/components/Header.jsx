@@ -40,7 +40,7 @@ export default function header() {
   ];
 
   return (
-    <header className=" bg-[#049C01]  border-green-500 sticky top-0 z-50 px-12">
+    <header className=" bg-[#049C01]  border-green-500 sticky top-0 z-50 sm:px-12 px-2">
       <motion.div
         className="container mx-auto justify-between flex max-md:h-20 md:h-24 px-2 items-center "
         initial={{ opacity: 0, y: -50 }}
@@ -50,7 +50,7 @@ export default function header() {
         <div className="flex gap-10 items-center">
           <Link className="flex items-center space-x-2 text-white" href="/">
             <motion.img
-              className="max-md:h-[20px] max-md:w-[50px] md:h-[40px] md:w-[160px]"
+              className=""
               src="/assets/tango-logo.png"
               alt="Logo"
               initial={{ y: -30 }}
@@ -156,7 +156,7 @@ export default function header() {
               animate={{ y: 0 }}
               transition={{ duration: 0.5, delay: 0.4 }}
             >
-              <div className="relative">
+              <div className="relative hidden">
                 <input
                   className="w-full bg-white text-[#049C01] px-4 text-[20px] py-[3px] focus:outline-[#049C01] rounded-xl placeholder-[#049C01] border-green-500 focus:border-green-400"
                   placeholder="Search..."

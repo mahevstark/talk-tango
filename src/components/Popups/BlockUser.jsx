@@ -23,7 +23,6 @@ export default function Component({ name, userid, convoid, block, unblock }) {
       url: "https://talktango.estamart.com/api/blockUser",
       headers: {
         "Content-Type": "application/json",
-        Cookie: "ci_session=dfflsdo9qpi03os81e3bt6dad78ljish",
       },
       data: data,
     };
@@ -31,7 +30,13 @@ export default function Component({ name, userid, convoid, block, unblock }) {
     axios
       .request(config)
       .then((response) => {
-        console.log(JSON.stringify(response.data));
+        console.log("hellooom", JSON.stringify(response.data));
+        if (typeof window !== "undefined") {
+          window.location.reload();
+        }
+        if (response.data.action === "success") {
+          console.log("User blocked successfully");
+        }
       })
       .catch((error) => {
         console.log(error);

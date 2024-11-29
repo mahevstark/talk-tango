@@ -1,4 +1,5 @@
 import "./globals.css";
+import { ClerkProvider } from "@clerk/nextjs";
 
 export const metadata = {
   title: "Talk Tango",
@@ -8,9 +9,12 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body>
+      {/* <body>
         {children}
-      </body>
+      </body> */}
+      <ClerkProvider publishableKey="pk_test_bGVhZGluZy1zcGFycm93LTcyLmNsZXJrLmFjY291bnRzLmRldiQ">
+        <body>{children}</body>
+      </ClerkProvider>
     </html>
   );
 }

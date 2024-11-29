@@ -5,6 +5,8 @@ import { IoCameraSharp } from "react-icons/io5";
 import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
 import Loader from "../loader";
+import Errorpopup from "../.../../../components/Popups/ErrorPopup";
+
 const fadeIn = {
   initial: { opacity: 0, y: 20 },
   animate: { opacity: 1, y: 0 },
@@ -26,6 +28,7 @@ export default function Component() {
   const [about, setAbout] = useState("");
   const [errorMessage, setErrorMessage] = useState(null);
   const [loading, setloading] = useState(false);
+  const [error, setError] = useState("");
 
   const router = useRouter();
 
@@ -42,7 +45,7 @@ export default function Component() {
     setloading(true);
 
     if (name === "" || phone === "" || about === "") {
-      setErrorMessage("One or more fields are empty");
+      setError("One or more fields are empty");
       setloading(false);
       return;
     }
@@ -73,19 +76,17 @@ export default function Component() {
     axios
       .request(config)
       .then((response) => {
-        console.log(response.data);
-
-        if (response.data.action === "success" && response.data.email) {
-          setErrorMessage("Profile Created Successfully");
+        if (response.data.action === "success") {
+          setError("Profile Created Successfully");
           setloading(false);
-          router.push("/auth-flow/log-in");
+          router.push("/auth/login");
         } else {
-          setErrorMessage("Profile Creation Failed");
+          setError("Profile Creation Failed");
           setloading(false);
         }
       })
       .catch((error) => {
-        setErrorMessage("Profile Creation Failed");
+        setError("Profile Creation Faileds");
         setloading(false);
         console.log(error);
       });
@@ -101,7 +102,8 @@ export default function Component() {
     const file = e.target.files[0];
     if (file) {
       setImage(file); // Set the selected image file
-      handleImageUpload(file); // Pass the file directly to the upload handler
+
+      handleImageUpload(file);
     }
   };
   const handleImageUpload = async (file) => {
@@ -109,44 +111,29 @@ export default function Component() {
       alert("Please select an image to upload.");
       return;
     }
-
-    setUploading(true);
-
     const formData = new FormData();
+
     formData.append("photo", file);
 
     const token = localStorage.getItem("token");
     formData.append("token", token);
 
-    if (!token) {
-      alert("No token found. Please log in again.");
-      setUploading(false); // Stop uploading
-      return;
-    }
-
     const response = await fetch(
       "https://talktango.estamart.com/api/profile_picture",
       {
         method: "POST",
-        headers: {
-          Authorization: `Bearer ${token}`, // Pass token
-        },
+
         body: formData, // Send formData with the file
       }
     );
     const result = await response.json();
 
-    console.log("file", result.filename);
-    setProfileImage(result.filename);
-    localStorage.removeItem("image");
-    localStorage.setItem("image", result.filename);
-    return;
-    if (result.success) {
-      setUploadedUrl(result.filename);
-      setProfileImage(result.filename); // Dynamically update profile image after successful upload
-      alert("Image uploaded successfully");
+    if (result.action === "success") {
+      setProfileImage(result.filename);
+      localStorage.removeItem("image");
+      localStorage.setItem("image", result.filename);
     } else {
-      alert("Error uploading image");
+      setError("Error uploading image");
     }
   };
 
@@ -268,6 +255,7 @@ export default function Component() {
           )}
         </motion.button>
       </motion.div>
+      {error && <Errorpopup message={error} onClose={() => setError("")} />}
     </motion.div>
   );
 }

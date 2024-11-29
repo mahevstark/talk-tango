@@ -4,7 +4,7 @@ import React from "react";
 import { motion } from "framer-motion";
 import ContactForm from "../ContactUs-Flow/ContactForm";
 import Mainlayout from "../Layout-home";
-export default function Hero() {
+export default function herocontactus() {
   const fadeInUp = {
     hidden: { opacity: 0, y: 20 },
     visible: { opacity: 1, y: 0, transition: { duration: 0.6 } },
@@ -36,8 +36,8 @@ export default function Hero() {
           whileInView="visible"
           viewport={{ once: true, amount: 0.3 }}
           variants={staggerChildren}
-          className="text-black bg-[#049C01] max-md:pl-[10px] max-md:pt-[40px] md:pt-[60px] gap-6 
-        justify-center items-start container mx-auto flex md:flex-row max-md:flex-col px-12 sm:px-16"
+          className="text-black bg-[#049C01] gap-6 
+        justify-center items-start container mx-auto flex md:flex-row max-md:flex-col px-4 sm:pt-12 sm:px-16 "
         >
           <motion.div
             variants={fadeInUp}

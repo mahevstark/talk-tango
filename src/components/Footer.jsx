@@ -4,7 +4,7 @@ import { FaInstagram, FaFacebook, FaLinkedin } from "react-icons/fa";
 export default function Footer() {
   return (
     <footer className="border-t bg-gray-50 px-16">
-      <div className="container mx-auto px-4 py-6">
+      <div className="container mx-auto sm:px-4 py-6">
         <div className="flex flex-col items-center justify-between space-y-4 md:flex-row md:space-y-0">
           <Link href="/">
             <img
@@ -12,7 +12,7 @@ export default function Footer() {
               src="/svgs/footer-logo.svg"
             ></img>
           </Link>
-          <nav className="flex space-x-6">
+          <nav className="flex space-x-6 ">
             <Link
               className="text-[16px] font-medium text-gray-600 hover:text-[#049C01]"
               href="/"

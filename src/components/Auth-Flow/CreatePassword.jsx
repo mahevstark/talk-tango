@@ -30,9 +30,9 @@ const CreatePassword = () => {
 
     const token = localStorage.getItem("token");
     if (password === confirmPassword) {
-      alert("Password Matched");
+      console.log("Password Matched");
     } else {
-      alert("Password not matched");
+      console.log("Password not matched");
       return;
     }
 

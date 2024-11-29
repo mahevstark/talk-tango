@@ -12,6 +12,8 @@ import Blockuser from "../../../components/Popups/BlockUser";
 import Reportuser from "../../../components/Popups/ReportUser";
 import Recording from "../../../components/Popups/Recording";
 import audio from "../../../../public/messages/Audio.svg";
+import PlayAudio from "../../Popups/PlayAudio";
+
 import Link from "next/link";
 
 import {
@@ -971,9 +973,6 @@ export default function ContactList() {
                     <DropdownMenuItem>
                       <button onClick={handleReportUserClick}>Report</button>
                     </DropdownMenuItem>
-                    <DropdownMenuItem>
-                      <button onClick={handleclearchat}>Clear Chat</button>
-                    </DropdownMenuItem>
                   </DropdownMenuContent>
                 </DropdownMenu>
               </div>
@@ -988,14 +987,14 @@ export default function ContactList() {
                   <div
                     key={message._id}
                     className={`flex items-start gap-2 ${
-                      message.by_user_id === userid
+                      !message.by_user_id === userid
                         ? "justify-start"
                         : "justify-end"
                     }`}
                   >
                     <div
                       className={`flex gap-3 items-center ${
-                        message.by_user_id === userid
+                        !message.by_user_id === userid
                           ? "flex-row"
                           : "flex-row-reverse"
                       }`}
@@ -1029,11 +1028,7 @@ export default function ContactList() {
                         )}
 
                         {message.audio && (
-                          <audio controls>
-                            <source src={audioBlob} type="audio/mpeg" />{" "}
-                            {/* Replace with actual type */}
-                            Your browser does not support the audio element.
-                          </audio>
+                          <PlayAudio audioUri={message.audio} />
                         )}
                         {message?.image && (
                           <Image

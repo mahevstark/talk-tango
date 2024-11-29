@@ -29,7 +29,7 @@ export default function Collaborate() {
 
   return (
     <div className="relative min-h-screen text-black bg-white">
-      <div className="container mx-auto px-16 py-20">
+      <div className="container mx-auto sm:px-16 py-20 px-4">
         <div className="relative z-10">
           {/* Floating avatars and messages */}
           <motion.div

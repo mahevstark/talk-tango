@@ -65,7 +65,7 @@ export default function MoneyTransferPopups({ newid }) {
       axios
         .request(config)
         .then((response) => {
-          console.log(response);
+          console.log("helllooo", response.data);
 
           if (response.data.action === "success") {
             setIsConfirmOpen(true);
@@ -127,7 +127,6 @@ export default function MoneyTransferPopups({ newid }) {
   };
 
   const handleBack = () => {
-   
     setIsRequestOpen(false);
     setIsMainOpen(true);
     // You can add more cases if there are additional nested modals
@@ -192,11 +191,10 @@ export default function MoneyTransferPopups({ newid }) {
         <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>
             <div className="flex items-center gap-24 cursor-pointer">
-              <Image src={back} alt="balnce" onClick={handleBack}/>
+              <Image src={back} alt="balnce" onClick={handleBack} />
               <DialogTitle>Request For Money</DialogTitle>
             </div>
             <DialogClose className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground border-none">
-            
               {/* <span className="sr-only">Close</span> */}
             </DialogClose>
           </DialogHeader>
@@ -240,7 +238,6 @@ export default function MoneyTransferPopups({ newid }) {
           <DialogHeader>
             <DialogTitle>Send Money</DialogTitle>
             <DialogClose className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground">
-
               <span className="sr-only">Close</span>
             </DialogClose>
           </DialogHeader>
@@ -270,9 +267,14 @@ export default function MoneyTransferPopups({ newid }) {
         <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>
             <DialogTitle></DialogTitle>
-            <Image src={sent} width={80} alt="" className="mx-auto" loading="lazy" />
-            <DialogClose className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground">
-              <X className="h-4 w-4" />
+            <Image
+              src={sent}
+              width={80}
+              alt=""
+              className="mx-auto"
+              loading="lazy"
+            />
+            <DialogClose className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none  disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground">
               <span className="sr-only">Close</span>
             </DialogClose>
           </DialogHeader>

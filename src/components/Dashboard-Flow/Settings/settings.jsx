@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import Link from "next/link";
@@ -23,10 +23,15 @@ export default function Settings() {
   const [isEditing, setIsEditing] = useState(false);
   const [name, setName] = useState("");
   const [role, setRole] = useState("");
-  const [notifications, setNotifications] = useState(false);
+  const [userData, setUserData] = useState({});
+
+  const [notifications, setNotifications] = useState();
   const [profileImage, setProfileImage] = useState("");
   const [isClient, setIsClient] = useState(false); // Track if on client-side
   const router = useRouter();
+  const fileInputRef = useRef(null); // Add this if you haven't already
+  // Reference to the file input
+  const [uploadedUrl, setUploadedUrl] = useState("");
 
   useEffect(() => {
     // Ensure code only runs on the client-side
@@ -34,6 +39,9 @@ export default function Settings() {
       setIsClient(true);
       const name = localStorage.getItem("name");
       const role = localStorage.getItem("about");
+      const userData = JSON.parse(localStorage.getItem("usersdata"));
+      setNotifications(userData?.notification_status === "1" ? true : false);
+      setUserData(userData);
       setName(name);
       setRole(role);
 
@@ -86,8 +94,6 @@ export default function Settings() {
   };
 
   const handleNotificationToggle = (checked) => {
-    setNotifications(checked);
-
     const token = localStorage?.getItem("token");
     const data = JSON.stringify({
       token: token,
@@ -103,7 +109,16 @@ export default function Settings() {
       data: data,
     };
 
-    axios.request(config).catch((error) => console.log(error));
+    axios
+      .request(config)
+      .then((response) => {
+        localStorage.setItem("usersdata", JSON.stringify(response.data?.data));
+
+        checked ? setNotifications(true) : setNotifications(false);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   // Early return if client-side data is not loaded
@@ -155,6 +170,55 @@ export default function Settings() {
       action: handleLogout,
     },
   ];
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setProfileImage(URL.createObjectURL(file)); // Temporarily show the selected image
+      handleImageUpload(file); // Trigger upload
+    }
+  };
+
+  const handleImageUpload = async (file) => {
+    if (!file) {
+      alert("Please select an image to upload.");
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append("photo", file);
+
+    const token = localStorage.getItem("token");
+    formData.append("token", token);
+
+    if (!token) {
+      alert("No token found. Please log in again.");
+      // Stop uploading
+      return;
+    }
+
+    const response = await fetch(
+      "https://talktango.estamart.com/api/profile_picture",
+      {
+        method: "POST",
+
+        body: formData, // Send formData with the file
+      }
+    );
+    const result = await response.json();
+
+    if (result.action === "success") {
+      setProfileImage(result.filename);
+      localStorage.removeItem("image");
+      localStorage.setItem("image", result.filename);
+    } else {
+      setError("Error uploading image");
+    }
+  };
+
+  // Handle click to trigger image file input
+  const handleImageClick = () => {
+    fileInputRef.current.click(); // Trigger the file input dialog when profile image is clicked
+  };
 
   return (
     <SidebarLayout>
@@ -164,16 +228,23 @@ export default function Settings() {
         </p>
         <div className="flex sm:items-center justify-between items-start">
           <div className="flex items-center gap-2">
-            <div className="cursor-pointer">
+            <div onClick={handleImageClick} className="cursor-pointer">
               <Image
-                src={profileImage || user}
+                src={profileImage || user} // Default to 'user' image if profile image is not available
                 alt="User"
-                width={44}
-                loading="lazy"
+                width={40}
                 height={44}
                 className="rounded-full"
               />
             </div>
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept="image/*"
+              onChange={handleFileChange}
+              className="hidden" // Hide the file input
+            />
+
             <div>
               {isEditing ? (
                 <div className="space-y-2">

@@ -7,6 +7,7 @@ import axios from "axios";
 import { useSearchParams } from "next/navigation";
 import { useRouter } from "next/navigation";
 import Loader from "../loader";
+import Errorpopup from "../.../../../components/Popups/ErrorPopup";
 
 export default function OTPPage() {
   const [timer, setTimer] = useState(60);
@@ -17,6 +18,7 @@ export default function OTPPage() {
   const router = useRouter();
   const [errorMessage, setErrorMessage] = useState(null);
   const [loading, setloading] = useState(false);
+  const [error, setError] = useState("");
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -42,8 +44,10 @@ export default function OTPPage() {
   // error wou;d be here
   const { pathname } = router;
   const params = new URLSearchParams(pathname?.split("?")[1]);
+
   const source = params.get("username");
   const email = source;
+
   // let searchParams;
   // let source;
 
@@ -91,25 +95,29 @@ export default function OTPPage() {
     event.preventDefault();
     setloading(true);
     if (isOtpExpired) {
-      setErrorMessage("OTP has expired. Please request a new one.");
+      setError("OTP has expired. Please request a new one.");
 
       setloading(false);
       return; // Don't proceed if OTP has expired
     }
 
     if (values.length < 4) {
-      setErrorMessage("Please enter valid OTP");
+      setError("Please enter valid OTP");
       setloading(false);
       return;
     }
 
     const otp = parseInt(values);
     const token = localStorage.getItem("token");
+    const username = localStorage.getItem("username__");
+    console.log("username", username);
 
     let url = "";
-    source
+    username
       ? (url = "https://talktango.estamart.com/api/confirm_forgot_otp")
       : (url = "https://talktango.estamart.com/api/confirm_otp");
+
+    console.log("token", token);
 
     try {
       const response = await axios.post(
@@ -125,20 +133,20 @@ export default function OTPPage() {
       if (response.data.action === "success") {
         console.log("success");
         clearInterval(intervalId);
-        localStorage.setItem("token", response.data.data.token);
-        setErrorMessage("OTP confirmed successfully!");
+        // localStorage.setItem("token", response.data.data.token);
+        setError("OTP confirmed successfully!");
         setloading(false);
-        source
+        username
           ? router.push("/auth/create-password")
           : router.push("/auth/create-profile");
+        localStorage.removeItem("username__");
       } else {
-        setErrorMessage("Invalid OTP");
+        setError("Invalid OTP");
 
         setloading(false);
       }
     } catch (error) {
       console.log("error of api of otp", error);
-      setErrorMessage("Error occurred while validating OTP");
       setloading(false);
       resetTimer(); // Restart the timer on API error
     }
@@ -212,12 +220,12 @@ export default function OTPPage() {
         setloading(false);
       } else {
         console.log("Unexpected response:", response);
-        setErrorMessage("Failed to send OTP. Please try again.");
+        setError("Failed to send OTP. Please try again.");
         setloading(false);
       }
     } catch (error) {
       console.log("Error during forgot password request:", error);
-      setErrorMessage("An error occurred. Please try again.");
+      setError("An error occurred. Please try again.");
       setloading(false);
     }
   };
@@ -335,6 +343,7 @@ export default function OTPPage() {
           </form>
         </motion.div>
       </motion.div>
+      {error && <Errorpopup message={error} onClose={() => setError("")} />}
     </div>
   );
 }

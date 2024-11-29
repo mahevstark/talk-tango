@@ -36,7 +36,7 @@ export default function Hero() {
   return (
     <div className="bg-[#049C01] overflow-hidden">
       <motion.main
-        className="container mx-auto px-16 py-12 lg:py-20 grid gap-8 lg:gap-12 items-start lg:grid-cols-2"
+        className="container mx-auto sm:px-16 px-4 py-12 lg:py-20 grid gap-8 lg:gap-12 items-start lg:grid-cols-2"
         variants={containerVariants}
         initial="hidden"
         animate="visible"
@@ -64,7 +64,7 @@ export default function Hero() {
           </motion.p>
           <Link href="/auth/login">
             <motion.button
-              className="bg-white py-2 px-6 rounded-full  text-black hover:bg-[#049C01] font-medium border border-white hover:text-white transition-colors duration-300 text-[16px] "
+              className="bg-white py-2 px-6 rounded-full text-black hover:bg-[#049C01] font-medium border border-white hover:text-white transition-colors duration-300 text-[16px]   "
               variants={itemVariants}
               whileTap={{ scale: 0.95 }}
             >

@@ -12,6 +12,7 @@ import loginIllustation from "../../../public/assets/login-image.png";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import Loader from "../loader";
+import Errorpopup from "../.../../../components/Popups/ErrorPopup";
 export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [animate, setAnimate] = useState(false);
@@ -21,6 +22,7 @@ export default function LoginPage() {
   const [errorMessage, setErrorMessage] = useState(null);
   const [loading, setloading] = useState(false);
   const Router = useRouter();
+  const [error, setError] = useState("");
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -34,25 +36,27 @@ export default function LoginPage() {
     event.preventDefault();
     setErrorMessage(null);
     setloading(true);
+
+    if (username === "" || password === "") {
+      setErrorMessage("One or more fields are empty");
+      setError("One or more fields are empty");
+      setloading(false);
+
+      return;
+    }
     if (!/\S+@\S+\.\S+/.test(username)) {
-      setErrorMessage("Invalid Email");
+      setError("Invalid Email");
       setloading(false);
       return;
     }
     const values = { email: username, password };
-
-    if (username === "" || password === "") {
-      setErrorMessage("One or more fields are empty");
-      setloading(false);
-
-      return;
-    }
 
     try {
       const response = await axios.post(
         "https://talktango.estamart.com/api/login_with_email",
         values
       );
+      console.log("response", response);
 
       if (response.data.action === "success") {
         localStorage.setItem("token", response.data.data.token);
@@ -68,7 +72,7 @@ export default function LoginPage() {
         Router.push("/dashboard/messages");
       } else {
         console.log("Unexpected response status:", response);
-        setErrorMessage("Invalid credentials");
+        setError("Invalid credentials");
         setloading(false);
       }
     } catch (error) {
@@ -237,11 +241,11 @@ export default function LoginPage() {
             className="flex items-center justify-between my-4"
           >
             <span className="border-b w-1/5 lg:w-1/4"></span>
-            <p className="text-center text-sm text-gray-500">or</p>
+            {/* <p className="text-center text-sm text-gray-500">or</p> */}
             <span className="border-b w-1/5 lg:w-1/4"></span>
           </motion.div>
 
-          <motion.div
+          {/* <motion.div
             variants={fadeInUp}
             className="text-[#868686] justify-center items-center flex flex-col"
           >
@@ -269,8 +273,9 @@ export default function LoginPage() {
             >
               <FaApple className="text-[#868686] w-[65px] h-[35px]" />
             </motion.button>
-          </motion.div>
+          </motion.div> */}
         </div>
+        {error && <Errorpopup message={error} onClose={() => setError("")} />}
       </motion.div>
     </div>
   );

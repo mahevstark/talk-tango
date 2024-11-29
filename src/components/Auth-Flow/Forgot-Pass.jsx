@@ -5,6 +5,7 @@ import { MdOutlineMail } from "react-icons/md";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import axios from "axios";
+import Errorpopup from "../.../../../components/Popups/ErrorPopup";
 
 export default function ForgotPasswordPage() {
   const [username, setUsername] = useState("");
@@ -12,6 +13,7 @@ export default function ForgotPasswordPage() {
   const router = useRouter();
   const [errorMessage, setErrorMessage] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
   useEffect(() => {
     setIsClient(true);
@@ -56,11 +58,10 @@ export default function ForgotPasswordPage() {
         router.push(`/auth/otp?username=${username}`);
       } else {
         console.log("Unexpected response:", response);
-        setErrorMessage("Failed to send OTP. Please try again.");
+        setError("Failed to send OTP. Please try again.");
       }
     } catch (error) {
       console.error("Error during forgot password request:", error);
-      setErrorMessage("An error occurred. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -115,7 +116,7 @@ export default function ForgotPasswordPage() {
           </button>
         </form>
 
-        {errorMessage && <p className="mt-4 text-red-500">{errorMessage}</p>}
+        {error && <Errorpopup message={error} onClose={() => setError("")} />}
       </div>
     </div>
   );

@@ -103,6 +103,8 @@ export default function Messages() {
     axios
       .request(config)
       .then((response) => {
+        console.log("responsessss", response.data.chats);
+
         setcontactlist(
           Array.isArray(response.data.chats) ? response.data.chats : []
         );
@@ -123,13 +125,15 @@ export default function Messages() {
   };
   const [block, setblock] = useState([]);
   const [newid, setnewid] = useState([]);
+  const [blocking, setblocking] = useState(0);
   const handleContactClick = (
     contactId,
     contactname,
     userid,
     block,
     newid,
-    img
+    img,
+    blck
   ) => {
     setSelectedContact(contactId);
 
@@ -140,6 +144,8 @@ export default function Messages() {
     setblock(block);
     setnewid(newid);
     setProfilePic(img);
+
+    setblocking(blck);
 
     localStorage.setItem("newid", newid); //
 
@@ -190,6 +196,7 @@ export default function Messages() {
             setAudioBlob(audios);
           }
         });
+        console.log("msgs", response.data.msgs);
 
         setMessages(
           Array.isArray(response.data.msgs)
@@ -243,18 +250,20 @@ export default function Messages() {
       });
   };
 
-  const sendimage = () => {
+  const sendimage = (im) => {
     const token = localStorage.getItem("token");
 
     const axios = require("axios");
     let data = JSON.stringify({
       audio: null,
       convo_id: convoid,
-      image: profileImage,
+      image: im,
       msg: null,
       to_id: userid,
       token: token,
     });
+
+    console.log("datas", data);
 
     let config = {
       method: "post",
@@ -269,8 +278,6 @@ export default function Messages() {
     axios
       .request(config)
       .then((response) => {
-        console.log("response from send messssage", response);
-
         setloadingmessages(false);
         fetchusercontacts();
         displaymessages(convoid);
@@ -346,15 +353,15 @@ export default function Messages() {
     setloadingmessages(true);
 
     setAudioUrl(url);
-    sendaudio();
+    sendaudio(url);
   };
 
-  const sendaudio = () => {
+  const sendaudio = (urls) => {
     const token = localStorage.getItem("token");
 
     const axios = require("axios");
     let data = JSON.stringify({
-      audio: audioUrl,
+      audio: urls,
       convo_id: convoid,
       image: null,
       msg: null,
@@ -412,10 +419,13 @@ export default function Messages() {
   };
   const handleFileChange = (e) => {
     const file = e.target.files[0];
+
     if (file) {
       setImage(file); // Set the selected image file
+
       handleImageUpload(file); // Pass the file directly to the upload handler
     }
+    e.target.value = null;
   };
   const handleImageUpload = async (file) => {
     setloadingmessages(true);
@@ -450,11 +460,11 @@ export default function Messages() {
     );
     const result = await response.json();
 
-    console.log("result", result);
-
     if (result.action === "success") {
       setProfileImage(result.filename);
-      sendimage();
+      console.log("profileImage", profileImage);
+
+      sendimage(result.filename);
     } else {
       setError("Error uploading image");
     }
@@ -532,10 +542,12 @@ export default function Messages() {
                     handleContactClick(
                       contact.id,
                       contact.title,
-                      contact.last_msg.by_user_id,
+                      contact.user_id,
+                      // contact.last_msg.by_user_id,
                       contact.is_blocked,
                       contact.user_id,
-                      contact?.image
+                      contact?.image,
+                      contact?.is_blocked
                     )
                   }
                 >
@@ -648,7 +660,7 @@ export default function Messages() {
                       <DropdownMenuItem>Payment History</DropdownMenuItem>
                     </Link>
                     <DropdownMenuItem>
-                      {block == 1 ? (
+                      {blocking == 1 ? (
                         <button onClick={handleToggleModals}>
                           Unblock User
                         </button>
@@ -673,14 +685,14 @@ export default function Messages() {
                   <div
                     key={message._id}
                     className={`flex items-start gap-2 ${
-                      message.by_user_id === userid
+                      message.by_user_id !== userid
                         ? "justify-end"
                         : "justify-start"
                     }`}
                   >
                     <div
                       className={`flex gap-3 items-center ${
-                        message.by_user_id === userid
+                        message.by_user_id !== userid
                           ? "flex-row-reverse"
                           : "flex-row"
                       }`}
@@ -699,7 +711,7 @@ export default function Messages() {
                       />
                       <div
                         className={`px-4 py-2 rounded-xl ${
-                          message?.by_user_id === userid &&
+                          message?.by_user_id !== userid &&
                           !message.audio &&
                           !message.image &&
                           !message.audio
@@ -735,7 +747,45 @@ export default function Messages() {
               ) : null}
             </div>
 
-            <div className="py-1 border-2 flex items-center gap-3 px-4 rounded-lg mt-4 sm:mb-0 mb-12">
+            {blocking == 1 ? (
+              <div className="text-red-500 text-center">
+                <p>Unblock the User First To send Message </p>
+              </div>
+            ) : (
+              <div className="py-1 border-2 flex items-center gap-3 px-4 rounded-lg mt-4 sm:mb-0 mb-12">
+                <Input
+                  placeholder={
+                    block == 1 ? "Unblock user first" : "Type a message"
+                  }
+                  value={loadingmessages ? "Sending..." : newMessage}
+                  onChange={(e) => setNewMessage(e.target.value)}
+                  className="flex-1 border-0"
+                  onKeyDown={handleKeyDown}
+                  disabled={block == 1 || loading || loadingmessages}
+                />
+
+                <div>
+                  <Recording onRecordingComplete={handleRecordingComplete} />
+                </div>
+                <div>
+                  <Image
+                    src={Picture} // Use the selected image if available, otherwise the
+                    alt="Upload"
+                    onClick={handleImageClick}
+                    className="w-6 h-6 cursor-pointer"
+                    loading="lazy"
+                  />
+                  <input
+                    ref={fileInputRef}
+                    type="file"
+                    accept="image/*"
+                    onChange={handleFileChange}
+                    className="hidden" // Hide the file input
+                  />
+                </div>
+              </div>
+            )}
+            {/* <div className="py-1 border-2 flex items-center gap-3 px-4 rounded-lg mt-4 sm:mb-0 mb-12">
               <Input
                 placeholder={
                   block == 1 ? "Unblock user first" : "Type a message"
@@ -766,7 +816,7 @@ export default function Messages() {
                   className="hidden" // Hide the file input
                 />
               </div>
-            </div>
+            </div> */}
           </div>
         ) : (
           <div className="text-center flex justify-center items-center mt-12 sm:mt-0 w-full">

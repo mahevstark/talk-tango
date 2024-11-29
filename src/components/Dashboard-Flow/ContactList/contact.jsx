@@ -455,16 +455,20 @@ export default function ContactList() {
   };
   const handleFileChange = (e) => {
     const file = e.target.files[0];
+
     if (file) {
       setImage(file); // Set the selected image file
+
       handleImageUpload(file); // Pass the file directly to the upload handler
     }
+    e.target.value = null;
   };
   const handleImageUpload = async (file) => {
     setloadingmessages(true);
-
     if (!file) {
       alert("Please select an image to upload.");
+      setloadingmessages(false);
+
       return;
     }
 
@@ -486,27 +490,23 @@ export default function ContactList() {
       "https://talktango.estamart.com/api/profile_picture",
       {
         method: "POST",
-        headers: {
-          Authorization: `Bearer ${token}`, // Pass token
-        },
+
         body: formData, // Send formData with the file
       }
     );
     const result = await response.json();
 
-    console.log("file", result.filename);
-    setProfileImage(result.filename);
-    sendimage();
-    return;
-    if (result.success) {
+    if (result.action === "success") {
       setProfileImage(result.filename);
-      sendimage();
-      setUploadedUrl(result.filename);
-      setProfileImage(result.filename); // Dynamically update profile image after successful upload
-      alert("Image uploaded successfully");
+      console.log("profileImage", profileImage);
+
+      sendimage(result.filename);
     } else {
-      alert("Error uploading image");
+      setError("Error uploading image");
     }
+
+    // setProfileImage(result.filename);
+    // sendimage();
   };
 
   // fetching users by searching
@@ -622,7 +622,8 @@ export default function ContactList() {
                     handleContactClick(
                       contact?.id,
                       contact?.name,
-                      contact?.last_msg?.by_user_id,
+                      // contact?.last_msg?.by_user_id,
+                      contact.user_id,
                       contact?.is_blocked,
                       contact?.id,
                       contact?.profile_pic
@@ -692,7 +693,8 @@ export default function ContactList() {
                     handleContactClicks(
                       contact?.id,
                       contact?.title,
-                      contact?.last_msg.by_user_id,
+                      // contact?.last_msg.by_user_id,
+                      contact.user_id,
                       contact?.is_blocked,
                       contact?.user_id,
                       contact?.image
@@ -987,14 +989,14 @@ export default function ContactList() {
                   <div
                     key={message._id}
                     className={`flex items-start gap-2 ${
-                      !message.by_user_id === userid
+                      message.by_user_id === userid
                         ? "justify-start"
                         : "justify-end"
                     }`}
                   >
                     <div
                       className={`flex gap-3 items-center ${
-                        !message.by_user_id === userid
+                        message.by_user_id === userid
                           ? "flex-row"
                           : "flex-row-reverse"
                       }`}
@@ -1013,7 +1015,7 @@ export default function ContactList() {
                       />
                       <div
                         className={`px-4 py-2 rounded-xl ${
-                          message?.by_user_id === userid &&
+                          message?.by_user_id !== userid &&
                           !message.audio &&
                           !message.image &&
                           !message.audio
@@ -1050,37 +1052,44 @@ export default function ContactList() {
               ) : null}
             </div>
 
-            <div className="py-1 border-2 flex items-center gap-3 px-4 rounded-lg mt-4 sm:mb-0 mb-12">
-              <Input
-                placeholder={
-                  block == 1 ? "Unblock user first" : "Type a message"
-                }
-                value={loadingmessages ? "Sending..." : newMessage}
-                onChange={(e) => setNewMessage(e.target.value)}
-                className="flex-1 border-0"
-                onKeyDown={handleKeyDown}
-                disabled={block == 1 || loading || loadingmessages}
-              />
-              <div>
-                <Recording onRecordingComplete={handleRecordingComplete} />
+            {block == 1 ? (
+              <div className="text-red-500 text-center">
+                <p>Unblock the User First To send Message </p>
               </div>
-              <div>
-                <Image
-                  src={Picture} // Use the selected image if available, otherwise the
-                  alt="Upload"
-                  onClick={handleImageClick}
-                  className="w-6 h-6 cursor-pointer"
-                  loading="lazy"
+            ) : (
+              <div className="py-1 border-2 flex items-center gap-3 px-4 rounded-lg mt-4 sm:mb-0 mb-12">
+                <Input
+                  placeholder={
+                    block == 1 ? "Unblock user first" : "Type a message"
+                  }
+                  value={loadingmessages ? "Sending..." : newMessage}
+                  onChange={(e) => setNewMessage(e.target.value)}
+                  className="flex-1 border-0"
+                  onKeyDown={handleKeyDown}
+                  disabled={block == 1 || loading || loadingmessages}
                 />
-                <input
-                  ref={fileInputRef}
-                  type="file"
-                  accept="image/*"
-                  onChange={handleFileChange}
-                  className="hidden" // Hide the file input
-                />
+
+                <div>
+                  <Recording onRecordingComplete={handleRecordingComplete} />
+                </div>
+                <div>
+                  <Image
+                    src={Picture} // Use the selected image if available, otherwise the
+                    alt="Upload"
+                    onClick={handleImageClick}
+                    className="w-6 h-6 cursor-pointer"
+                    loading="lazy"
+                  />
+                  <input
+                    ref={fileInputRef}
+                    type="file"
+                    accept="image/*"
+                    onChange={handleFileChange}
+                    className="hidden" // Hide the file input
+                  />
+                </div>
               </div>
-            </div>
+            )}
           </div>
         ) : (
           <div className="text-center flex justify-center items-center mt-12 sm:mt-0 w-full">

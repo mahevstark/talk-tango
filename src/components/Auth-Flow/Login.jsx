@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { FcGoogle } from "react-icons/fc";
@@ -11,8 +11,11 @@ import axios from "axios";
 import loginIllustation from "../../../public/assets/login-image.png";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import UserDetails from "../../components/Popups/UserDetails";
 import Loader from "../loader";
 import Errorpopup from "../.../../../components/Popups/ErrorPopup";
+import { useClerk, useSignIn, useUser } from "@clerk/clerk-react";
+
 export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [animate, setAnimate] = useState(false);
@@ -23,6 +26,8 @@ export default function LoginPage() {
   const [loading, setloading] = useState(false);
   const Router = useRouter();
   const [error, setError] = useState("");
+  //state for google handling
+  const [getData, setGetData] = useState(false);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -102,6 +107,93 @@ export default function LoginPage() {
       },
     },
   };
+  //login with google
+
+  // const [loadings, setLoadings] = useState(false);
+  // const { signOut, isLoaded } = useClerk();
+  // const { signIn } = useSignIn();
+  // const { user } = useUser();
+  // const router = useRouter();
+
+  // Function to handle Google sign-in
+  // const onPressGoogle = useCallback(async () => {
+  //   if (loadings) return;
+  //   setLoadings(true);
+
+  //   try {
+  //     // Start Google OAuth flow with Clerk
+  //     await signIn.authenticateWithRedirect({
+  //       strategy: "oauth_google",// Specify the redirect URL after successful authentication
+  //     });
+  //     setGetData(true);
+  //   } catch (err) {
+  //     console.error("OAuth error", err);
+  //     alert({
+  //       type: "error",
+  //       title: "Error",
+  //       message: "Google Sign-In failed.",
+  //     });
+  //   } finally {
+  //     setLoadings(false);
+  //   }
+  // }, [loadings, signIn]);
+
+  // This effect runs when the user is authenticated and session is loaded
+  // useEffect(() => {
+  //   if (isLoaded && user) {
+  //     // Log the authenticated user details
+  //     console.log("Authenticated User:", user);
+  //     console.log("Full Name:", user.fullName);
+  //     console.log("Username:", user.username);
+
+  //     // Redirect to your desired page after login
+  //     return;
+  //     router.push("/auth/login"); // Redirects user to the login page
+  //   }
+  // }, [user, isLoaded, router]);
+  //newe login flow
+  // const [Loading, setLoading] = useState(false);
+  // const SocialValidateForm = async (functionData) => {
+  //   console.log("functionData11");
+  //   console.log(functionData);
+
+  //   if (loading) {
+  //     return; // Prevent duplicate submissions while loading
+  //   }
+
+  //   setLoading(true);
+
+  //   const dbData = {
+  //     email: functionData.emailAddress,
+  //     social_id: functionData.id,
+  //     name: functionData.fullName,
+  //   };
+
+  //   // Send the data to your server or API
+  //   const { isError, data } = await doPost(dbData, "social_connect");
+
+  //   if (isError) {
+  //     setLoading(false);
+  //   } else {
+  //     if (data.action === "success") {
+  //       console.log(data.data, "data.data");
+
+  //       // Assuming storeItem is a function that stores data (e.g., in localStorage or context)
+  //       await storeItem("socialSignIn", true);
+
+  //       await storeItem("login_data", data.data);
+
+  //       setTimeout(() => {
+  //         setRole(data?.data?.user_type);
+  //         setLoading(false);
+  //         console.log(data.data);
+  //         doSteps(data.data); // Handle post-login actions
+  //       }, 0);
+  //     } else {
+  //       setLoading(false);
+  //     }
+  //   }
+  // };
 
   if (!mounted) return null;
 
@@ -261,6 +353,7 @@ export default function LoginPage() {
             >
               <FcGoogle className="w-[65px] h-[35px]" />
             </motion.button>
+
             <motion.button
               variants={fadeInUp}
               className="p-3 bg-gray-100 rounded-full"

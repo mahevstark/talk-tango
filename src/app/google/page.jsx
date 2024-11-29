@@ -4,7 +4,7 @@ import { useClerk, useSignIn, useUser } from "@clerk/clerk-react";
 import { useRouter } from "next/navigation";
 
 const SocialLogin = () => {
-  const [loading, setLoading] = useState(false);
+  const [loadings, setLoadings] = useState(false);
   const { signOut, isLoaded } = useClerk();
   const { signIn } = useSignIn();
   const { user } = useUser();
@@ -12,8 +12,8 @@ const SocialLogin = () => {
 
   // Function to handle Google sign-in
   const onPressGoogle = useCallback(async () => {
-    if (loading) return;
-    setLoading(true);
+    if (loadings) return;
+    setLoadings(true);
 
     try {
       // Start Google OAuth flow with Clerk
@@ -29,9 +29,9 @@ const SocialLogin = () => {
         message: "Google Sign-In failed.",
       });
     } finally {
-      setLoading(false);
+      setLoadings(false);
     }
-  }, [loading, signIn]);
+  }, [loadings, signIn]);
 
   // This effect runs when the user is authenticated and session is loaded
   useEffect(() => {
@@ -48,13 +48,13 @@ const SocialLogin = () => {
   }, [user, isLoaded, router]);
 
   return (
-    <div>
-      <button onClick={onPressGoogle} disabled={loading}>
-        {loading ? "Signing in..." : "Sign in with Google"}
+    <div className="text-center w-full  h-screen">
+      <button onClick={onPressGoogle} disabled={loadings}>
+        {loadings ? "Signing in..." : "Sign in with Google"}
       </button>
 
       {/* Show a message or perform logic while session is loading */}
-      {!isLoaded && <p>Loading user data...</p>}
+  
     </div>
   );
 };

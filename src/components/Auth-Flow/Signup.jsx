@@ -263,22 +263,22 @@ export default function Signup() {
             </p>
           </motion.div>
 
-          <motion.div
+          {/* <motion.div
             className="flex items-center justify-between my-4"
             variants={fadeInUpVariants}
           >
             <span className="border-b w-1/5 lg:w-1/4"></span>
             <p className="text-center text-sm text-gray-500">or</p>
             <span className="border-b w-1/5 lg:w-1/4"></span>
-          </motion.div>
+          </motion.div> */}
 
-          <motion.div
+          {/* <motion.div
             className="text-[#868686] justify-center items-center flex flex-col"
             variants={fadeInUpVariants}
           >
             continue with
-          </motion.div>
-          <motion.div
+          </motion.div> */}
+          {/* <motion.div
             className="flex justify-center space-x-4"
             variants={staggerContainer}
           >
@@ -300,7 +300,7 @@ export default function Signup() {
             >
               <FaApple className="text-[#868686] w-[65px] h-[35px]" />
             </motion.button>
-          </motion.div>
+          </motion.div> */}
         </motion.div>
       </motion.div>
       {error && <Errorpopup message={error} onClose={() => setError("")} />}

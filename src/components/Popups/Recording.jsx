@@ -24,6 +24,7 @@ export default function AudioRecordingPopup({ onRecordingComplete }) {
 
   const sendtoparent = (url) => {
     console.log("Sending URL to parent:", url);
+    
     if (url) {
       onRecordingComplete(url);
     }

@@ -23,7 +23,6 @@ export default function profile() {
   const [media, setMedia] = useState([]);
   const fetchdata = async () => {
     const userid = localStorage.getItem("newid");
-    console.log("user id from id ", userid);
     const token = localStorage.getItem("token");
     const axios = require("axios");
     let data = JSON.stringify({
@@ -45,7 +44,7 @@ export default function profile() {
     axios
       .request(config)
       .then((response) => {
-        console.log(JSON.stringify(response.data));
+        // console.log(JSON.stringify(response.data));
         setData(response.data.data);
         setMedia(response.data.media);
       })

@@ -37,7 +37,7 @@ export default function Component() {
       .then((response) => {
         if (response.data.action === "success") {
           router.push("/dashboard/settings");
-          console.log(JSON.stringify(response.data));
+          // console.log(JSON.stringify(response.data));
         }
       })
       .catch((error) => {

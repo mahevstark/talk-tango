@@ -55,7 +55,7 @@ const CreatePassword = () => {
     axios
       .request(config)
       .then((response) => {
-        console.log(response);
+     
         Router.push("/auth/login");
       })
       .catch((error) => {

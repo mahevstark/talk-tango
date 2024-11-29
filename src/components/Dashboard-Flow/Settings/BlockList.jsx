@@ -31,7 +31,7 @@ export default function Component() {
 
       if (response.data.action === "success") {
         setBlockList(response.data.data); // Set the blockList here
-        console.log("Block list:", response.data.data);
+        // console.log("Block list:", response.data.data);
       }
     } catch (error) {
       console.log("Error fetching blocked users:", error);
@@ -55,7 +55,6 @@ export default function Component() {
       block_status: 0,
       block_to: userid,
     });
-    console.log("dataaaa", data);
 
     let config = {
       method: "post",
@@ -94,20 +93,25 @@ export default function Component() {
           </Link>
           <h1 className="text-lg font-medium">Block List</h1>
         </div>
-        <div>
+        <div className="border p-3 flex flex-col justify-between bg-gray-100 rounded-lg">
           {blockList ? (
             blockList.map((item, index) => (
-              <div key={index} className="flex gap-4 items-center">
-                <Image
-                  src={item.profile_pic}
-                  alt="Profile picture"
-                  width={44}
-                  className="rounded-full"
-                  height={44}
-                />
-                <p key={index}>{item.name}</p>
+              <div
+                key={index}
+                className="flex gap-4 items-center justify-between"
+              >
+                <span className="flex gap-2 items-center">
+                  <Image
+                    src={item.profile_pic}
+                    alt="Profile picture"
+                    width={44}
+                    className="rounded-full"
+                    height={44}
+                  />
+                  <p key={index}>{item.name}</p>
+                </span>
                 <button
-                  className="bg-red-700 text-white px-4 pt-1 pb-1"
+                  className="bg-[#349A00] text-white px-4 pt-1 pb-1 rounded-md "
                   onClick={() => {
                     handleUnBlockUser(item.convo_id, item.id);
                   }}

@@ -70,7 +70,7 @@ export default function ShareDialog({ isOpen, onOpenChange }) {
   const handleCopy = async () => {
     try {
       await navigator.clipboard.writeText(shareData.url);
-      console.log("URL copied to clipboard");
+      // console.log("URL copied to clipboard");
     } catch (err) {
       console.error("Failed to copy text: ", err);
     }

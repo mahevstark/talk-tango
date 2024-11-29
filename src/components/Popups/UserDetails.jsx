@@ -9,7 +9,6 @@ const UserDetails = (props) => {
 
   useEffect(() => {
     if (user) {
-      console.log("User data is available");
 
       const theData = {
         fullName: user.fullName,

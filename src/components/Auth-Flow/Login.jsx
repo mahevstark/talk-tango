@@ -61,7 +61,7 @@ export default function LoginPage() {
         "https://talktango.estamart.com/api/login_with_email",
         values
       );
-      console.log("response", response);
+    
 
       if (response.data.action === "success") {
         localStorage.setItem("token", response.data.data.token);
@@ -72,7 +72,6 @@ export default function LoginPage() {
         localStorage.setItem("usersdata", JSON.stringify(response.data.data));
         localStorage.setItem("image", response.data.data.profile_pic);
 
-        console.log("success");
         setloading(false);
         Router.push("/dashboard/messages");
       } else {

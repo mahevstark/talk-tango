@@ -65,12 +65,11 @@ export default function MoneyTransferPopups({ newid }) {
       axios
         .request(config)
         .then((response) => {
-          console.log("helllooo", response.data);
-
+          
           if (response.data.action === "success") {
             setIsConfirmOpen(true);
             setIsRequestOpen(false);
-            console.log(JSON.stringify(response.data));
+            // console.log(JSON.stringify(response.data));
           } else {
             alert("error");
           }
@@ -114,7 +113,7 @@ export default function MoneyTransferPopups({ newid }) {
           // If the API call is successful, open the "Confirm" popup
           setIsConfirmOpen(true);
           setIsRequestOpen(false);
-          console.log(JSON.stringify(response.data));
+          // console.log(JSON.stringify(response.data));
         })
         .catch((error) => {
           setIsRequestOpen(true);

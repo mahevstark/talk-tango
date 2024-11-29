@@ -103,7 +103,7 @@ export default function Messages() {
     axios
       .request(config)
       .then((response) => {
-        console.log("responsessss", response.data.chats);
+        // console.log("responsessss", response.data.chats);
 
         setcontactlist(
           Array.isArray(response.data.chats) ? response.data.chats : []
@@ -196,7 +196,6 @@ export default function Messages() {
             setAudioBlob(audios);
           }
         });
-        console.log("msgs", response.data.msgs);
 
         setMessages(
           Array.isArray(response.data.msgs)
@@ -263,7 +262,6 @@ export default function Messages() {
       token: token,
     });
 
-    console.log("datas", data);
 
     let config = {
       method: "post",
@@ -678,7 +676,7 @@ export default function Messages() {
 
             <div
               ref={chatContainerRef}
-              className="flex-1 overflow-y-auto p-4 space-y-4 max-h-[calc(100vh-200px)] sm:max-h-[500px]"
+              className="flex-1 overflow-y-auto p-4 space-y-4 "
             >
               {messages.length > 0 ? (
                 messages?.map((message) => (

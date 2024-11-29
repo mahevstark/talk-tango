@@ -23,7 +23,6 @@ export default function AudioRecordingPopup({ onRecordingComplete }) {
   const audioChunksRef = useRef([]);
 
   const sendtoparent = (url) => {
-    console.log("Sending URL to parent:", url);
     
     if (url) {
       onRecordingComplete(url);
@@ -102,7 +101,6 @@ export default function AudioRecordingPopup({ onRecordingComplete }) {
   };
 
   const handleSendRecording = async () => {
-    console.log("Uploading audio...");
 
     if (!audioBlob) {
       console.error("No audio blob found");
@@ -133,7 +131,6 @@ export default function AudioRecordingPopup({ onRecordingComplete }) {
       );
 
       const responseJson = await response.json();
-      console.log("my response", responseJson);
 
       if (responseJson.action === "success") {
         const finalUrl = responseJson.filename;

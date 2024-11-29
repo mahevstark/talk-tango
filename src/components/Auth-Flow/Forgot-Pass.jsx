@@ -54,7 +54,7 @@ export default function ForgotPasswordPage() {
       const response = await axios.request(config);
 
       if (response.data.action === "success") {
-        console.log("OTP sent successfully!");
+    
         router.push(`/auth/otp?username=${username}`);
       } else {
         console.log("Unexpected response:", response);

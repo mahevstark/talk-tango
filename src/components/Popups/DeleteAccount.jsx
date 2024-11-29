@@ -71,17 +71,17 @@ export default function Component() {
 
     try {
       const response = await axios.request(config);
-      console.log("token send ", response);
+      // console.log("token send ", response);
 
       if (response.data.action == "success") {
         setError(false);
-        console.log(response);
+        // console.log(response);
 
-        console.log(JSON.stringify(response.data));
+        // console.log(JSON.stringify(response.data));
         return true;
       } else {
         setError(true);
-        console.log(response.data.action);
+        // console.log(response.data.action);
 
         return false;
       }
@@ -101,7 +101,7 @@ export default function Component() {
         }
         return prev - 1;
       });
-    }, 40000);
+    }, 2000);
   };
 
   const handleNext = async () => {
@@ -138,7 +138,6 @@ export default function Component() {
           localStorage.clear();
           clearInterval(timerRef.current);
           setSecondModalOpen(false);
-          console.log(JSON.stringify(response.data));
 
           router.push("/");
         } else {

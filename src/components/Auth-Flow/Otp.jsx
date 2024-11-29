@@ -110,14 +110,12 @@ export default function OTPPage() {
     const otp = parseInt(values);
     const token = localStorage.getItem("token");
     const username = localStorage.getItem("username__");
-    console.log("username", username);
 
     let url = "";
     username
       ? (url = "https://talktango.estamart.com/api/confirm_forgot_otp")
       : (url = "https://talktango.estamart.com/api/confirm_otp");
 
-    console.log("token", token);
 
     try {
       const response = await axios.post(

@@ -62,7 +62,6 @@ export default function ContactList() {
       contact.title.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  console.log("filteredContacts", filteredContacts);
 
   var channel = pusher.subscribe("chat-channel");
 
@@ -153,7 +152,6 @@ export default function ContactList() {
     setnewid(newid);
     setProfilePic(img);
 
-    console.log("contactId", newid);
     localStorage.setItem("newid", newid); //
 
     localStorage.setItem("chatuserid", userid); //
@@ -184,7 +182,6 @@ export default function ContactList() {
     setnewid(newid);
     setProfilePic(img);
 
-    console.log("contactId", newid);
     localStorage.setItem("newid", newid); //
 
     localStorage.setItem("chatuserid", userid); //
@@ -325,7 +322,6 @@ export default function ContactList() {
   };
   const [file, setFile] = useState(null);
 
-  console.log("status of block user ", block);
 
   const handleKeyDown = (e) => {
     if (block == 1) {
@@ -388,7 +384,6 @@ export default function ContactList() {
     setloadingmessages(true);
     setAudioUrl(url);
 
-    console.log("irjkrjfkrfmr", url);
 
     sendaudio(url);
   };
@@ -396,9 +391,7 @@ export default function ContactList() {
   const sendaudio = (url) => {
     const token = localStorage.getItem("token");
 
-    console.log("hahfufue audio", url);
-    console.log("convoiidididid", convoid);
-    console.log("userididididid", userid);
+    
 
     const axios = require("axios");
     let data = JSON.stringify({
@@ -498,7 +491,6 @@ export default function ContactList() {
 
     if (result.action === "success") {
       setProfileImage(result.filename);
-      console.log("profileImage", profileImage);
 
       sendimage(result.filename);
     } else {
@@ -534,7 +526,7 @@ export default function ContactList() {
       .request(config)
       .then((response) => {
         setcontacts(response.data.data);
-        console.log("mmmmmm", response.data.data);
+     
       })
       .catch((error) => {
         console.log(error);

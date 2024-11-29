@@ -52,12 +52,12 @@ export default function NotificationsDrawer({ onNotificationChange }) {
       .request(config)
       .then((response) => {
         const notificationsData = response.data.data;
-        console.log("notificationsData", notificationsData);
+        // console.log("notificationsData", notificationsData);
 
         if (Array.isArray(notificationsData)) {
           setNotifications(notificationsData);
         } else {
-          console.log("Invalid response data", response.data);
+          // console.log("Invalid response data", response.data);
           if (response.data.error === "Invalid login credentials") {
             localStorage.clear();
             router.push("/");
@@ -140,7 +140,6 @@ export default function NotificationsDrawer({ onNotificationChange }) {
   const acceptRequest = async (id, amount) => {
     const token = localStorage.getItem("token");
 
-    console.log("acceptRequest", id, token);
 
     const axios = require("axios");
     let data = JSON.stringify({

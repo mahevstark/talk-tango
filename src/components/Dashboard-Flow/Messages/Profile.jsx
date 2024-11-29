@@ -48,7 +48,7 @@ export default function profile() {
     axios
       .request(config)
       .then((response) => {
-        console.log(response.data.data);
+        // console.log(response.data.data);
 
         setData(response.data.data);
         setMedia(response.data.media);

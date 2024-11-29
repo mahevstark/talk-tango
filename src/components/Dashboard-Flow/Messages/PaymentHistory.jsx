@@ -17,7 +17,6 @@ export default function paymenthistory() {
   const [media, setMedia] = useState([]);
   const fetchdata = async () => {
     const userid = localStorage.getItem("newid");
-    console.log("user id from id ", userid);
 
     const convoid = localStorage.getItem("contactId");
     const token = localStorage.getItem("token");
@@ -41,7 +40,7 @@ export default function paymenthistory() {
     axios
       .request(config)
       .then((response) => {
-        console.log(JSON.stringify(response.data));
+        // console.log(JSON.stringify(response.data));
         setData(response.data.data);
         setMedia(response.data.media);
       })
@@ -158,7 +157,7 @@ export default function paymenthistory() {
       .request(config)
       .then((response) => {
         setPaymentData(response.data.data);
-        console.log("my data", JSON.stringify(response.data));
+        // console.log("my data", JSON.stringify(response.data));
       })
       .catch((error) => {
         console.log(error);

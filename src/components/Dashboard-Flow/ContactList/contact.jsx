@@ -973,9 +973,6 @@ export default function ContactList() {
                     <DropdownMenuItem>
                       <button onClick={handleReportUserClick}>Report</button>
                     </DropdownMenuItem>
-                    <DropdownMenuItem>
-                      <button onClick={handleclearchat}>Clear Chat</button>
-                    </DropdownMenuItem>
                   </DropdownMenuContent>
                 </DropdownMenu>
               </div>

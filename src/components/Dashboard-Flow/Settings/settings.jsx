@@ -23,7 +23,9 @@ export default function Settings() {
   const [isEditing, setIsEditing] = useState(false);
   const [name, setName] = useState("");
   const [role, setRole] = useState("");
-  const [notifications, setNotifications] = useState(false);
+  const [userData, setUserData] = useState({});
+
+  const [notifications, setNotifications] = useState();
   const [profileImage, setProfileImage] = useState("");
   const [isClient, setIsClient] = useState(false); // Track if on client-side
   const router = useRouter();
@@ -37,13 +39,14 @@ export default function Settings() {
       setIsClient(true);
       const name = localStorage.getItem("name");
       const role = localStorage.getItem("about");
+      const userData = JSON.parse(localStorage.getItem("usersdata"));
+      setNotifications(userData?.notification_status === "1" ? true : false);
+      setUserData(userData);
       setName(name);
       setRole(role);
 
       const image = localStorage.getItem("image");
       setProfileImage(image);
-  
-    
     }
   }, []); // Only run once, after component mount
 
@@ -109,11 +112,9 @@ export default function Settings() {
     axios
       .request(config)
       .then((response) => {
-        console.log("my isssue", JSON.stringify(response.data));
-        setNotifications(true);
-       
-       
-        
+        localStorage.setItem("usersdata", JSON.stringify(response.data?.data));
+
+        checked ? setNotifications(true) : setNotifications(false);
       })
       .catch((error) => {
         console.log(error);

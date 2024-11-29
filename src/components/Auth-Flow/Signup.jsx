@@ -155,7 +155,7 @@ export default function Signup() {
         />
 
         <motion.div
-          className="w-full max-w-md space-y-6 z-10 relative overflow-y-auto h-full"
+          className="w-full max-w-md space-y-6 z-10 relative overflow-y-auto h-full mt-40"
           variants={staggerContainer}
           initial="initial"
           animate="animate"

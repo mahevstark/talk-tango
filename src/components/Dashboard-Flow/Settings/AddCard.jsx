@@ -1,10 +1,10 @@
 "use client";
 import { useState, useEffect } from "react";
 
+import { useRouter } from "next/navigation";
 const Home = () => {
   const [shownSuc, setShownSuc] = useState(false);
   const [token, setToken] = useState(null);
-
   // URLs to check in the WebView
   const urls = {
     API: "https://talktango.estamart.com/", // Replace with your actual API URL
@@ -28,9 +28,7 @@ const Home = () => {
       alert("Card has been saved");
 
       setTimeout(() => {
-        // Navigate back after 2 seconds or perform any action
-        // Example using Next.js routing:
-        // router.push('/previous-page'); // Or any other route
+      
       }, 2000);
     }
 
@@ -50,7 +48,7 @@ const Home = () => {
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100">
-      <h1 className="text-3xl font-semibold mb-5">WebView Example</h1>
+      <h1 className="text-3xl font-semibold mb-5">Add Your Card Here </h1>
       {/* Ensure token is available before rendering WebView */}
       {token ? (
         <iframe

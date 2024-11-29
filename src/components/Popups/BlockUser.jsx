@@ -9,6 +9,8 @@ export default function Component({ name, userid, convoid, block, unblock }) {
   const token = localStorage.getItem("token");
   const handleClose = () => setIsOpen(false);
   const handleBlockUser = () => {
+    console.log("unblockkk", convoid, userid);
+
     const axios = require("axios");
     let data = JSON.stringify({
       token: token,
@@ -30,11 +32,10 @@ export default function Component({ name, userid, convoid, block, unblock }) {
     axios
       .request(config)
       .then((response) => {
-        console.log("hellooom", JSON.stringify(response.data));
-        if (typeof window !== "undefined") {
-          window.location.reload();
-        }
         if (response.data.action === "success") {
+          if (typeof window !== "undefined") {
+            window.location.reload();
+          }
           console.log("User blocked successfully");
         }
       })

@@ -31,6 +31,7 @@ export default function Component() {
 
       if (response.data.action === "success") {
         setBlockList(response.data.data); // Set the blockList here
+        console.log("Block list:", response.data.data);
       }
     } catch (error) {
       console.log("Error fetching blocked users:", error);
@@ -54,8 +55,8 @@ export default function Component() {
       block_status: 0,
       block_to: userid,
     });
+    console.log("dataaaa", data);
 
-    console.log("datasssss", data);
     let config = {
       method: "post",
       maxBodyLength: Infinity,
@@ -69,9 +70,10 @@ export default function Component() {
     axios
       .request(config)
       .then((response) => {
-        console.log("hellooom", JSON.stringify(response.data));
         if (response.data.action === "success") {
-          console.log("hellooom", JSON.stringify(response.data));
+          if (typeof window !== "undefined") {
+            window.location.reload();
+          }
         }
       })
       .catch((error) => {

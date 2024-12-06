@@ -59,7 +59,7 @@ export default function invite() {
         <Share isOpen={isShareOpen} onOpenChange={setIsShareOpen} />
       )}
 
-      <div className="max-w-md mt-12 sm:mt-3 sm:p-4">
+      <div className="max-w-md mt-12 sm:mt-3 sm:p-4 p-4">
         {/* Header */}
         <div className="flex items-center gap-3 mb-8">
           <Link

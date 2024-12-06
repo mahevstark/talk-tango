@@ -4,6 +4,8 @@ import SidebarLayout from "../../../components/Layouts/SideBarLayout";
 import Image from "next/image";
 import arrow from "../../../../public/svgs/arrow.svg";
 import receive from "../../../../public/svgs/receive.svg";
+import nopayment from "../../../../public/svgs/nopayment.svg";
+
 import { parseISO, formatDistanceToNow } from "date-fns";
 
 export default function Page() {
@@ -65,8 +67,6 @@ export default function Page() {
       .then((response) => {
         if (response.data.action === "success") {
           setpayment(response.data.data);
-
-         
         }
       })
       .catch((error) => {
@@ -75,7 +75,6 @@ export default function Page() {
   };
   useEffect(() => {
     fetchpayment();
-   
   }, [fetchpayment]);
 
   return (
@@ -83,7 +82,7 @@ export default function Page() {
       <div className="pt-6 pl-6 sm:w-[1311px] w-auto">
         <p className="text-[#049C01] font-semibold">Payment History</p>
 
-        {payment ? (
+        {payment && payment.length > 0 ? (
           payment?.map((day, index) => (
             <div key={index} className="mt-4">
               <div
@@ -121,8 +120,12 @@ export default function Page() {
             </div>
           ))
         ) : (
-          <div className="flex items-center justify-center h-[50vh]">
-            <p className="text-[#666666] text-2xl">No Payment history yet</p>
+          <div className="flex items-center justify-center h-[50vh] text-center flex-col gap-4">
+            <Image src={nopayment} alt="No Payment" />
+            <p className="text-[#666666] text-xl w-1/2">
+              It looks like you haven’t made any payments yet. Once you do,
+              they’ll show up here
+            </p>
           </div>
         )}
       </div>

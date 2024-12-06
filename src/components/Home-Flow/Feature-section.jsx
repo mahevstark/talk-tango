@@ -96,7 +96,7 @@ export default function FeatureSection() {
             <div className="text-[20px] font-medium text-[#049C01]">
               MONEY TRANSFER
             </div>
-            <h2 className="text-[40px] font-medium">
+            <h2 className="sm:text-[40px] text-4xl font-medium">
               Effortless Money Exchange
             </h2>
             <p className="text-lg text-[#868686]">
@@ -105,7 +105,7 @@ export default function FeatureSection() {
               <br /> securely, making payments a breeze.
             </p>
            <Link href="/auth/login">
-           <button className="rounded-full mt-5 py-3 text-[20px] font-medium px-6 border-2 border-black bg-white text-black transition-all duration-300 hover:text-white hover:border-[#049C01] hover:bg-[#049C01]">
+           <button className="rounded-full py-2 px-3 mt-5 sm:py-3 text-[20px] font-medium sm:px-6 border-2 border-black bg-white text-black transition-all duration-300 hover:text-white hover:border-[#049C01] hover:bg-[#049C01]">
               Get Started For Free
             </button></Link>
           </motion.div>

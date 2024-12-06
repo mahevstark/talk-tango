@@ -13,6 +13,7 @@ import Reportuser from "../../../components/Popups/ReportUser";
 import Recording from "../../../components/Popups/Recording";
 import audio from "../../../../public/messages/Audio.svg";
 import PlayAudio from "../../Popups/PlayAudio";
+import startchat from "../../../../public/svgs/startchat.svg";
 
 import Link from "next/link";
 
@@ -61,7 +62,6 @@ export default function ContactList() {
       contact.title &&
       contact.title.toLowerCase().includes(searchTerm.toLowerCase())
   );
-
 
   var channel = pusher.subscribe("chat-channel");
 
@@ -322,7 +322,6 @@ export default function ContactList() {
   };
   const [file, setFile] = useState(null);
 
-
   const handleKeyDown = (e) => {
     if (block == 1) {
       setNewMessage("unblock user first");
@@ -384,14 +383,11 @@ export default function ContactList() {
     setloadingmessages(true);
     setAudioUrl(url);
 
-
     sendaudio(url);
   };
 
   const sendaudio = (url) => {
     const token = localStorage.getItem("token");
-
-    
 
     const axios = require("axios");
     let data = JSON.stringify({
@@ -526,7 +522,6 @@ export default function ContactList() {
       .request(config)
       .then((response) => {
         setcontacts(response.data.data);
-     
       })
       .catch((error) => {
         console.log(error);
@@ -623,13 +618,13 @@ export default function ContactList() {
                   }
                 >
                   <div className="relative flex-shrink-0">
-                    {/* <Image
-                        src={contact?.profile_pic || user}
-                        alt="User"
-                        width={45}
-                        height={45}
-                        className="rounded-full"
-                      /> */}
+                    <Image
+                      src={contact?.profile_pic || user}
+                      alt="User"
+                      width={45}
+                      height={45}
+                      className="rounded-full"
+                    />
                   </div>
                   <div className="flex-1 min-w-0">
                     <div className="flex justify-between items-baseline">
@@ -746,11 +741,15 @@ export default function ContactList() {
               ))
             ) : filteredContacts.length > 0 && filteredContact.length > 0 ? (
               <p className="text-center text-[#6E7485]"> No contacts found</p>
-            ) : loading ? (
-              <p className="text-center text-[#6E7485]">
-                Loading Contact List...
-              </p>
-            ) : null}
+            ) : (
+              <span className="flex gap-1 flex-col items-center justify-center mt-5">
+                <p className="text-center text-sm text-[#6E7485]  w-52">
+                  {" "}
+                  It looks like you don’t have any contacts. Start by adding
+                  some friends or colleagues{" "}
+                </p>
+              </span>
+            )}
 
             {/* <div className="mt-4">
               {filteredContacts ?? null ? (
@@ -1084,8 +1083,12 @@ export default function ContactList() {
             )}
           </div>
         ) : (
-          <div className="text-center flex justify-center items-center mt-12 sm:mt-0 w-full">
-            <p className="mx-auto text-xl font-semibold">No Chat Selected!</p>
+          <div className="text-center  flex justify-center items-center mt-56 sm:mt-0 gap-3 w-full flex-col">
+            <Image src={startchat} alt="Start Chat" />
+            <p className="mx-auto text-xl font-semibold">
+              {" "}
+              Start a conversation by finding your contacts !
+            </p>
           </div>
         )}
       </div>

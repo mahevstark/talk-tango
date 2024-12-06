@@ -25,10 +25,7 @@ export default function MoneyTransferPopups({ newid }) {
   const [isConfirmOpen, setIsConfirmOpen] = useState(false);
   const [sendamount, setSendAmount] = useState();
   const [password, setpassword] = useState();
-  console.log("isMainOpen:", isMainOpen);
-  console.log("isRequestOpen:", isRequestOpen);
-  console.log("isSendOpen:", isSendOpen);
-  console.log("isConfirmOpen:", isConfirmOpen);
+  
 
   const closeAll = () => {
     setIsMainOpen(false);
@@ -146,7 +143,7 @@ export default function MoneyTransferPopups({ newid }) {
       <DialogTrigger asChild>
         <Button
           variant="outline"
-          className=" border-none shadow-none hover:bg-white"
+          className=" border-none bg-transparent"
         >
           <Image src={balance} alt="balance" loading="lazy" />
         </Button>

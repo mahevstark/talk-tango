@@ -82,7 +82,7 @@ export default function Component() {
 
   return (
     <SidebarLayout>
-      <div className="max-w-md mt-12 sm:mt-3 sm:p-4">
+      <div className="max-w-md mt-12 sm:mt-3 sm:p-4 p-4">
         <div className="flex items-center gap-3 mb-8">
           <Link
             href="/dashboard/settings"
@@ -93,6 +93,7 @@ export default function Component() {
           </Link>
           <h1 className="text-lg font-medium">Block List</h1>
         </div>
+
         <div className="border p-3 flex flex-col justify-between bg-gray-100 rounded-lg">
           {blockList ? (
             blockList.map((item, index) => (
@@ -121,7 +122,7 @@ export default function Component() {
               </div>
             ))
           ) : (
-            <p>No blocked users</p>
+            <p>No blocked users yet</p>
           )}
         </div>
       </div>

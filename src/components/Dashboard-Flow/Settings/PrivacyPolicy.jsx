@@ -40,7 +40,7 @@ export default function privacypolicy() {
 
   return (
     <SidebarLayout>
-      <div className="sm:mt-3 p-4 mt-10">
+      <div className="sm:mt-3 p-4 mt-10 ">
         <div className="flex items-center gap-3 mb-8">
           <Link
             href="/dashboard/settings"
@@ -51,7 +51,7 @@ export default function privacypolicy() {
           </Link>
           <h1 className="text-lg font-medium">Privacy Policy</h1>
         </div>
-        <div className="flex flex-col gap-6">
+        <div className="flex flex-col gap-6 px-4">
           {/* Render the Privacy Policy using dangerouslySetInnerHTML */}
           {loading ? (
             <p>Fetching Privacy Policy...</p>

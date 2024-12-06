@@ -140,7 +140,6 @@ export default function NotificationsDrawer({ onNotificationChange }) {
   const acceptRequest = async (id, amount) => {
     const token = localStorage.getItem("token");
 
-
     const axios = require("axios");
     let data = JSON.stringify({
       status: 1,
@@ -164,7 +163,6 @@ export default function NotificationsDrawer({ onNotificationChange }) {
       .then((response) => {
         if (response.data.action === "success") {
           fetchnotifications();
-       
         }
       })
       .catch((error) => {
@@ -195,10 +193,21 @@ export default function NotificationsDrawer({ onNotificationChange }) {
         </SheetHeader>
         <ScrollArea className="h-[calc(100vh-80px)] pr-4">
           {notifications.length === 0 ? (
-            <p className=" text-gray-500">No notifications</p>
+            <span>
+              <p className=" text-gray-500 mt-48 text-center text-lg ">
+                No New Notifications{" "}
+              </p>
+              <p className=" text-gray-500  text-center text-sm">
+                You’re all caught up! Check back later for new updates or
+                messages
+              </p>
+            </span>
           ) : (
             notifications.map((notification) => (
-              <div key={notification.id} className="flex items-start gap-3 mt-3">
+              <div
+                key={notification.id}
+                className="flex items-start gap-3 mt-3"
+              >
                 <div className="w-10 h-10 rounded-full  flex items-center justify-center">
                   <Image
                     src={notification.profile_pic}
@@ -222,7 +231,7 @@ export default function NotificationsDrawer({ onNotificationChange }) {
                               ? "approved"
                               : "rejected"
                           }`}
-                            {notification.p_status === "1" &&
+                        {notification.p_status === "1" &&
                           ` Payment Request was ${
                             notification.request_status === "1"
                               ? "approved"

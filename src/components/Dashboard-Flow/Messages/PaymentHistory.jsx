@@ -6,7 +6,8 @@ import Link from "next/link";
 import { useState, useEffect } from "react";
 import { Search } from "lucide-react";
 import { Input } from "@/components/ui/input";
-
+import nopayment from "../../../../public/svgs/nopayment.svg";
+import PaymentRequest from "../../Popups/PaymentRequest";
 import arrow from "../../../../public/svgs/arrow.svg";
 import receive from "../../../../public/svgs/receive.svg";
 import user from "../../../../public/messages/user.svg";
@@ -15,8 +16,9 @@ import Back from "../../../../public/svgs/back.svg";
 export default function paymenthistory() {
   const [data, setData] = useState([]);
   const [media, setMedia] = useState([]);
+  var userid;
   const fetchdata = async () => {
-    const userid = localStorage.getItem("newid");
+    userid = localStorage.getItem("newid");
 
     const convoid = localStorage.getItem("contactId");
     const token = localStorage.getItem("token");
@@ -302,9 +304,20 @@ export default function paymenthistory() {
                 </div>
               ))
             ) : (
-              <p className="mt-12 h-screen text-center">
-                No Payment Data Found
-              </p>
+              <div className="flex items-center justify-center mt-24 h-[50vh] text-center flex-col gap-4">
+                <Image src={nopayment} alt="No Payment" />
+                <p className="text-[#666666] text-xl w-1/2">
+                  It looks like you haven’t made any payments yet. Once you do,
+                  they’ll show up here
+                </p>
+
+                <span className="flex">
+                  <p className="flex items-center  py-1 rounded-md  text-[#666666]">
+                    Click to make a Payment
+                  </p>
+                  <PaymentRequest userid={userid} />
+                </span>
+              </div>
             )}
           </div>
         </div>

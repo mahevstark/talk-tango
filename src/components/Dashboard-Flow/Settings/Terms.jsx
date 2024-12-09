@@ -52,7 +52,7 @@ export default function terms() {
           </Link>
           <h1 className="text-lg font-medium">Terms & Conditions</h1>
         </div>
-        <div className="flex flex-col gap-6">
+        <div className="flex flex-col gap-6 px-4">
 
           {/* Render the Privacy Policy using dangerouslySetInnerHTML */}
           {loading ? (

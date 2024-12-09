@@ -169,6 +169,11 @@ export default function Settings() {
       icon: logout,
       action: handleLogout,
     },
+    {
+      label: "Delete",
+      link: "",
+      hasSwitch: false,
+    },
   ];
   const handleFileChange = (e) => {
     const file = e.target.files[0];
@@ -280,45 +285,37 @@ export default function Settings() {
         <div className="space-y-4 mt-3 max-w-full flex justify-between gap-10 flex-col sm:flex-row">
           <div className="flex flex-col gap-4 sm:w-[526px] w-auto">
             {settings.map((setting, index) => (
-              <div
-                key={index}
-                className="flex items-center justify-between p-3 rounded-full hover:shadow-md border border-[#E9EAEB]"
-              >
+              <Link href={setting.link} key={index}>
                 <div
-                  className="flex items-center gap-3"
-                  onClick={setting.action}
+                  key={index}
+                  className="flex items-center justify-between p-3 rounded-full hover:shadow-md border border-[#E9EAEB]"
                 >
-                  {setting.label === "Logout" ? (
-                    <Button variant="ghost" className="hover:bg-white px-2">
-                      <Image src={logout} alt="Logout" width={18} />
-                    </Button>
-                  ) : (
-                    <Image src={setting.icon} alt="Setting" width={18} />
+                  <div
+                    className="flex items-center gap-3"
+                    onClick={setting.action}
+                  >
+                    {setting.label === "Logout" ? (
+                      <Button variant="ghost" className="hover:bg-white px-2">
+                        <Image src={logout} alt="Logout" width={18} />
+                      </Button>
+                    ) : setting.label === "Delete" ? (
+                      <Deleteaccount />
+                    ) : (
+                      <Image src={setting.icon} alt="Setting" width={18} />
+                    )}
+
+                   {setting.label!=="Delete"&& <span>{setting.label}</span>}
+                  </div>
+
+                  {setting.hasSwitch && (
+                    <Switch
+                      checked={notifications}
+                      onCheckedChange={handleNotificationToggle}
+                    />
                   )}
-                  <Link href={setting.link}>
-                    <span>{setting.label}</span>
-                  </Link>
                 </div>
-                {setting.hasSwitch && (
-                  <Switch
-                    checked={notifications}
-                    onCheckedChange={handleNotificationToggle}
-                  />
-                )}
-              </div>
+              </Link>
             ))}
-          </div>
-          <div className="flex flex-col">
-            <span className="mt-auto text-sm flex flex-col gap-6">
-              <p className="text-[#757575]">
-                Donec vestibulum, velit sit amet dapibus rutrum, elit felis
-                bibendum tellus, euismod sagittis neque enim eu felis. In
-                interdum mollis nisl, vitae rutrum magna.
-              </p>
-              <span className="flex justify-end">
-                <Deleteaccount />
-              </span>
-            </span>
           </div>
         </div>
       </div>

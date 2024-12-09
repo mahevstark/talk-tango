@@ -85,3 +85,9 @@ body {
     @apply bg-background text-foreground;
   }
 }
+
+@media screen and (min-width: 1440px) and (max-width: 1440px) {
+  .customcss {
+    padding: 14px !important; /* Remove padding */
+  }
+}

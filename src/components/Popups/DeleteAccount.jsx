@@ -71,8 +71,7 @@ export default function Component() {
 
     try {
       const response = await axios.request(config);
-      // console.log("token send ", response);
-
+  
       if (response.data.action == "success") {
         setError(false);
         // console.log(response);

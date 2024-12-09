@@ -92,7 +92,7 @@ export default function header() {
             >
               <Link href={item.path}>
                 <button
-                  className={`hidden bg-[#049C01] transition-all duration-300 px-4 py-2 text-[20px]  lg:inline-flex ${
+                  className={`hidden bg-[#049C01] transition-all duration-300 px-3 py-1 text-[20px]  lg:inline-flex ${
                     index === 1
                       ? "rounded-full border text-black bg-white "
                       : "text-white "

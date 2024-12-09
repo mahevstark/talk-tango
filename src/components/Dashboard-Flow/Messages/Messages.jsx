@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input";
 import user from "../../../../public/messages/user.svg";
 import SidebarLayout from "../../../components/Layouts/SideBarLayout";
 import Picture from "../../../../public/messages/Picture.svg";
+import startchat from "../../../../public/svgs/startchat.svg";
 import PaymentRequest from "../../Popups/PaymentRequest";
 import Blockuser from "../../Popups/BlockUser";
 import Reportuser from "../../Popups/ReportUser";
@@ -262,7 +263,6 @@ export default function Messages() {
       token: token,
     });
 
-
     let config = {
       method: "post",
       maxBodyLength: Infinity,
@@ -507,7 +507,7 @@ export default function Messages() {
         />
       )}
 
-      <div className="flex w-full bg-white h-[700px] sm:pt-4 sm:flex-row flex-col pt-12 sm:mr-0 mr-4">
+      <div className="flex w-full  bg-white sm:h-[700px]  sm:pt-4 sm:flex-row flex-col pt-16 sm:mr-0 mr-4">
         <div className="sm:w-1/4 w-full md:block">
           <h1 className="text-xl text-[#049C01] font-semibold mx-6">
             Messages
@@ -527,84 +527,96 @@ export default function Messages() {
             </div>
           </div>
           <div className="overflow-y-auto flex flex-col gap-4 max-h-[calc(100vh-200px)] sm:max-h-[500px]">
-            {filteredContacts.length > 0 ? (
-              filteredContacts.map((contact) => (
-                <div
-                  key={contact.id}
-                  className={`flex items-start gap-3 px-4 py-2 cursor-pointer ${
-                    selectedContact === contact.id
-                      ? "bg-[#049C01] text-white"
-                      : ""
-                  }`}
-                  onClick={() =>
-                    handleContactClick(
-                      contact.id,
-                      contact.title,
-                      contact.user_id,
-                      // contact.last_msg.by_user_id,
-                      contact.is_blocked,
-                      contact.user_id,
-                      contact?.image,
-                      contact?.is_blocked
-                    )
-                  }
-                >
-                  <div className="relative flex-shrink-0">
-                    <Image
-                      src={contact?.image || user}
-                      alt="User"
-                      width={45}
-                      height={45}
-                      loading="lazy"
-                      className="rounded-full"
-                    />
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <div className="flex justify-between items-baseline">
-                      <h2 className="font-semibold truncate">
-                        {contact.title}
-                      </h2>
+           {
+            loading ?(  <p className="text-center text-[#6E7485]">Loading Chats....</p>
+            ):(
+              filteredContacts.length > 0 ? (
+                filteredContacts.map((contact) => (
+                  <div
+                    key={contact.id}
+                    className={`flex items-start gap-3 px-4 py-2 cursor-pointer ${
+                      selectedContact === contact.id
+                        ? "bg-[#049C01] text-white"
+                        : ""
+                    }`}
+                    onClick={() =>
+                      handleContactClick(
+                        contact.id,
+                        contact.title,
+                        contact.user_id,
+                        // contact.last_msg.by_user_id,
+                        contact.is_blocked,
+                        contact.user_id,
+                        contact?.image,
+                        contact?.is_blocked
+                      )
+                    }
+                  >
+                    <div className="relative flex-shrink-0">
+                      <Image
+                        src={contact?.image || user}
+                        alt="User"
+                        width={45}
+                        height={45}
+                        loading="lazy"
+                        className="rounded-full"
+                      />
                     </div>
-                    <p
-                      className={`text-sm truncate ${
-                        selectedContact === contact.id
-                          ? "text-white "
-                          : "text-[#6E7485]"
-                      }`}
-                    >
-                      {contact.last_msg.image ? (
-                        <span>Image</span>
-                      ) : contact.last_msg.audio ? (
-                        <span>Audio</span>
-                      ) : (
-                        <span>{contact.last_msg.text}</span>
-                      )}
-                    </p>
-                  </div>
-                  <div className="text-white text-xs rounded-full gap-1 flex items-end justify-center flex-col">
-                    <span
-                      className={`text-sm truncate ${
-                        selectedContact === contact.id
-                          ? "text-white"
-                          : "text-[#6E7485]"
-                      }`}
-                    >
-                      {contact.last_msg.createdAt}
-                    </span>
-
-                    {contact.last_msg.unreadCount > 0 && (
-                      <span className="text-xs text-white bg-[#049C01] rounded-full px-2">
-                        {contact.last_msg.unreadCount}
+                    <div className="flex-1 min-w-0">
+                      <div className="flex justify-between items-baseline">
+                        <h2 className="font-semibold truncate">
+                          {contact.title}
+                        </h2>
+                      </div>
+                      <p
+                        className={`text-sm truncate ${
+                          selectedContact === contact.id
+                            ? "text-white "
+                            : "text-[#6E7485]"
+                        }`}
+                      >
+                        {contact.last_msg.image ? (
+                          <span>Image</span>
+                        ) : contact.last_msg.audio ? (
+                          <span>Audio</span>
+                        ) : (
+                          <span>{contact.last_msg.text}</span>
+                        )}
+                      </p>
+                    </div>
+                    <div className="text-white text-xs rounded-full gap-1 flex items-end justify-center flex-col">
+                      <span
+                        className={`text-sm truncate ${
+                          selectedContact === contact.id
+                            ? "text-white"
+                            : "text-[#6E7485]"
+                        }`}
+                      >
+                        {contact.last_msg.createdAt}
                       </span>
-                    )}
+  
+                      {contact.last_msg.unreadCount > 0 && (
+                        <span className="text-xs text-white bg-[#049C01] rounded-full px-2">
+                          {contact.last_msg.unreadCount}
+                        </span>
+                      )}
+                    </div>
                   </div>
-                </div>
-              ))
-            ) : loading ? (
-              <p className="text-center text-[#6E7485]">Loading Chats....</p>
-            ) : filteredContacts.length < 0 ? (
-              <p className="text-center text-[#6E7485]">No chats found</p>
-            ) : null}
+                ))
+              ) : (
+                
+                <span className="flex gap-1 flex-col items-center justify-center mt-5">
+                  <p className="text-center text-[#6E7485]">No chats found</p>
+
+                    <Link href="/dashboard/contact-list">
+             
+              <button className="text-sm text-center bg-green-600 px-4 py-2 rounded-md text-white"> Start by adding contacts!</button>
+            </Link>
+                </span>
+              )
+            )
+           }
+         
           </div>
         </div>
         {selectedContact ? (
@@ -817,8 +829,14 @@ export default function Messages() {
             </div> */}
           </div>
         ) : (
-          <div className="text-center flex justify-center items-center mt-12 sm:mt-0 w-full">
-            <p className="mx-auto text-xl font-semibold">No Chat Selected!</p>
+          <div className="text-center  flex justify-center items-center mt-56 sm:mt-0 gap-3 w-full flex-col">
+            <Image src={startchat} alt="Start Chat" />
+            <p className="mx-auto text-xl font-semibold">
+              {" "}
+              Start a conversation !
+            </p>
+
+          
           </div>
         )}
       </div>

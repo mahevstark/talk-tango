@@ -11,6 +11,7 @@ import { useState, useEffect } from "react";
 import { Search } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import user from "../../../../public/messages/user.svg";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export default function profile() {
   let userid;
@@ -27,7 +28,11 @@ export default function profile() {
 
   const [data, setData] = useState([]);
   const [media, setMedia] = useState([]);
+  const [loading, setloading] = useState(false);
+  const [medialoading, setmedialoading] = useState(false);
+
   const fetchdata = async () => {
+    setmedialoading(true);
     const axios = require("axios");
     let data = JSON.stringify({
       token: token,
@@ -51,9 +56,13 @@ export default function profile() {
         // console.log(response.data.data);
 
         setData(response.data.data);
+
         setMedia(response.data.media);
+        setmedialoading(false);
       })
       .catch((error) => {
+        setmedialoading(false);
+
         console.log(error);
       });
   };
@@ -93,6 +102,8 @@ export default function profile() {
   );
 
   const fetchusercontacts = async () => {
+    setloading(true);
+
     const token = localStorage.getItem("token");
     const axios = require("axios");
     let data = JSON.stringify({
@@ -112,11 +123,15 @@ export default function profile() {
     axios
       .request(config)
       .then((response) => {
+        setloading(false);
+
         setcontactlist(
           Array.isArray(response.data.chats) ? response.data.chats : []
         );
       })
       .catch((error) => {
+        setloading(false);
+
         console.log(error);
       });
   };
@@ -144,8 +159,8 @@ export default function profile() {
 
   return (
     <SidebarLayout>
-      <div className="flex sm:flex-row flex-col sm:mt-0 mt-14 ">
-        <div className="sm:w-1/4 pl-3 mt-4 w-full md:block">
+      <div className="flex sm:flex-row flex-col sm:mt-0  pt-1.5">
+        <div className="sm:w-1/4 sm:pl-3 sm:mt-4 w-full md:block">
           <h1 className="text-xl text-[#049C01] font-semibold mx-6">
             Messages
           </h1>
@@ -160,12 +175,20 @@ export default function profile() {
               />
             </div>
           </div>
-          <div className="overflow-y-auto flex flex-col gap-4">
-            {filteredContacts.length > 0 ? (
+          <div className="overflow-y-auto flex flex-col gap-4 max-h-[calc(100vh-200px)] sm:max-h-[500px]">
+            {loading ? (
+              <div className="flex items-center space-x-4">
+                <Skeleton className="h-12 w-12 rounded-full" />
+                <div className="space-y-2">
+                  <Skeleton className="h-4 w-[150px]" />
+                  <Skeleton className="h-4 w-[100px]" />
+                </div>
+              </div>
+            ) : filteredContacts.length > 0 ? (
               filteredContacts.map((contact) => (
                 <div
                   key={contact.id}
-                  className={`flex items-start gap-3 px-6 py-2 cursor-pointer ${
+                  className={`flex items-start gap-3 px-4 py-2 cursor-pointer ${
                     selectedContact === contact.id
                       ? "bg-[#049C01] text-white"
                       : ""
@@ -174,20 +197,22 @@ export default function profile() {
                     handleContactClick(
                       contact.id,
                       contact.title,
-                      contact.last_msg.by_user_id,
+                      contact.user_id,
                       contact.is_blocked,
-                      contact.user_id
+                      contact.user_id,
+                      contact?.image,
+                      contact?.is_blocked
                     )
                   }
                 >
-                  <div className="relative">
+                  <div className="relative flex-shrink-0">
                     <Image
-                      src={contact.image || user}
+                      src={contact?.image || user}
                       alt="User"
                       width={45}
                       height={45}
-                      className="rounded-full"
                       loading="lazy"
+                      className="rounded-full"
                     />
                   </div>
                   <div className="flex-1 min-w-0">
@@ -197,18 +222,24 @@ export default function profile() {
                       </h2>
                     </div>
                     <p
-                      className={`text-sm truncate text-[#6E7485] ${
+                      className={`text-sm truncate ${
                         selectedContact === contact.id
-                          ? "text-white"
+                          ? "text-white "
                           : "text-[#6E7485]"
                       }`}
                     >
-                      {contact.last_msg.text}
+                      {contact.last_msg.image ? (
+                        <span>Image</span>
+                      ) : contact.last_msg.audio ? (
+                        <span>Audio</span>
+                      ) : (
+                        <span>{contact.last_msg.text}</span>
+                      )}
                     </p>
                   </div>
-                  <div className="text-white text-xs rounded-full gap-3 flex items-end justify-center flex-col">
+                  <div className="text-white text-xs rounded-full gap-1 flex items-end justify-center flex-col">
                     <span
-                      className={`text-sm truncate text-[#6E7485] ${
+                      className={`text-sm truncate ${
                         selectedContact === contact.id
                           ? "text-white"
                           : "text-[#6E7485]"
@@ -226,7 +257,14 @@ export default function profile() {
                 </div>
               ))
             ) : (
-              <p className="text-center text-[#6E7485]">No chats found</p>
+              <span className="flex gap-1 flex-col items-center justify-center mt-5">
+                <p className="text-center text-[#6E7485]">No chats found</p>
+                <Link href="/dashboard/contact-list">
+                  <button className="text-sm text-center bg-green-600 px-4 py-2 rounded-md text-white">
+                    Start by adding contacts!
+                  </button>
+                </Link>
+              </span>
             )}
           </div>
         </div>
@@ -240,15 +278,22 @@ export default function profile() {
           </header>
 
           <div className="p-4 text-center mt-6">
-            {
-              <Image
-                src={data.profile_pic || profilepic}
-                alt="Maryam's profile picture"
-                width={100}
-                height={100}
-                className="mx-auto rounded-full"
-              />
-            }
+            <div className="flex justify-center items-center h-full">
+              {medialoading ? (
+                <div className="flex items-center space-x-4">
+                  <Skeleton className="h-20 w-20 rounded-full" />
+                </div>
+              ) : (
+                <Image
+                  src={data.profile_pic || profilepic}
+                  alt="Maryam's profile picture"
+                  width={100}
+                  height={100}
+                  className="rounded-full"
+                />
+              )}
+            </div>
+
             <h2 className="mt-4 text-xl font-medium">{data.name}</h2>
             <p className="text-[#3C3C3C] text-small">{data.about}</p>
           </div>
@@ -271,17 +316,31 @@ export default function profile() {
               </p>
             </span>
           </div>
-          <div className="p-4">
-            <h3 className=" font-medium mb-2">Media</h3>
+          <div className="p-4 ">
+            <h3 className="font-medium mb-2">Media</h3>
             <div className="grid grid-cols-6 gap-1">
-              {media && media.length > 0 ? (
+              {medialoading ? (
+                <div className="flex items-center space-x-4">
+                  <Skeleton className="h-12 w-12 rounded-full " />
+                  <div className="space-y-2">
+                    <Skeleton className="h-4 w-[150px]" />
+                    <Skeleton className="h-4 w-[100px]" />
+                  </div>
+                </div>
+              ) : media && media.length > 0 ? (
                 media.map((pic, i) => (
                   <div key={i} className="relative aspect-square">
-                    <Image src={pic.image} alt="media" width={200} height={100} loading="lazy" />
+                    <Image
+                      src={pic.image}
+                      alt="media"
+                      width={200}
+                      height={100}
+                      loading="lazy"
+                    />
                   </div>
                 ))
               ) : (
-                <p>no media found</p>
+                <p>No media found</p>
               )}
             </div>
           </div>

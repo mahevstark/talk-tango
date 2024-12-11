@@ -10,17 +10,17 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import whatsapp from "../../../public/svgs/whatssapp.svg";
-import copy from "../../../public/svgs/copy.svg";
+import copyies from "../../../public/svgs/copyies.svg";
 import facebookIcon from "../../../public/svgs/facebook.svg";
 import twitterIcon from "../../../public/svgs/twiter.svg";
 import instagramIcon from "../../../public/svgs/instagram.svg";
 import linkedinIcon from "../../../public/svgs/linkedin.svg";
-import userShareIcon from "../../../public/svgs/usershare.svg";
+import { useState } from "react";
 
-const signUpUrl = "https://localhost:3000/auth-flow/sign-up";
+const signUpUrl = "https://talk-tango-latest.vercel.app/auth/signup";
 
 const shareData = {
-  url: "http://localhost:3000/auth-flow/sign-up",
+  url: "https://talk-tango-latest.vercel.app/auth/signup",
   users: [
     { name: "Štefančík", image: "/placeholder.svg?height=32&width=32" },
     { name: "Roksolana", image: "/placeholder.svg?height=32&width=32" },
@@ -67,13 +67,21 @@ const shareData = {
 };
 
 export default function ShareDialog({ isOpen, onOpenChange }) {
-  const handleCopy = async () => {
-    try {
-      await navigator.clipboard.writeText(shareData.url);
-      // console.log("URL copied to clipboard");
-    } catch (err) {
-      console.error("Failed to copy text: ", err);
-    }
+  const [copied, setCopied] = useState(false);
+  const login = "https://talk-tango-latest.vercel.app/auth/signup";
+
+  const handleCopy = () => {
+    navigator.clipboard
+      .writeText(login)
+      .then(() => {
+        // Set the state to show a successful copy message
+        setCopied(true);
+        // Reset the copied state after 2 seconds
+        setTimeout(() => setCopied(false), 2000);
+      })
+      .catch((error) => {
+        console.error("Failed to copy text: ", error);
+      });
   };
 
   return (
@@ -93,35 +101,11 @@ export default function ShareDialog({ isOpen, onOpenChange }) {
               onClick={handleCopy}
               className="border-none hover:bg-white"
             >
-              <Image src={copy} alt="Copy" className="" loading="lazy" />
-              <span className="sr-only">Copy link</span>
+              <Image src={copyies} alt="copy icon" loading="lazy" />
+              <p className="text-sm text-[#383838] cursor-pointer">
+                {copied ? "Copied!" : "Copy"}
+              </p>
             </Button>
-          </div>
-
-          <div className="space-y-3">
-            {/* Direct share section - Two rows of users */}
-            {[...Array(2)].map((_, rowIndex) => (
-              <div key={`row-${rowIndex}`} className="grid grid-cols-4 gap-2">
-                {shareData.users.map((user) => (
-                  <div
-                    key={`${rowIndex}-${user.name}`}
-                    className="text-center flex flex-col items-center"
-                  >
-                    <Image
-                      src={userShareIcon}
-                      alt={user.name}
-                      width={48}
-                      height={48}
-                      loading="lazy"
-                      className="rounded-full"
-                    />
-                    <div className="mt-1 text-xs truncate max-w-full">
-                      {user.name}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            ))}
           </div>
 
           {/* Social share buttons */}

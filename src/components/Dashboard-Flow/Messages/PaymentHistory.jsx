@@ -12,12 +12,17 @@ import arrow from "../../../../public/svgs/arrow.svg";
 import receive from "../../../../public/svgs/receive.svg";
 import user from "../../../../public/messages/user.svg";
 import Back from "../../../../public/svgs/back.svg";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export default function paymenthistory() {
   const [data, setData] = useState([]);
+  const [loading, setloading] = useState(false);
+  const [loadingpayment, setloadingpayment] = useState(false);
+
   const [media, setMedia] = useState([]);
   var userid;
   const fetchdata = async () => {
+    setloadingpayment(true);
     userid = localStorage.getItem("newid");
 
     const convoid = localStorage.getItem("contactId");
@@ -45,9 +50,11 @@ export default function paymenthistory() {
         // console.log(JSON.stringify(response.data));
         setData(response.data.data);
         setMedia(response.data.media);
+        setloadingpayment(false);
       })
       .catch((error) => {
         console.log(error);
+        setloadingpayment(false);
       });
   };
 
@@ -86,6 +93,7 @@ export default function paymenthistory() {
   );
 
   const fetchusercontacts = async () => {
+    setloading(true);
     const token = localStorage.getItem("token");
     const axios = require("axios");
     let data = JSON.stringify({
@@ -108,9 +116,11 @@ export default function paymenthistory() {
         setcontactlist(
           Array.isArray(response.data.chats) ? response.data.chats : []
         );
+        setloading(false);
       })
       .catch((error) => {
         console.log(error);
+        setloading(false);
       });
   };
 
@@ -168,8 +178,8 @@ export default function paymenthistory() {
 
   return (
     <SidebarLayout>
-      <div className="flex sm:flex-row flex-col sm:mt-0 mt-14 ">
-        <div className="sm:w-1/4 pl-3 mt-4 w-full md:block">
+      <div className="flex sm:flex-row flex-col sm:mt-0  pt-1.5 ">
+        <div className="sm:w-1/4 sm:pl-3 sm:mt-4 w-full md:block">
           <h1 className="text-xl text-[#049C01] font-semibold mx-6">
             Messages
           </h1>
@@ -185,11 +195,19 @@ export default function paymenthistory() {
             </div>
           </div>
           <div className="overflow-y-auto flex flex-col gap-4">
-            {filteredContacts.length > 0 ? (
+            {loading ? (
+              <div className="flex items-center space-x-4">
+                <Skeleton className="h-12 w-12 rounded-full" />
+                <div className="space-y-2">
+                  <Skeleton className="h-4 w-[150px]" />
+                  <Skeleton className="h-4 w-[100px]" />
+                </div>
+              </div>
+            ) : filteredContacts.length > 0 ? (
               filteredContacts.map((contact) => (
                 <div
                   key={contact.id}
-                  className={`flex items-start gap-3 px-6 py-2 cursor-pointer ${
+                  className={`flex items-start gap-3 px-4 py-2 cursor-pointer ${
                     selectedContact === contact.id
                       ? "bg-[#049C01] text-white"
                       : ""
@@ -198,20 +216,22 @@ export default function paymenthistory() {
                     handleContactClick(
                       contact.id,
                       contact.title,
-                      contact.last_msg.by_user_id,
+                      contact.user_id,
                       contact.is_blocked,
-                      contact.user_id
+                      contact.user_id,
+                      contact?.image,
+                      contact?.is_blocked
                     )
                   }
                 >
-                  <div className="relative">
+                  <div className="relative flex-shrink-0">
                     <Image
-                      src={contact.image || user}
+                      src={contact?.image || user}
                       alt="User"
                       width={45}
                       height={45}
-                      className="rounded-full"
                       loading="lazy"
+                      className="rounded-full"
                     />
                   </div>
                   <div className="flex-1 min-w-0">
@@ -221,18 +241,24 @@ export default function paymenthistory() {
                       </h2>
                     </div>
                     <p
-                      className={`text-sm truncate text-[#6E7485] ${
+                      className={`text-sm truncate ${
                         selectedContact === contact.id
-                          ? "text-white"
+                          ? "text-white "
                           : "text-[#6E7485]"
                       }`}
                     >
-                      {contact.last_msg.text}
+                      {contact.last_msg.image ? (
+                        <span>Image</span>
+                      ) : contact.last_msg.audio ? (
+                        <span>Audio</span>
+                      ) : (
+                        <span>{contact.last_msg.text}</span>
+                      )}
                     </p>
                   </div>
-                  <div className="text-white text-xs rounded-full gap-3 flex items-end justify-center flex-col">
+                  <div className="text-white text-xs rounded-full gap-1 flex items-end justify-center flex-col">
                     <span
-                      className={`text-sm truncate text-[#6E7485] ${
+                      className={`text-sm truncate ${
                         selectedContact === contact.id
                           ? "text-white"
                           : "text-[#6E7485]"
@@ -250,7 +276,14 @@ export default function paymenthistory() {
                 </div>
               ))
             ) : (
-              <p className="text-center text-[#6E7485]">No chats found</p>
+              <span className="flex gap-1 flex-col items-center justify-center mt-5">
+                <p className="text-center text-[#6E7485]">No chats found</p>
+                <Link href="/dashboard/contact-list">
+                  <button className="text-sm text-center bg-green-600 px-4 py-2 rounded-md text-white">
+                    Start by adding contacts!
+                  </button>
+                </Link>
+              </span>
             )}
           </div>
         </div>
@@ -264,13 +297,18 @@ export default function paymenthistory() {
               </Link>
               <p className="text-black font-semibold">Payment History</p>
             </span>
-            {paymentData && paymentData.length > 0 ? (
+            {loadingpayment ? (
+              <div className="flex items-center space-x-4 mt-12">
+               
+                <div className="space-y-2">
+                  <Skeleton className="h-4 w-[150px]" />
+                  <Skeleton className="h-4 w-[100px]" />
+                </div>
+              </div>
+            ) : paymentData && paymentData.length > 0 ? (
               paymentData.map((day, index) => (
                 <div key={index} className="mt-4">
-                  <div
-                    key={index}
-                    className="flex sm:items-center sm:justify-between pt-5 w-full flex-col justify-start items-start gap-4 sm:gap-0 sm:flex-row"
-                  >
+                  <div className="flex sm:items-center sm:justify-between pt-5 w-full flex-col justify-start items-start gap-4 sm:gap-0 sm:flex-row">
                     <div className="flex items-center gap-3">
                       <div className="w-10 h-10 bg-green-50 rounded-full flex items-center justify-center">
                         {day.approval_status === "1" ? (
@@ -310,9 +348,8 @@ export default function paymenthistory() {
                   It looks like you haven’t made any payments yet. Once you do,
                   they’ll show up here
                 </p>
-
                 <span className="flex">
-                  <p className="flex items-center  py-1 rounded-md  text-[#666666]">
+                  <p className="flex items-center py-1 rounded-md text-[#666666]">
                     Click to make a Payment
                   </p>
                   <PaymentRequest userid={userid} />

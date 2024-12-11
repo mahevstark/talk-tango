@@ -84,11 +84,9 @@ export default function Settings() {
         .catch((error) => console.error(error));
     }
   };
-
   const handleLogout = () => {
     if (isClient) {
       localStorage.clear();
-
       router.push("/");
     }
   };
@@ -227,8 +225,8 @@ export default function Settings() {
 
   return (
     <SidebarLayout>
-      <div className="sm:w-full p-4 sm:mt-4 mb-5 w-auto mt-0">
-        <p className="text-lg font-semibold text-[#049C01] mb-5 ml-10 mt-1 sm:ml-0 sm:mt-0">
+      <div className="sm:w-full p-4 sm:mt-4 mb-5 w-auto mt-8">
+        <p className="text-lg font-semibold text-[#049C01] mb-5  mt-1  sm:mt-0">
           Settings
         </p>
         <div className="flex sm:items-center justify-between items-start">
@@ -304,7 +302,7 @@ export default function Settings() {
                       <Image src={setting.icon} alt="Setting" width={18} />
                     )}
 
-                   {setting.label!=="Delete"&& <span>{setting.label}</span>}
+                    {setting.label !== "Delete" && <span>{setting.label}</span>}
                   </div>
 
                   {setting.hasSwitch && (

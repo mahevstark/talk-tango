@@ -3,12 +3,15 @@ import LeftSidebar from "../../components/Layouts/LeftSideBar";
 
 const SidebarLayout = ({ children }) => {
   return (
-    <>
-      <div className="flex">
+    <div className="flex min-h-screen">
+      {/* Left Sidebar */}
+      <div className="sm:ml-28">
         <LeftSidebar />
-        <main className="sm:w-full w-auto">{children}</main>
       </div>
-    </>
+
+      {/* Main content area */}
+      <main className="flex-1  p-4">{children}</main>
+    </div>
   );
 };
 

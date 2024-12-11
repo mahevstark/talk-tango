@@ -14,6 +14,7 @@ import Recording from "../../../components/Popups/Recording";
 import audio from "../../../../public/messages/Audio.svg";
 import PlayAudio from "../../Popups/PlayAudio";
 import startchat from "../../../../public/svgs/startchat.svg";
+import { Skeleton } from "@/components/ui/skeleton";
 
 import Link from "next/link";
 
@@ -576,7 +577,7 @@ export default function ContactList() {
         />
       )}
 
-      <div className="flex w-full bg-white h-[700px] sm:pt-4 sm:flex-row flex-col pt-12 sm:mr-0 mr-4">
+      <div className="flex w-full bg-white h-[700px] sm:pt-4 sm:flex-row flex-col mt-1.5 sm:mr-0 mr-4">
         <div className="sm:w-1/4 w-full md:block">
           <h1 className="text-xl text-[#049C01] font-semibold mx-6">
             Contact List
@@ -596,7 +597,15 @@ export default function ContactList() {
             </div>
           </div>
           <div className="overflow-y-auto flex flex-col gap-4 max-h-[calc(100vh-200px)] sm:max-h-[500px]">
-            {filteredContact?.length > 0 ? (
+            {loading ? (
+              <div className="flex items-center space-x-4">
+                <Skeleton className="h-12 w-12 rounded-full" />
+                <div className="space-y-2">
+                  <Skeleton className="h-4 w-[150px]" />
+                  <Skeleton className="h-4 w-[100px]" />
+                </div>
+              </div>
+            ) : filteredContact?.length > 0 ? (
               filteredContact?.map((contact) => (
                 <div
                   key={contact.id}

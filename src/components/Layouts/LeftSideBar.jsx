@@ -87,11 +87,11 @@ export default function LeftSidebar() {
   };
 
   return (
-    <div className="w-[2px]  sm:w-auto h-[100vh]  bg-[#ECECEC]">
+    <div className="w-[2px]  sm:w-auto sm:h-[100vh]  bg-[#ECECEC] fixed top-0 left-0  z-20   ">
       <button
         ref={buttonRef}
         onClick={toggleSidebar}
-        className="fixed top-4 left-4 z-50 p-2 text-black rounded-md md:hidden"
+        className="fixed top-4 sm:left-4 z-50 p-2 text-black rounded-md md:hidden"
       >
         {isSidebarOpen ? null : "☰"}
       </button>

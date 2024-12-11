@@ -58,8 +58,7 @@ export default function Component() {
           <h1 className="text-lg font-medium">Feedback</h1>
         </div>
         <p className="text-[#3A3A3A] text-sm w-full sm:w-80">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi
-          tristique leo a turpis consequat malesuada. In eu neque sit amet
+        We value your input and are committed to improving our services. Your feedback helps us understand your experience, identify areas for improvement, and enhance our offerings. 
         </p>
         <textarea
           name=""

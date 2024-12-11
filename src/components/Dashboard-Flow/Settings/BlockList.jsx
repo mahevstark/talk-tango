@@ -2,13 +2,17 @@
 import Link from "next/link";
 import SidebarLayout from "../../../components/Layouts/SideBarLayout";
 import Back from "../../../../public/svgs/back.svg";
+import noblocked from "../../../../public/svgs/noblocked.jpg";
+
 import Image from "next/image";
 import { useState, useEffect } from "react";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export default function Component() {
   const [blockList, setBlockList] = useState([]);
-
+  const [loading, setLoading] = useState(true);
   const fetchBlockList = async () => {
+    setLoading(true);
     const token = localStorage.getItem("token");
 
     const axios = require("axios");
@@ -30,11 +34,13 @@ export default function Component() {
       const response = await axios.request(config);
 
       if (response.data.action === "success") {
+        setLoading(false);
         setBlockList(response.data.data); // Set the blockList here
         // console.log("Block list:", response.data.data);
       }
     } catch (error) {
       console.log("Error fetching blocked users:", error);
+      setLoading(false);
     }
   };
   console.log("Fetched blocked users:", blockList);
@@ -82,7 +88,7 @@ export default function Component() {
 
   return (
     <SidebarLayout>
-      <div className="max-w-md mt-12 sm:mt-3 sm:p-4 p-4">
+      <div className="w-full mt-12 sm:mt-3 sm:p-4 p-4 ">
         <div className="flex items-center gap-3 mb-8">
           <Link
             href="/dashboard/settings"
@@ -94,12 +100,20 @@ export default function Component() {
           <h1 className="text-lg font-medium">Block List</h1>
         </div>
 
-        <div className="border p-3 flex flex-col justify-between bg-gray-100 rounded-lg">
-          {blockList ? (
+        <div className=" p-3 flex flex-col justify-between rounded-lg">
+          {loading ? (
+            <div className="flex items-center space-x-4">
+              <Skeleton className="h-12 w-12 rounded-full" />
+              <div className="space-y-2">
+                <Skeleton className="h-4 sm:w-[250px]" />
+                <Skeleton className="h-4 w-[200px]" />
+              </div>
+            </div>
+          ) : blockList ? (
             blockList.map((item, index) => (
               <div
                 key={index}
-                className="flex gap-4 items-center justify-between"
+                className=" gap-4 items-center  border p-3 flex flex-col justify-between bg-gray-100 rounded-lg"
               >
                 <span className="flex gap-2 items-center">
                   <Image
@@ -122,7 +136,10 @@ export default function Component() {
               </div>
             ))
           ) : (
-            <p>No blocked users yet</p>
+            <div className="w-full flex  flex-col items-center  justify-center ">
+              <Image src={noblocked} alt="No blocked users" width={200} />
+              <p className="text-xl font-semibold"> No blocked users found</p>
+            </div>
           )}
         </div>
       </div>

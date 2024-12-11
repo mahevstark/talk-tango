@@ -11,6 +11,7 @@ import { useState, useEffect } from "react";
 import { Search } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import user from "../../../../public/messages/user.svg";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export default function profile() {
   let convoid;
@@ -21,7 +22,11 @@ export default function profile() {
 
   const [data, setData] = useState([]);
   const [media, setMedia] = useState([]);
+
+  const [loading, setloading] = useState(false);
+  const [medialoading, setmedialoading] = useState(false);
   const fetchdata = async () => {
+    setmedialoading(true);
     const userid = localStorage.getItem("newid");
     const token = localStorage.getItem("token");
     const axios = require("axios");
@@ -47,9 +52,11 @@ export default function profile() {
         // console.log(JSON.stringify(response.data));
         setData(response.data.data);
         setMedia(response.data.media);
+        setmedialoading(false);
       })
       .catch((error) => {
         console.log(error);
+        setmedialoading(false);
       });
   };
 
@@ -88,6 +95,7 @@ export default function profile() {
   );
 
   const fetchusercontacts = async () => {
+    setloading(true);
     const token = localStorage.getItem("token");
     const axios = require("axios");
     let data = JSON.stringify({
@@ -110,9 +118,11 @@ export default function profile() {
         setcontactlist(
           Array.isArray(response.data.chats) ? response.data.chats : []
         );
+        setloading(false);
       })
       .catch((error) => {
         console.log(error);
+        setloading(false);
       });
   };
 
@@ -139,8 +149,8 @@ export default function profile() {
 
   return (
     <SidebarLayout>
-      <div className="flex sm:flex-row flex-col sm:mt-0 mt-14 ">
-        <div className="sm:w-1/4 pl-3 mt-4 w-full md:block">
+      <div className="flex sm:flex-row flex-col sm:mt-0 mt-1.5 ">
+        <div className="sm:w-1/4 sm:pl-3 sm:mt-4 w-full md:block">
           <h1 className="text-xl text-[#049C01] font-semibold mx-6">
             Contact List
           </h1>
@@ -182,7 +192,7 @@ export default function profile() {
                       width={45}
                       height={45}
                       className="rounded-full"
-                        loading="lazy"
+                      loading="lazy"
                     />
                   </div>
                   <div className="flex-1 min-w-0">
@@ -229,29 +239,34 @@ export default function profile() {
           <header className="flex items-center p-4  gap-2">
             <Link href="/dashboard/contact-list/">
               {" "}
-              <Image src={back} alt="something" width={18}   loading="lazy" />
+              <Image src={back} alt="something" width={18} loading="lazy" />
             </Link>
             <h1 className=" font-semibold">back</h1>
           </header>
 
           <div className="p-4 text-center mt-6">
-            {
-              <Image
-                src={data.profile_pic || profilepic}
-                alt="Maryam's profile picture"
-                width={100}
-                height={100}
-                  loading="lazy"
-                className="mx-auto rounded-full"
-              />
-            }
+            <div className="flex justify-center items-center h-full">
+              {medialoading ? (
+                <div className="flex items-center space-x-4">
+                  <Skeleton className="h-20 w-20 rounded-full" />
+                </div>
+              ) : (
+                <Image
+                  src={data.profile_pic || profilepic}
+                  alt="Maryam's profile picture"
+                  width={100}
+                  height={100}
+                  className="rounded-full"
+                />
+              )}
+            </div>
             <h2 className="mt-4 text-xl font-medium">{data.name}</h2>
             <p className="text-[#3C3C3C] text-small">{data.about}</p>
           </div>
 
           <div className="px-4 py-4 rounded-xl shadow-md flex justify-between items-center">
             <div className="flex items-center gap-4">
-              <Image src={wallet} alt="wallet"   loading="lazy" />
+              <Image src={wallet} alt="wallet" loading="lazy" />
               <span>
                 <p className="text-black">Bank Account Number</p>
                 <p className="text-sm text-[#383838]">{accountNumber}</p>
@@ -261,7 +276,7 @@ export default function profile() {
               className="flex flex-col items-center gap-1"
               onClick={handleCopy}
             >
-              <Image src={copyies} alt="copy icon"   loading="lazy" />
+              <Image src={copyies} alt="copy icon" loading="lazy" />
               <p className="text-sm text-[#383838] cursor-pointer">
                 {copied ? "Copied!" : "Copy"}
               </p>
@@ -270,7 +285,15 @@ export default function profile() {
           <div className="p-4">
             <h3 className=" font-medium mb-2">Media</h3>
             <div className="grid grid-cols-6 gap-1">
-              {media && media.length > 0 ? (
+              {medialoading ? (
+                <div className="flex items-center space-x-4">
+                  <Skeleton className="h-12 w-12 rounded-full " />
+                  <div className="space-y-2">
+                    <Skeleton className="h-4 w-[150px]" />
+                    <Skeleton className="h-4 w-[100px]" />
+                  </div>
+                </div>
+              ) : media && media.length > 0 ? (
                 media.map((pic, i) => (
                   <div key={i} className="relative aspect-square">
                     <Image
@@ -278,12 +301,12 @@ export default function profile() {
                       alt="media"
                       width={200}
                       height={100}
-                        loading="lazy"
+                      loading="lazy"
                     />
                   </div>
                 ))
               ) : (
-                <p>no media found</p>
+                <p>No media found</p>
               )}
             </div>
           </div>

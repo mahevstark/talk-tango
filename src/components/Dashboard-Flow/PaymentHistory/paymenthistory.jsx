@@ -5,47 +5,14 @@ import Image from "next/image";
 import arrow from "../../../../public/svgs/arrow.svg";
 import receive from "../../../../public/svgs/receive.svg";
 import nopayment from "../../../../public/svgs/nopayment.svg";
-
-import { parseISO, formatDistanceToNow } from "date-fns";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export default function Page() {
-  const paymentData = [
-    {
-      date: "Today",
-      transactions: [
-        {
-          type: "Send",
-          account: "0817239419528913",
-          amount: "+500$",
-          time: "11:15",
-          icon: arrow,
-        },
-      ],
-    },
-    {
-      date: "Yesterday",
-      transactions: [
-        {
-          type: "Receive",
-          account: "0817239419528914",
-          amount: "-200$",
-          time: "14:30",
-          icon: arrow,
-        },
-        {
-          type: "Send",
-          account: "0817239419528915",
-          amount: "+300$",
-          time: "16:45",
-          icon: receive,
-        },
-      ],
-    },
-  ];
+  const [loading, setLoading] = useState(true);
 
-  const [Data, setData] = useState();
   const [payment, setpayment] = useState([]);
   const fetchpayment = async () => {
+    setLoading(true);
     const token = localStorage.getItem("token");
     const axios = require("axios");
     let data = JSON.stringify({
@@ -68,21 +35,31 @@ export default function Page() {
         if (response.data.action === "success") {
           setpayment(response.data.data);
         }
+        setLoading(false);
       })
       .catch((error) => {
         console.log(error);
+        setLoading(false);
       });
   };
   useEffect(() => {
     fetchpayment();
-  }, [fetchpayment]);
+  }, []);
 
   return (
     <SidebarLayout>
-      <div className="pt-6 pl-6 sm:w-[1311px] w-auto">
+      <div className="sm:pt-6 mt-2 pl-6 sm:w-[1311px] w-auto">
         <p className="text-[#049C01] font-semibold">Payment History</p>
 
-        {payment && payment.length > 0 ? (
+        {loading ? (
+          <div className="flex items-center space-x-4 mt-12">
+            <Skeleton className="h-12 w-12 rounded-full" />
+            <div className="space-y-2">
+              <Skeleton className="h-4 w-[250px]" />
+              <Skeleton className="h-4 w-[200px]" />
+            </div>
+          </div>
+        ) : payment && payment.length > 0 ? (
           payment?.map((day, index) => (
             <div key={index} className="mt-4">
               <div

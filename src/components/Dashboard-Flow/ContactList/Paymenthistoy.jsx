@@ -10,15 +10,18 @@ import user from "../../../../public/messages/user.svg";
 import Back from "../../../../public/svgs/back.svg";
 import nopayment from "../../../../public/svgs/nopayment.svg";
 import PaymentRequest from "../../Popups/PaymentRequest";
+import { Skeleton } from "@/components/ui/skeleton";
 
 import arrow from "../../../../public/svgs/arrow.svg";
 import receive from "../../../../public/svgs/receive.svg";
 export default function profile() {
   const [data, setData] = useState([]);
   const [media, setMedia] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [medialoading, setmedialoading] = useState(true);
   var userid;
   const fetchdata = async () => {
-    
+    setmedialoading(true);
     userid = localStorage.getItem("newid");
     console.log("user id is ", userid);
     const convoid = localStorage.getItem("contactId");
@@ -46,9 +49,11 @@ export default function profile() {
         // console.log(JSON.stringify(response.data));
         setData(response.data.data);
         setMedia(response.data.media);
+        setmedialoading(false);
       })
       .catch((error) => {
         console.log(error);
+        setmedialoading(false);
       });
   };
 
@@ -87,6 +92,7 @@ export default function profile() {
   );
 
   const fetchusercontacts = async () => {
+    setLoading(true);
     const token = localStorage.getItem("token");
     const axios = require("axios");
     let data = JSON.stringify({
@@ -109,9 +115,11 @@ export default function profile() {
         setcontactlist(
           Array.isArray(response.data.chats) ? response.data.chats : []
         );
+        setLoading(false);
       })
       .catch((error) => {
         console.log(error);
+        setLoading(false);
       });
   };
 
@@ -168,8 +176,8 @@ export default function profile() {
 
   return (
     <SidebarLayout>
-      <div className="flex sm:flex-row flex-col sm:mt-0 mt-14 ">
-        <div className="sm:w-1/4 pl-3 mt-4 w-full md:block">
+      <div className="flex sm:flex-row flex-col sm:mt-0 mt-1.5 ">
+        <div className="sm:w-1/4 sm:pl-3 sm:mt-4 w-full md:block">
           <h1 className="text-xl text-[#049C01] font-semibold mx-6">
             Contact List
           </h1>
@@ -185,7 +193,15 @@ export default function profile() {
             </div>
           </div>
           <div className="overflow-y-auto flex flex-col gap-4">
-            {filteredContacts.length > 0 ? (
+            {loading ? (
+              <div className="flex items-center space-x-4">
+                <Skeleton className="h-12 w-12 rounded-full" />
+                <div className="space-y-2">
+                  <Skeleton className="h-4 w-[150px]" />
+                  <Skeleton className="h-4 w-[100px]" />
+                </div>
+              </div>
+            ) : filteredContacts.length > 0 ? (
               filteredContacts.map((contact) => (
                 <div
                   key={contact.id}
@@ -264,7 +280,14 @@ export default function profile() {
               </Link>
               <p className="text-black font-semibold">Payment History</p>
             </span>
-            {paymentData && paymentData.length > 0 ? (
+            {medialoading ? (
+              <div className="flex items-center space-x-4 mt-12">
+                <div className="space-y-2">
+                  <Skeleton className="h-4 w-[150px]" />
+                  <Skeleton className="h-4 w-[100px]" />
+                </div>
+              </div>
+            ) : paymentData && paymentData.length > 0 ? (
               paymentData.map((day, index) => (
                 <div key={index} className="mt-4">
                   <div

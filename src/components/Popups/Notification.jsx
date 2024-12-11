@@ -7,6 +7,8 @@ import notification from "../../../public/svgs/notifications.svg";
 import activenotification from "../../../public/svgs/activenotification.svg";
 import Image from "next/image";
 import accept from "../../../public/svgs/accept.svg";
+import { Skeleton } from "@/components/ui/skeleton";
+
 import { parseISO, formatDistanceToNow } from "date-fns";
 import reject from "../../../public/svgs/reject.svg";
 import {
@@ -32,6 +34,7 @@ export default function NotificationsDrawer({ onNotificationChange }) {
   // API call to fetch notifications
 
   const fetchnotifications = async () => {
+    setLoading(true);
     const token = localStorage.getItem("token");
     const axios = require("axios");
     let data = JSON.stringify({
@@ -55,8 +58,11 @@ export default function NotificationsDrawer({ onNotificationChange }) {
         // console.log("notificationsData", notificationsData);
 
         if (Array.isArray(notificationsData)) {
+          setLoading(false);
           setNotifications(notificationsData);
         } else {
+          setLoading(false);
+
           // console.log("Invalid response data", response.data);
           if (response.data.error === "Invalid login credentials") {
             localStorage.clear();
@@ -68,6 +74,7 @@ export default function NotificationsDrawer({ onNotificationChange }) {
       .catch((error) => {
         console.log("error", error);
         setNotifications([]);
+        setLoading(false);
       });
   };
 
@@ -192,7 +199,15 @@ export default function NotificationsDrawer({ onNotificationChange }) {
           </SheetTitle>
         </SheetHeader>
         <ScrollArea className="h-[calc(100vh-80px)] pr-4">
-          {notifications.length === 0 ? (
+          {loading ? (
+            <div className="flex items-center space-x-4">
+              <Skeleton className="h-12 w-12 rounded-full" />
+              <div className="space-y-2">
+                <Skeleton className="h-4 w-[250px]" />
+                <Skeleton className="h-4 w-[200px]" />
+              </div>
+            </div>
+          ) : notifications.length === 0 ? (
             <span>
               <p className=" text-gray-500 mt-48 text-center text-lg ">
                 No New Notifications{" "}

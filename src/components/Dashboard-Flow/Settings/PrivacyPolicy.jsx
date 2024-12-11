@@ -4,6 +4,7 @@ import Link from "next/link";
 import SidebarLayout from "../../../components/Layouts/SideBarLayout";
 import Back from "../../../../public/svgs/back.svg";
 import Image from "next/image";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export default function privacypolicy() {
   const [PrivacyPolicy, setPrivacyPolicy] = useState("");
@@ -54,7 +55,17 @@ export default function privacypolicy() {
         <div className="flex flex-col gap-6 px-4">
           {/* Render the Privacy Policy using dangerouslySetInnerHTML */}
           {loading ? (
-            <p>Fetching Privacy Policy...</p>
+            <div className="flex mt-36  space-x-4 justify-center items-center">
+            
+              <div className="space-y-2">
+                <Skeleton className="h-4 w-[250px]" />
+                <Skeleton className="h-4 w-[200px]" />
+                <Skeleton className="h-4 w-[200px]" />
+                <Skeleton className="h-4 w-[200px]" />
+                <Skeleton className="h-4 w-[200px]" />
+
+              </div>
+            </div>
           ) : (
             <div dangerouslySetInnerHTML={{ __html: PrivacyPolicy }}></div>
           )}

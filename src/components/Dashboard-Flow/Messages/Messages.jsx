@@ -14,6 +14,8 @@ import Reportuser from "../../Popups/ReportUser";
 import Recording from "../../Popups/Recording";
 import Link from "next/link";
 import PlayAudio from "../../Popups/PlayAudio";
+import { Skeleton } from "@/components/ui/skeleton";
+
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -507,7 +509,7 @@ export default function Messages() {
         />
       )}
 
-      <div className="flex w-full  bg-white sm:h-[700px]  sm:pt-4 sm:flex-row flex-col pt-16 sm:mr-0 mr-4">
+      <div className="flex w-full  bg-white sm:h-[700px]  sm:pt-4 sm:flex-row flex-col pt-1.5 sm:mr-0 mr-4">
         <div className="sm:w-1/4 w-full md:block">
           <h1 className="text-xl text-[#049C01] font-semibold mx-6">
             Messages
@@ -527,96 +529,99 @@ export default function Messages() {
             </div>
           </div>
           <div className="overflow-y-auto flex flex-col gap-4 max-h-[calc(100vh-200px)] sm:max-h-[500px]">
-           {
-            loading ?(  <p className="text-center text-[#6E7485]">Loading Chats....</p>
-            ):(
-              filteredContacts.length > 0 ? (
-                filteredContacts.map((contact) => (
-                  <div
-                    key={contact.id}
-                    className={`flex items-start gap-3 px-4 py-2 cursor-pointer ${
-                      selectedContact === contact.id
-                        ? "bg-[#049C01] text-white"
-                        : ""
-                    }`}
-                    onClick={() =>
-                      handleContactClick(
-                        contact.id,
-                        contact.title,
-                        contact.user_id,
-                        // contact.last_msg.by_user_id,
-                        contact.is_blocked,
-                        contact.user_id,
-                        contact?.image,
-                        contact?.is_blocked
-                      )
-                    }
-                  >
-                    <div className="relative flex-shrink-0">
-                      <Image
-                        src={contact?.image || user}
-                        alt="User"
-                        width={45}
-                        height={45}
-                        loading="lazy"
-                        className="rounded-full"
-                      />
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <div className="flex justify-between items-baseline">
-                        <h2 className="font-semibold truncate">
-                          {contact.title}
-                        </h2>
-                      </div>
-                      <p
-                        className={`text-sm truncate ${
-                          selectedContact === contact.id
-                            ? "text-white "
-                            : "text-[#6E7485]"
-                        }`}
-                      >
-                        {contact.last_msg.image ? (
-                          <span>Image</span>
-                        ) : contact.last_msg.audio ? (
-                          <span>Audio</span>
-                        ) : (
-                          <span>{contact.last_msg.text}</span>
-                        )}
-                      </p>
-                    </div>
-                    <div className="text-white text-xs rounded-full gap-1 flex items-end justify-center flex-col">
-                      <span
-                        className={`text-sm truncate ${
-                          selectedContact === contact.id
-                            ? "text-white"
-                            : "text-[#6E7485]"
-                        }`}
-                      >
-                        {contact.last_msg.createdAt}
-                      </span>
-  
-                      {contact.last_msg.unreadCount > 0 && (
-                        <span className="text-xs text-white bg-[#049C01] rounded-full px-2">
-                          {contact.last_msg.unreadCount}
-                        </span>
-                      )}
-                    </div>
+            {loading ? (
+              <div className="flex items-center space-x-4">
+                <Skeleton className="h-12 w-12 rounded-full" />
+                <div className="space-y-2">
+                  <Skeleton className="h-4 w-[150px]" />
+                  <Skeleton className="h-4 w-[100px]" />
+                </div>
+              </div>
+            ) : filteredContacts.length > 0 ? (
+              filteredContacts.map((contact) => (
+                <div
+                  key={contact.id}
+                  className={`flex items-start gap-3 px-4 py-2 cursor-pointer ${
+                    selectedContact === contact.id
+                      ? "bg-[#049C01] text-white"
+                      : ""
+                  }`}
+                  onClick={() =>
+                    handleContactClick(
+                      contact.id,
+                      contact.title,
+                      contact.user_id,
+                      // contact.last_msg.by_user_id,
+                      contact.is_blocked,
+                      contact.user_id,
+                      contact?.image,
+                      contact?.is_blocked
+                    )
+                  }
+                >
+                  <div className="relative flex-shrink-0">
+                    <Image
+                      src={contact?.image || user}
+                      alt="User"
+                      width={45}
+                      height={45}
+                      loading="lazy"
+                      className="rounded-full"
+                    />
                   </div>
-                ))
-              ) : (
-                
-                <span className="flex gap-1 flex-col items-center justify-center mt-5">
-                  <p className="text-center text-[#6E7485]">No chats found</p>
+                  <div className="flex-1 min-w-0">
+                    <div className="flex justify-between items-baseline">
+                      <h2 className="font-semibold truncate">
+                        {contact.title}
+                      </h2>
+                    </div>
+                    <p
+                      className={`text-sm truncate ${
+                        selectedContact === contact.id
+                          ? "text-white "
+                          : "text-[#6E7485]"
+                      }`}
+                    >
+                      {contact.last_msg.image ? (
+                        <span>Image</span>
+                      ) : contact.last_msg.audio ? (
+                        <span>Audio</span>
+                      ) : (
+                        <span>{contact.last_msg.text}</span>
+                      )}
+                    </p>
+                  </div>
+                  <div className="text-white text-xs rounded-full gap-1 flex items-end justify-center flex-col">
+                    <span
+                      className={`text-sm truncate ${
+                        selectedContact === contact.id
+                          ? "text-white"
+                          : "text-[#6E7485]"
+                      }`}
+                    >
+                      {contact.last_msg.createdAt}
+                    </span>
 
-                    <Link href="/dashboard/contact-list">
-             
-              <button className="text-sm text-center bg-green-600 px-4 py-2 rounded-md text-white"> Start by adding contacts!</button>
-            </Link>
-                </span>
-              )
-            )
-           }
-         
+                    {contact.last_msg.unreadCount > 0 && (
+                      <span className="text-xs text-white bg-[#049C01] rounded-full px-2">
+                        {contact.last_msg.unreadCount}
+                      </span>
+                    )}
+                  </div>
+                </div>
+              ))
+            ) : (
+              <span className="flex gap-1 flex-col items-center justify-center mt-5">
+                <p className="text-center text-[#6E7485]">No chats found</p>
+
+                <Link href="/dashboard/contact-list">
+                  <button className="text-sm text-center bg-green-600 px-4 py-2 rounded-md text-white">
+                    {" "}
+                    Start by adding contacts!
+                  </button>
+                </Link>
+              </span>
+            )}
           </div>
         </div>
         {selectedContact ? (
@@ -835,8 +840,6 @@ export default function Messages() {
               {" "}
               Start a conversation !
             </p>
-
-          
           </div>
         )}
       </div>

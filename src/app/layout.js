@@ -9,9 +9,6 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      {/* <body>
-        {children}
-      </body> */}
       <ClerkProvider publishableKey="pk_test_bGVhZGluZy1zcGFycm93LTcyLmNsZXJrLmFjY291bnRzLmRldiQ">
         <body>{children}</body>
       </ClerkProvider>

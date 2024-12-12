@@ -160,11 +160,15 @@ export default function Collaborate() {
             <div className="text-[18px] font-semibold uppercase tracking-wider text-green-500">
               SEAMLESS MESSAGING
             </div>
-            <h2 className="text-[40px] md:font-semibold font-medium ">
+            <h2
+              className="text-[40px] md:font-semibold font-medium"
+              style={{ lineHeight: "normal" }}
+            >
               Connect people with high-
               <br />
               quality messaging
             </h2>
+
             <p className="text-lg text-gray-600">
               ClearLink is designed to give you a seamless messaging experience
               with unparalleled quality, clarity, and security. Connect with

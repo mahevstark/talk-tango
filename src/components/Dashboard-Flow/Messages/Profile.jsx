@@ -12,8 +12,19 @@ import { Search } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import user from "../../../../public/messages/user.svg";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useRouter } from "next/navigation";
 
 export default function profile() {
+  const router = useRouter();
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+      router.push("/");
+      return;
+    }
+  }, [router]);
+
   let userid;
 
   let convoid;

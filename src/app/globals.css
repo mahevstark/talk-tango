@@ -86,8 +86,16 @@ body {
   }
 }
 
-@media screen and (min-width: 1440px) and (max-width: 1440px) {
+@media screen and (width: 1467px) {
   .customcss {
-    padding: 14px !important; /* Remove padding */
+    padding: 0px !important;
+    padding-top: 42px !important;
+    padding-bottom: 42px !important;
+  }
+
+  .customcss2{
+    padding: 0px !important;
+    padding-top: 42px !important;
+    padding-bottom: 42px !important;
   }
 }

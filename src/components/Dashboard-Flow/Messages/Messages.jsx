@@ -24,6 +24,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 import { appendNewMsg } from "../../../../utils/Common";
+import { useRouter } from "next/navigation";
 
 import Pusher from "pusher-js";
 Pusher.logToConsole = true;
@@ -40,6 +41,16 @@ let login_data = {
 };
 
 export default function Messages() {
+  const router = useRouter();
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+      router.push("/");
+      return;
+    }
+  }, [router]);
+
   const [isMobileView, setIsMobileView] = useState(false);
   const [profilePic, setProfilePic] = useState("");
   const [newMessage, setNewMessage] = useState("");
@@ -288,8 +299,6 @@ export default function Messages() {
       });
   };
   const [file, setFile] = useState(null);
-
-  console.log("status of block user ", block);
 
   const handleKeyDown = (e) => {
     if (block == 1) {
@@ -652,7 +661,6 @@ export default function Messages() {
                   <h2 className="font-semibold text-[#1D2026]">
                     {name || "Select a chat"}
                   </h2>
-                
                 </div>
               </div>
               <div className="flex items-center">

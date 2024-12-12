@@ -8,7 +8,6 @@ import activenotification from "../../../public/svgs/activenotification.svg";
 import Image from "next/image";
 import accept from "../../../public/svgs/accept.svg";
 import { Skeleton } from "@/components/ui/skeleton";
-
 import { parseISO, formatDistanceToNow } from "date-fns";
 import reject from "../../../public/svgs/reject.svg";
 import {

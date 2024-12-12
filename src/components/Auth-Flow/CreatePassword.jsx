@@ -55,7 +55,6 @@ const CreatePassword = () => {
     axios
       .request(config)
       .then((response) => {
-     
         Router.push("/auth/login");
       })
       .catch((error) => {
@@ -173,7 +172,7 @@ const CreatePassword = () => {
                 className="w-full bg-[#049C01] hover:bg-white hover:text-[#049C01] border-2 border-[#049C01] transition-all duration-300 text-[20px] mt-[24px] font-medium text-white p-3 rounded-[90px]"
                 onClick={Signin}
               >
-                Sign in
+                Create New Password
               </motion.button>
             </Link>
           </form>

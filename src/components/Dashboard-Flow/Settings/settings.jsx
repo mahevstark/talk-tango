@@ -229,7 +229,7 @@ export default function Settings() {
         <p className="text-lg font-semibold text-[#049C01] mb-5  mt-1  sm:mt-0">
           Settings
         </p>
-        <div className="flex sm:items-center justify-between items-start">
+        <div className="flex sm:items-center gap-80 items-start">
           <div className="flex items-center gap-2">
             <div onClick={handleImageClick} className="cursor-pointer">
               <Image
@@ -273,10 +273,10 @@ export default function Settings() {
           <Button
             variant="ghost"
             size="icon"
-            className="text-green-500"
+            className="text-green-500 border w-24"
             onClick={handleEdit}
           >
-            <Image src={edit} alt="Edit" width={18} loading="lazy" />
+          {isEditing ? "Save" : "Edit Profile"}
           </Button>
         </div>
 

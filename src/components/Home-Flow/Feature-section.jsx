@@ -46,7 +46,7 @@ export default function FeatureSection() {
           <div className="relative md:w-1/2 max-md:mr-4 sm:px-16 px-4">
             {/* Background container behind the card */}
             <motion.div
-              className="absolute inset-0 bg-[#DFE1E1] rounded-2xl "
+              className="absolute inset-0 bg-[#DFE1E1] rounded-2xl left-10"
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }} // Triggering opacity change on view
               transition={{ duration: 1, delay: 0.5 }}
@@ -54,12 +54,12 @@ export default function FeatureSection() {
 
             {/* Card with translation */}
             <motion.div
-              className="relative mx-auto bg-white overflow-hidden rounded-2xl shadow-2xl transform max-md:translate-x-[15px] max-md:pr-2 max-md:translate-y-[20px] md:translate-x-[40px] md:translate-y-[50px] "
+              className="relative mx-auto bg-white overflow-hidden rounded-2xl shadow-2xl transform max-md:translate-x-[15px] max-md:pr-2 max-md:translate-y-[20px] md:translate-x-[40px] md:translate-y-[50px] sm:left-24  sm:top-16 top-4"
               initial={{ opacity: 0, scale: 0.9 }}
               whileInView={{ opacity: 1, scale: 1 }} // Triggering scale and opacity change on view
               transition={{ duration: 1, ease: "easeOut", delay: 0.6 }}
             >
-              <div className="space-y-[24px] p-6 ">
+              <div className="space-y-[24px] p-6  ">
                 <div className="mb-4 flex items-center justify-between">
                   <button className="text-gray-600">
                     <ArrowLeftIcon className="h-6 w-6" />

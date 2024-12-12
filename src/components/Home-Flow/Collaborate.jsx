@@ -173,7 +173,7 @@ export default function Collaborate() {
               platform.
             </p>
             <Link href="/auth/login">
-              <button className="rounded-full border text-[18px] font-medium p-3 border-[#049C01] bg-white text-[#049C01] hover:text-white transition-all duration-300 hover:bg-[#049C01]">
+              <button className="rounded-full border text-[18px] font-medium p-3 border-[#049C01] bg-white text-[#049C01] hover:text-white transition-all duration-300 hover:bg-[#049C01] mt-3">
                 Get Started For Free
               </button>
             </Link>

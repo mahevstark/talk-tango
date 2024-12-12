@@ -178,7 +178,7 @@ export default function paymenthistory() {
 
   return (
     <SidebarLayout>
-      <div className="flex sm:flex-row flex-col sm:mt-0  pt-1.5 ">
+      <div className="flex sm:flex-row flex-col sm:mt-0  pt-1.5 gap-4 ">
         <div className="sm:w-1/4 sm:pl-3 sm:mt-4 w-full md:block">
           <h1 className="text-xl text-[#049C01] font-semibold mx-6">
             Messages
@@ -287,10 +287,10 @@ export default function paymenthistory() {
             )}
           </div>
         </div>
-        <div className="flex w-full bg-white h-[700px] pt-4 sm:flex-row flex-col ">
+        <div className="flex w-full bg-white h-[700px] pt-4 sm:flex-row flex-col border shadow-lg rounded-lg  ">
           {/* Left Sidebar */}
           {/* <LeftLayoutMessages /> */}
-          <div className="sm:pt-0 pt-7 pl-6 sm:w-[1311px] w-auto">
+          <div className="sm:pt-0 pt-7 pl-6 sm:w-full w-full">
             <span className="flex gap-1 items-center">
               <Link href="/dashboard/messages/">
                 <Image src={Back} alt="back" width={18} loading="lazy" />
@@ -342,7 +342,7 @@ export default function paymenthistory() {
                 </div>
               ))
             ) : (
-              <div className="flex items-center justify-center mt-24 h-[50vh] text-center flex-col gap-4">
+              <div className="flex w-full items-center justify-center mt-24 h-[50vh] text-center flex-col gap-4">
                 <Image src={nopayment} alt="No Payment" />
                 <p className="text-[#666666] text-xl w-1/2">
                   It looks like you haven’t made any payments yet. Once you do,

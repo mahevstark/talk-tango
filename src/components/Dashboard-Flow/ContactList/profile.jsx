@@ -149,7 +149,7 @@ export default function profile() {
 
   return (
     <SidebarLayout>
-      <div className="flex sm:flex-row flex-col sm:mt-0 mt-1.5 ">
+      <div className="flex sm:flex-row flex-col sm:mt-0 mt-1.5 gap-4">
         <div className="sm:w-1/4 sm:pl-3 sm:mt-4 w-full md:block">
           <h1 className="text-xl text-[#049C01] font-semibold mx-6">
             Contact List
@@ -165,7 +165,7 @@ export default function profile() {
               />
             </div>
           </div>
-          <div className="overflow-y-auto flex flex-col gap-4">
+          <div className="overflow-y-auto flex flex-col gap-4 ">
             {filteredContacts.length > 0 ? (
               filteredContacts.map((contact) => (
                 <div
@@ -235,7 +235,7 @@ export default function profile() {
             )}
           </div>
         </div>
-        <div className="sm:w-[73%] bg-white w-full">
+        <div className="sm:w-[73%] bg-white w-full border shadow-lg rounded-lg min-h-screen">
           <header className="flex items-center p-4  gap-2">
             <Link href="/dashboard/contact-list/">
               {" "}
@@ -264,7 +264,7 @@ export default function profile() {
             <p className="text-[#3C3C3C] text-small">{data.about}</p>
           </div>
 
-          <div className="px-4 py-4 rounded-xl shadow-md flex justify-between items-center">
+          <div className="px-4 py-4 rounded-xl shadow-lg flex justify-between items-center border  mx-5">
             <div className="flex items-center gap-4">
               <Image src={wallet} alt="wallet" loading="lazy" />
               <span>
@@ -282,7 +282,7 @@ export default function profile() {
               </p>
             </span>
           </div>
-          <div className="p-4">
+          <div className="p-4  mx-3">
             <h3 className=" font-medium mb-2">Media</h3>
             <div className="grid grid-cols-6 gap-1">
               {medialoading ? (

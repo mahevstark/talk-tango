@@ -176,7 +176,7 @@ export default function profile() {
 
   return (
     <SidebarLayout>
-      <div className="flex sm:flex-row flex-col sm:mt-0 mt-1.5 ">
+      <div className="flex sm:flex-row flex-col sm:mt-0 mt-1.5 gap-4">
         <div className="sm:w-1/4 sm:pl-3 sm:mt-4 w-full md:block">
           <h1 className="text-xl text-[#049C01] font-semibold mx-6">
             Contact List
@@ -270,10 +270,10 @@ export default function profile() {
             )}
           </div>
         </div>
-        <div className="flex w-full bg-white h-[700px] pt-4 sm:flex-row flex-col ">
+        <div className="flex w-full bg-white h-[700px] pt-4 sm:flex-row flex-col border shadow-lg rounded-lg  ">
           {/* Left Sidebar */}
           {/* <LeftLayoutMessages /> */}
-          <div className="sm:pt-0 pt-7 pl-6 sm:w-[1311px] w-auto">
+          <div className="sm:pt-0 pt-7 pl-6 sm:w-full w-full">
             <span className="flex gap-1 items-center">
               <Link href="/dashboard/contact-list">
                 <Image src={Back} alt="back" width={18} loading="lazy" />

@@ -914,8 +914,8 @@ export default function ContactList() {
           </div>
         </div>
         {selectedContact ? (
-          <div className="flex-1 flex flex-col sm:ml-4 ml-0 sm:mr-4 mr-0 sm:h-auto  sm:mt-0 mt-12">
-            <div className="flex items-center justify-between p-4 border-b">
+          <div className="flex-1 flex flex-col sm:ml-4 ml-0 sm:mr-4 mr-0 sm:h-auto  sm:mt-0 mt-12 border shadow-lg rounded-lg">
+            <div className="flex items-center justify-between p-4 border-b ">
               <div className="flex items-center gap-3">
                 <Button
                   variant="ghost"
@@ -941,7 +941,6 @@ export default function ContactList() {
                   <h2 className="font-semibold text-[#1D2026]">
                     {name || "Select a chat"}
                   </h2>
-                  <p className="text-sm text-[#4E5566]">Online</p>
                 </div>
               </div>
               <div className="flex items-center">
@@ -982,7 +981,7 @@ export default function ContactList() {
 
             <div
               ref={chatContainerRef}
-              className="flex-1 overflow-y-auto p-4 space-y-4 max-h-[calc(100vh-200px)] sm:max-h-[500px]"
+              className="flex-1  overflow-y-auto p-4 space-y-4 max-h-[calc(100vh-200px)] sm:max-h-[500px]"
             >
               {messages.length > 0 ? (
                 messages.map((message) => (
@@ -1057,7 +1056,7 @@ export default function ContactList() {
                 <p>Unblock the User First To send Message </p>
               </div>
             ) : (
-              <div className="py-1 border-2 flex items-center gap-3 px-4 rounded-lg mt-4 sm:mb-0 mb-12">
+              <div className="py-1 mx-4 border-2 flex items-center gap-3 px-4 rounded-lg mt-12 sm:mb-0 mb-12 ">
                 <Input
                   placeholder={
                     block == 1 ? "Unblock user first" : "Type a message"

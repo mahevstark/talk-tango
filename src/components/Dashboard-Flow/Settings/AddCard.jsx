@@ -27,9 +27,7 @@ const Home = () => {
       console.log("Card has been saved");
       alert("Card has been saved");
 
-      setTimeout(() => {
-      
-      }, 2000);
+      setTimeout(() => {}, 2000);
     }
 
     if (url === `${urls.API}card_has_been_failed` && !shownSuc) {
@@ -47,13 +45,13 @@ const Home = () => {
   console.log("Generated URL to render: ", urlToRender);
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100">
+    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100 ">
       <h1 className="text-3xl font-semibold mb-5">Add Your Card Here </h1>
-      {/* Ensure token is available before rendering WebView */}
+
       {token ? (
         <iframe
           src={urlToRender}
-          className="w-full h-full"
+          className="w-full h-64"
           onLoad={(e) => {
             const currentUrl = e.target.contentWindow.location.href;
             onNavigationStateChange(currentUrl);

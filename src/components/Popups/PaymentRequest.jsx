@@ -25,7 +25,6 @@ export default function MoneyTransferPopups({ newid }) {
   const [isConfirmOpen, setIsConfirmOpen] = useState(false);
   const [sendamount, setSendAmount] = useState();
   const [password, setpassword] = useState();
-  
 
   const closeAll = () => {
     setIsMainOpen(false);
@@ -36,8 +35,6 @@ export default function MoneyTransferPopups({ newid }) {
 
   //send money api :
   const handlesendmoney = () => {
-    console.log(sendamount, password);
-
     if (sendamount != undefined && password != undefined) {
       const token = localStorage.getItem("token");
 
@@ -48,6 +45,8 @@ export default function MoneyTransferPopups({ newid }) {
         password: password,
         to_user_id: newid,
       });
+
+      console.log(data);
 
       let config = {
         method: "post",
@@ -62,13 +61,11 @@ export default function MoneyTransferPopups({ newid }) {
       axios
         .request(config)
         .then((response) => {
-          
           if (response.data.action === "success") {
             setIsConfirmOpen(true);
             setIsRequestOpen(false);
-            // console.log(JSON.stringify(response.data));
           } else {
-            alert("error");
+            console.log("error");
           }
         })
         .catch((error) => {
@@ -141,10 +138,7 @@ export default function MoneyTransferPopups({ newid }) {
       }}
     >
       <DialogTrigger asChild>
-        <Button
-          variant="outline"
-          className=" border-none bg-transparent"
-        >
+        <Button variant="outline" className=" border-none bg-transparent">
           <Image src={balance} alt="balance" loading="lazy" />
         </Button>
       </DialogTrigger>

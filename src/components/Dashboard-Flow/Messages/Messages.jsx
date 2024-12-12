@@ -625,7 +625,7 @@ export default function Messages() {
           </div>
         </div>
         {selectedContact ? (
-          <div className="flex-1 flex flex-col sm:ml-4 ml-0 sm:mr-4 mr-0 sm:h-auto  sm:mt-0 mt-12 border-l pl-4">
+          <div className="flex-1 flex flex-col sm:ml-4 ml-0 sm:mr-4 mr-0 sm:h-auto  sm:mt-0 mt-12 border-l pl-4 border shadow-lg rounded-lg">
             <div className="flex items-center justify-between p-4 border-b">
               <div className="flex items-center gap-3">
                 <Button
@@ -652,7 +652,7 @@ export default function Messages() {
                   <h2 className="font-semibold text-[#1D2026]">
                     {name || "Select a chat"}
                   </h2>
-                  <p className="text-sm text-[#4E5566]">Online</p>
+                
                 </div>
               </div>
               <div className="flex items-center">
@@ -767,7 +767,7 @@ export default function Messages() {
                 <p>Unblock the User First To send Message </p>
               </div>
             ) : (
-              <div className="py-1 border-2 flex items-center gap-3 px-4 rounded-lg mt-4 sm:mb-0 mb-12">
+              <div className="py-1 ml-1 mr-5 border-2 flex items-center gap-3 px-4 rounded-lg   sm:mb-4 mb-12">
                 <Input
                   placeholder={
                     block == 1 ? "Unblock user first" : "Type a message"

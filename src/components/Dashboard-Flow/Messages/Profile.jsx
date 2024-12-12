@@ -159,7 +159,7 @@ export default function profile() {
 
   return (
     <SidebarLayout>
-      <div className="flex sm:flex-row flex-col sm:mt-0  pt-1.5">
+      <div className="flex sm:flex-row flex-col sm:mt-0  pt-1.5 gap-4  min-h-screen">
         <div className="sm:w-1/4 sm:pl-3 sm:mt-4 w-full md:block">
           <h1 className="text-xl text-[#049C01] font-semibold mx-6">
             Messages
@@ -268,8 +268,8 @@ export default function profile() {
             )}
           </div>
         </div>
-        <div className="sm:w-[73%] bg-white w-full">
-          <header className="flex items-center p-4  gap-2">
+        <div className="sm:w-[73%] bg-white w-full border shadow-lg rounded-lg px-5 ">
+          <header className="flex items-center px-1 pt-4  gap-2">
             <Link href="/dashboard/messages">
               {" "}
               <Image src={back} alt="something" width={18} loading="lazy" />
@@ -298,7 +298,7 @@ export default function profile() {
             <p className="text-[#3C3C3C] text-small">{data.about}</p>
           </div>
 
-          <div className="px-4 py-4 rounded-xl shadow-md flex justify-between items-center">
+          <div className="px-4 py-4 rounded-xl shadow-md flex justify-between items-center border">
             <div className="flex items-center gap-4">
               <Image src={wallet} alt="wallet" loading="lazy" />
               <span>

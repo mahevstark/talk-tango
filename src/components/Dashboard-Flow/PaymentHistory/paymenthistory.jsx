@@ -97,7 +97,7 @@ export default function Page() {
             </div>
           ))
         ) : (
-          <div className="flex items-center justify-center h-[50vh] text-center flex-col gap-4">
+          <div className="flex items-center justify-center h-[50vh] text-center flex-col gap-4 mt-28 ">
             <Image src={nopayment} alt="No Payment" />
             <p className="text-[#666666] text-xl w-1/2">
               It looks like you haven’t made any payments yet. Once you do,

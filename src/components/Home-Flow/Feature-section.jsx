@@ -54,7 +54,7 @@ export default function FeatureSection() {
 
             {/* Card with translation */}
             <motion.div
-              className="relative mx-auto bg-white overflow-hidden rounded-2xl shadow-2xl transform max-md:translate-x-[15px] max-md:pr-2 max-md:translate-y-[20px] md:translate-x-[40px] md:translate-y-[50px] sm:left-24  sm:top-16 top-4"
+              className="relative mx-auto bg-white overflow-hidden rounded-2xl shadow-2xl transform max-md:translate-x-[15px] max-md:pr-2 max-md:translate-y-[20px] md:translate-x-[40px] md:translate-y-[50px] sm:left-24  sm:top-7 top-4"
               initial={{ opacity: 0, scale: 0.9 }}
               whileInView={{ opacity: 1, scale: 1 }} // Triggering scale and opacity change on view
               transition={{ duration: 1, ease: "easeOut", delay: 0.6 }}
@@ -64,23 +64,22 @@ export default function FeatureSection() {
                   <button className="text-gray-600">
                     <ArrowLeftIcon className="h-6 w-6" />
                   </button>
-                  <h3 className="text-[24px] text-center font-semibold">
+                  <h3 className="sm:text-[24px] text-center font-semibold">
                     Request For Money
                   </h3>
                   <button className="text-gray-600">
                     <XIcon className="h-6 w-6" />
                   </button>
                 </div>
-                <p className="mb-6 text-[20px] font-normal text-center text-gray-600">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi
-                  tristique leo a turpis consequat.
+                <p className="mb-6 sm:text-[20px] font-normal text-center text-gray-600">
+                Please confirm your request for funds. Once sent, the recipient will be notified and can approve or decline the transfe
                 </p>
                 <div className="mb-6 text-center">
-                  <span className="text-[32px] font-semibold text-[#049C01]">
+                  <span className="sm:text-[32px] font-semibold text-[#049C01]">
                     1500$
                   </span>
                 </div>
-                <button className="w-full p-3 rounded-[90px] text-[20px] font-normal bg-[#049C01] text-white transition-all duration-300 hover:bg-white border-2 border-[#049C01] hover:text-[#049C01]">
+                <button className="w-full p-1 sm:p-3 rounded-[90px] sm:text-[20px] font-normal bg-[#049C01] text-white transition-all duration-300 hover:bg-white border-2 border-[#049C01] hover:text-[#049C01]">
                   Send Money Request
                 </button>
               </div>
@@ -105,7 +104,7 @@ export default function FeatureSection() {
               <br /> securely, making payments a breeze.
             </p>
            <Link href="/auth/login">
-           <button className="rounded-full py-2 px-3 mt-5 sm:py-3 text-[20px] font-medium sm:px-6 border-2 border-black bg-white text-black transition-all duration-300 hover:text-white hover:border-[#049C01] hover:bg-[#049C01]">
+           <button className="rounded-full py-2  px-3 mt-5 sm:py-3 text-[20px] font-medium sm:px-6 border-2 border-black bg-white text-black transition-all duration-300 hover:text-white hover:border-[#049C01] hover:bg-[#049C01]">
               Get Started For Free
             </button></Link>
           </motion.div>

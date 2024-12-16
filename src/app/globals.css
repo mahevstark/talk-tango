@@ -86,7 +86,7 @@ body {
   }
 }
 
-@media screen and (width: 1467px) {
+@media screen and (width: 1440px) {
   .customcss {
     padding: 0px !important;
     padding-top: 42px !important;

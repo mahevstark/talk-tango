@@ -30,14 +30,14 @@ export default function herocontactus() {
 
   return (
     <Mainlayout>
-      <div className="bg-[#049C01] ">
+      <div className="bg-[#049C01]  sm:px-8 md:px-12 lg:px-12 xl:px-14  2xl:px-12 max-2xl:px-5 customcss">
         <motion.main
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, amount: 0.3 }}
           variants={staggerChildren}
           className="text-black bg-[#049C01] gap-6 
-        justify-center items-start container mx-auto flex md:flex-row max-md:flex-col px-4 sm:pt-12 sm:px-16 "
+        justify-center items-start container mx-auto flex md:flex-row max-md:flex-col px-4 sm:pt-12  "
         >
           <motion.div
             variants={fadeInUp}

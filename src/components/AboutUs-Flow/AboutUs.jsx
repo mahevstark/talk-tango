@@ -36,7 +36,7 @@ export default function aboutus() {
           whileInView="visible"
           viewport={{ once: true, amount: 0.3 }}
           variants={staggerChildren}
-          className="text-black bg-[#049C01] pt-8 md:pt-24 gap-6 sm:px-16 px-4
+          className="text-black bg-[#049C01] pt-8 md:pt-24 gap-6 sm:px-8 md:px-12 lg:px-12 xl:px-14  2xl:px-12 max-2xl:px-5 customcss
         justify-center items-start container mx-auto flex flex-col md:flex-row"
         >
           <motion.div
@@ -58,13 +58,14 @@ export default function aboutus() {
               instant messages, share photos, and transfer funds across the
               globe with just a few clicks.
             </motion.p>
-           <Link href="/">
-           <motion.button
-              className="bg-white py-2 px-6 rounded-full  text-black hover:bg-[#049C01] font-medium border border-white hover:text-white transition-colors duration-300 text-[16px] "
-              whileTap={{ scale: 0.95 }}
-            >
-              Get Started
-            </motion.button></Link>
+            <Link href="/">
+              <motion.button
+                className="bg-white py-2 px-6 rounded-full  text-black hover:bg-[#049C01] font-medium border border-white hover:text-white transition-colors duration-300 text-[16px] "
+                whileTap={{ scale: 0.95 }}
+              >
+                Get Started
+              </motion.button>
+            </Link>
           </motion.div>
           <motion.div
             variants={slideIn("right")}

@@ -233,10 +233,10 @@ export default function Settings() {
           <div className="flex items-center gap-2">
             <div onClick={handleImageClick} className="cursor-pointer">
               <Image
-                src={profileImage || user} // Default to 'user' image if profile image is not available
+                src={profileImage || user}
                 alt="User"
                 width={40}
-                height={44}
+                height={40}
                 className="rounded-full"
               />
             </div>
@@ -276,7 +276,7 @@ export default function Settings() {
             className="text-green-500 border w-24"
             onClick={handleEdit}
           >
-          {isEditing ? "Save" : "Edit Profile"}
+            {isEditing ? "Save" : "Edit Profile"}
           </Button>
         </div>
 

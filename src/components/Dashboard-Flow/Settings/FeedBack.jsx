@@ -65,7 +65,7 @@ export default function Component() {
           id=""
           rows={6}
           cols={60}
-          className="focus:outline-none border border-[#E9EAEB] resize-none rounded-2xl mt-5 p-4 text-sm w-full"
+          className="focus:outline-none border border-[#049C02] resize-none rounded-2xl mt-5 p-4 text-sm w-full"
           placeholder="Your feedback"
           onChange={(e) => setFeedback(e.target.value)}
         ></textarea>

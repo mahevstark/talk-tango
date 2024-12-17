@@ -98,4 +98,16 @@ body {
     padding-top: 42px !important;
     padding-bottom: 42px !important;
   }
+
+  .customspacing{
+    height: auto!important;
+
+    
+
+  }
+
+  .customspacing2{
+    height:100vh!important;
+  }
+  
 }

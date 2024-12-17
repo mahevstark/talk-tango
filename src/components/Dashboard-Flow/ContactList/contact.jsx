@@ -577,7 +577,7 @@ export default function ContactList() {
         />
       )}
 
-      <div className="flex w-full bg-white h-[700px] sm:pt-4 sm:flex-row flex-col mt-1.5 sm:mr-0 mr-4">
+      <div className="flex w-full  customspacing bg-white h-[700px] sm:pt-4 sm:flex-row flex-col mt-1.5 sm:mr-0 mr-4">
         <div className="sm:w-1/4 w-full md:block">
           <h1 className="text-xl text-[#049C01] font-semibold mx-6">
             Contact List
@@ -632,7 +632,7 @@ export default function ContactList() {
                       alt="User"
                       width={45}
                       height={45}
-                      className="rounded-full"
+                      className="rounded-full w-[36px] h-[37px]"
                     />
                   </div>
                   <div className="flex-1 min-w-0">
@@ -651,9 +651,9 @@ export default function ContactList() {
                       ) : contact?.last_msg?.audio ? (
                         <span>Audio</span>
                       ) : (
-                        <span>
+                        <p className="max-w-24 inline-block">
                           {contact?.last_msg?.text || "Tap to Send Message"}
-                        </span>
+                        </p>
                       )}
                     </p>
                   </div>
@@ -703,7 +703,7 @@ export default function ContactList() {
                       alt="User"
                       width={45}
                       height={45}
-                      className="rounded-full"
+                      className="rounded-full w-[36px] h-[37px]"
                       loading="lazy"
                     />
                   </div>
@@ -725,7 +725,7 @@ export default function ContactList() {
                       ) : contact?.last_msg?.audio ? (
                         <span>Audio</span>
                       ) : (
-                        <span>{contact?.last_msg?.text}</span>
+                        <span className="max-w-24 inline-block">{contact?.last_msg?.text}</span>
                       )}
                     </p>
                   </div>
@@ -753,9 +753,8 @@ export default function ContactList() {
             ) : (
               <span className="flex gap-1 flex-col items-center justify-center mt-5">
                 <p className="text-center text-sm text-[#6E7485]  w-52">
-                  {" "}
-                  It looks like you don’t have any contacts. Start by adding
-                  some friends or colleagues{" "}
+                  It look's like u didnt installed app install to fetch ur
+                  contacts or add them manually
                 </p>
               </span>
             )}
@@ -914,8 +913,8 @@ export default function ContactList() {
           </div>
         </div>
         {selectedContact ? (
-          <div className="flex-1 flex flex-col sm:ml-4 ml-0 sm:mr-4 mr-0 sm:h-auto  sm:mt-0 mt-12 border shadow-lg rounded-lg">
-            <div className="flex items-center justify-between p-4 border-b ">
+          <div className="flex-1  flex flex-col sm:ml-4 ml-0 sm:mr-4 mr-0 sm:h-auto  sm:mt-0 mt-12 border shadow-lg rounded-lg">
+            <div className="flex items-center  justify-between p-4 border-b ">
               <div className="flex items-center gap-3">
                 <Button
                   variant="ghost"
@@ -1009,7 +1008,7 @@ export default function ContactList() {
                         alt=""
                         width={32}
                         height={32}
-                        className="rounded-full"
+                        className="rounded-full w-[36px] h-[37px]"
                         loading="lazy"
                       />
                       <div
@@ -1025,7 +1024,7 @@ export default function ContactList() {
                         }`}
                       >
                         {message.text && (
-                          <p className="text-sm">{message.text}</p>
+                          <p className="text-sm  max-w-[500px]">{message.text}</p>
                         )}
 
                         {message.audio && (
@@ -1037,6 +1036,7 @@ export default function ContactList() {
                             alt="Image"
                             width={100}
                             height={100}
+                            className="rounded-md"
                             loading="lazy"
                           />
                         )}

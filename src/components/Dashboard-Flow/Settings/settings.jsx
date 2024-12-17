@@ -84,10 +84,12 @@ export default function Settings() {
         .catch((error) => console.error(error));
     }
   };
+
   const handleLogout = () => {
-    if (isClient) {
+    if (typeof window !== "undefined") {
+      // Check for client-side
       localStorage.clear();
-      router.push("/");
+      window.location.href = "/";
     }
   };
 
@@ -237,7 +239,7 @@ export default function Settings() {
                 alt="User"
                 width={40}
                 height={40}
-                className="rounded-full"
+                className="rounded-full w-[36px] h-[37px]"
               />
             </div>
             <input
@@ -286,7 +288,7 @@ export default function Settings() {
               <Link href={setting.link} key={index}>
                 <div
                   key={index}
-                  className="flex items-center justify-between p-3 rounded-full hover:shadow-md border border-[#E9EAEB]"
+                  className="flex items-center justify-between p-3 rounded-full shadow-md hover:shadow-lg border border-[#E9EAEB]"
                 >
                   <div
                     className="flex items-center gap-3"

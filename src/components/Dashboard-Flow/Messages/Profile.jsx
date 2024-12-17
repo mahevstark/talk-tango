@@ -271,7 +271,7 @@ export default function profile() {
               <span className="flex gap-1 flex-col items-center justify-center mt-5">
                 <p className="text-center text-[#6E7485]">No chats found</p>
                 <Link href="/dashboard/contact-list">
-                  <button className="text-sm text-center bg-green-600 px-4 py-2 rounded-md text-white">
+                  <button className="text-sm text-center bg-[#049C02] px-4 py-2 rounded-md text-white">
                     Start by adding contacts!
                   </button>
                 </Link>

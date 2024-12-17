@@ -36,7 +36,8 @@ export default function Hero() {
   return (
     <div className="bg-[#049C01] overflow-hidden">
       <motion.main
-        className="container mx-auto sm:px-16  customcss px-4 py-12 lg:py-20 grid gap-8 lg:gap-12 items-start lg:grid-cols-2"
+        className="container  sm:px-8 md:px-12 lg:px-12 xl:px-14  2xl:px-12
+ mx-auto  max-2xl:px-5  sm:px-13  customcss px-4 py-12 lg:py-20 grid gap-8 lg:gap-12 items-start lg:grid-cols-2"
         variants={containerVariants}
         initial="hidden"
         animate="visible"

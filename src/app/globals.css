@@ -86,7 +86,7 @@ body {
   }
 }
 
-@media screen and (width: 1467px) {
+@media screen and (width: 1440px) {
   .customcss {
     padding: 0px !important;
     padding-top: 42px !important;
@@ -98,4 +98,16 @@ body {
     padding-top: 42px !important;
     padding-bottom: 42px !important;
   }
+
+  .customspacing{
+    height: auto!important;
+
+    
+
+  }
+
+  .customspacing2{
+    height:100vh!important;
+  }
+  
 }

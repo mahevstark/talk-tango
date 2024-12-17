@@ -518,7 +518,7 @@ export default function Messages() {
         />
       )}
 
-      <div className="flex w-full  bg-white sm:h-[700px]  sm:pt-4 sm:flex-row flex-col pt-1.5 sm:mr-0 mr-4">
+      <div className="flex w-full  customspacing  bg-white sm:h-[700px]  sm:pt-4 sm:flex-row flex-col pt-1.5 sm:mr-0 mr-4">
         <div className="sm:w-1/4 w-full md:block">
           <h1 className="text-xl text-[#049C01] font-semibold mx-6">
             Messages
@@ -575,7 +575,7 @@ export default function Messages() {
                       width={45}
                       height={45}
                       loading="lazy"
-                      className="rounded-full"
+                      className="rounded-full w-[36px] h-[37px]"
                     />
                   </div>
                   <div className="flex-1 min-w-0">
@@ -596,7 +596,9 @@ export default function Messages() {
                       ) : contact.last_msg.audio ? (
                         <span>Audio</span>
                       ) : (
-                        <span>{contact.last_msg.text}</span>
+                        <span className="max-w-24 inline-block">
+                          {contact.last_msg.text}
+                        </span>
                       )}
                     </p>
                   </div>
@@ -624,7 +626,7 @@ export default function Messages() {
                 <p className="text-center text-[#6E7485]">No chats found</p>
 
                 <Link href="/dashboard/contact-list">
-                  <button className="text-sm text-center bg-green-600 px-4 py-2 rounded-md text-white">
+                  <button className="text-sm text-center bg-[#049C02] px-4 py-2 rounded-md text-white">
                     {" "}
                     Start by adding contacts!
                   </button>
@@ -634,7 +636,7 @@ export default function Messages() {
           </div>
         </div>
         {selectedContact ? (
-          <div className="flex-1 flex flex-col sm:ml-4 ml-0 sm:mr-4 mr-0 sm:h-auto  sm:mt-0 mt-12 border-l pl-4 border shadow-lg rounded-lg">
+          <div className="flex-1  customspacing2   flex flex-col sm:ml-4 ml-0 sm:mr-4 mr-0 sm:h-auto  sm:mt-0 mt-12 border-l pl-4 border shadow-lg rounded-lg 2xl: ">
             <div className="flex items-center justify-between p-4 border-b">
               <div className="flex items-center gap-3">
                 <Button
@@ -655,7 +657,7 @@ export default function Messages() {
                   width={40}
                   height={40}
                   loading="lazy"
-                  className="rounded-full"
+                  className=" rounded-full w-[36px] h-[37px]"
                 />
                 <div>
                   <h2 className="font-semibold text-[#1D2026]">
@@ -729,7 +731,7 @@ export default function Messages() {
                         alt=""
                         width={32}
                         height={32}
-                        className="rounded-full"
+                        className="rounded-full w-[36px] h-[37px]"
                         loading="lazy"
                       />
                       <div
@@ -750,11 +752,14 @@ export default function Messages() {
                             alt="Image"
                             width={100}
                             height={100}
+                            className="rounded-md"
                             loading="lazy"
                           />
                         )}
                         {message?.text && (
-                          <p className="text-sm">{message.text}</p>
+                          <p className="text-sm  max-w-[500px]">
+                            {message.text}
+                          </p>
                         )}
                         {message.audio && (
                           <PlayAudio audioUri={message.audio} />

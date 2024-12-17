@@ -254,9 +254,8 @@ export default function Component() {
             </DialogTitle>
           </DialogHeader>
           <div className="space-y-4 py-4 ">
-            <p className="text-[#3A3A3A]">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi
-              tristique leo a turpis consequat malesuada. In eu neque sit amet.
+            <p className="text-[#3A3A3A] text-left">
+            We have sent a 4-digit verification code to your registered email/phone number. Please enter the code below to proceed with account deletion
             </p>
             <div className="flex justify-center">
               <div className="space-y-4">

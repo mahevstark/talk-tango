@@ -35,6 +35,7 @@ export default function MoneyTransferPopups({ newid }) {
 
   //send money api :
   const handlesendmoney = () => {
+   
     if (sendamount != undefined && password != undefined) {
       const token = localStorage.getItem("token");
 
@@ -46,7 +47,7 @@ export default function MoneyTransferPopups({ newid }) {
         to_user_id: newid,
       });
 
-      console.log(data);
+      
 
       let config = {
         method: "post",
@@ -61,6 +62,8 @@ export default function MoneyTransferPopups({ newid }) {
       axios
         .request(config)
         .then((response) => {
+          console.log(response.data);
+          
           if (response.data.action === "success") {
             setIsConfirmOpen(true);
             setIsRequestOpen(false);
@@ -80,7 +83,12 @@ export default function MoneyTransferPopups({ newid }) {
   };
 
   // Request money API
+
+  const [amount, setAmount] = useState();
   const requestmoney = () => {
+
+
+    setAmount(sendamount);
     if (sendamount != undefined) {
       const token = localStorage.getItem("token");
 
@@ -119,6 +127,7 @@ export default function MoneyTransferPopups({ newid }) {
     setSendAmount(undefined);
   };
 
+  
   const handleBack = () => {
     setIsRequestOpen(false);
     setIsMainOpen(true);
@@ -192,8 +201,7 @@ export default function MoneyTransferPopups({ newid }) {
             <div>
               <span className="text-center text-sm w-full">
                 <p className="text-[#3A3A3A] w-56 mx-auto">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi
-                  tristique leo a turpis consequat{" "}
+                Please enter the amount  below to proceed with your money request
                 </p>
               </span>
             </div>
@@ -246,6 +254,8 @@ export default function MoneyTransferPopups({ newid }) {
               onClick={() => {
                 handlesendmoney();
               }}
+
+              className="bg-[#049C01] rounded-lg hover:bg-[#049C01]"
             >
               Send Money
             </Button>
@@ -271,7 +281,7 @@ export default function MoneyTransferPopups({ newid }) {
           <div className="flex flex-col items-center">
             <p className="text-lg font-semibold">Money Request Sent</p>
             <p className="text-[#1A1A1A] w-72 text-center">
-              Lorem ipsum dolor sit amet, consect etur adipiscing elit.
+            Your request for ${amount} has been successfully sent. The recipient will be notified shortly    
             </p>
           </div>
         </DialogContent>

@@ -84,10 +84,12 @@ export default function Settings() {
         .catch((error) => console.error(error));
     }
   };
+
   const handleLogout = () => {
-    if (isClient) {
+    if (typeof window !== "undefined") {
+      // Check for client-side
       localStorage.clear();
-      router.push("/");
+      window.location.href = "/";
     }
   };
 
@@ -233,11 +235,11 @@ export default function Settings() {
           <div className="flex items-center gap-2">
             <div onClick={handleImageClick} className="cursor-pointer">
               <Image
-                src={profileImage || user} // Default to 'user' image if profile image is not available
+                src={profileImage || user}
                 alt="User"
                 width={40}
-                height={44}
-                className="rounded-full"
+                height={40}
+                className="rounded-full w-[36px] h-[37px]"
               />
             </div>
             <input
@@ -276,7 +278,7 @@ export default function Settings() {
             className="text-green-500 border w-24"
             onClick={handleEdit}
           >
-          {isEditing ? "Save" : "Edit Profile"}
+            {isEditing ? "Save" : "Edit Profile"}
           </Button>
         </div>
 
@@ -286,7 +288,7 @@ export default function Settings() {
               <Link href={setting.link} key={index}>
                 <div
                   key={index}
-                  className="flex items-center justify-between p-3 rounded-full hover:shadow-md border border-[#E9EAEB]"
+                  className="flex items-center justify-between p-3 rounded-full shadow-md hover:shadow-lg border border-[#E9EAEB]"
                 >
                   <div
                     className="flex items-center gap-3"

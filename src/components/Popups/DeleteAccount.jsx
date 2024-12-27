@@ -1,12 +1,4 @@
 "use client";
-import { REGEXP_ONLY_DIGITS_AND_CHARS } from "input-otp";
-
-import {
-  InputOTP,
-  InputOTPGroup,
-  InputOTPSlot,
-} from "@/components/ui/input-otp";
-
 import * as React from "react";
 import { AlertTriangle, Eye, EyeOff } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -36,6 +28,7 @@ export default function Component() {
   const [otp, setOtp] = React.useState(["", "", "", ""]);
   const inputRefs = React.useRef([]);
   const router = useRouter();
+
 
   const handleChange = (value, index) => {
     const newOtp = [...otp];
@@ -71,16 +64,13 @@ export default function Component() {
 
     try {
       const response = await axios.request(config);
-  
+
       if (response.data.action == "success") {
         setError(false);
-        // console.log(response);
 
-        // console.log(JSON.stringify(response.data));
         return true;
       } else {
         setError(true);
-        // console.log(response.data.action);
 
         return false;
       }
@@ -140,7 +130,9 @@ export default function Component() {
 
           router.push("/");
         } else {
-          console.log(response.data.action);
+
+          setError(true);
+
 
           return false;
         }
@@ -148,6 +140,9 @@ export default function Component() {
       .catch((error) => {
         console.log(error);
       });
+
+
+    setError(false);
   };
 
   const formatTime = (seconds) => {
@@ -255,7 +250,7 @@ export default function Component() {
           </DialogHeader>
           <div className="space-y-4 py-4 ">
             <p className="text-[#3A3A3A] text-left">
-            We have sent a 4-digit verification code to your registered email/phone number. Please enter the code below to proceed with account deletion
+              We have sent a 4-digit verification code to your registered email/phone number. Please enter the code below to proceed with account deletion
             </p>
             <div className="flex justify-center">
               <div className="space-y-4">
@@ -278,6 +273,7 @@ export default function Component() {
                 </div>
               </div>
             </div>
+
             <div className="text-2xl font-semibold text-center  ">
               {formatTime(timeLeft)}
             </div>
@@ -285,13 +281,18 @@ export default function Component() {
               <Button
                 variant="outline"
                 size="sm"
-                className=" text-[#ACACAC] border-none"
+                className=" text-[#ACACAC] border-0 shadow-none bg-white  hover:bg-white"
                 onClick={handleNext}
               >
                 Send again
               </Button>
             </div>
           </div>
+          {error && (
+            <p className="text-red-500 text-sm text-center">
+              Invalid Otp
+            </p>
+          )}
           <DialogFooter>
             <Button
               variant="destructive"

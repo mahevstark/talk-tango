@@ -24,6 +24,7 @@ export default function Settings() {
   const [name, setName] = useState("");
   const [role, setRole] = useState("");
   const [userData, setUserData] = useState({});
+  const [loading, setloading] = useState(false);
 
   const [notifications, setNotifications] = useState();
   const [profileImage, setProfileImage] = useState("");
@@ -32,6 +33,9 @@ export default function Settings() {
   const fileInputRef = useRef(null); // Add this if you haven't already
   // Reference to the file input
   const [uploadedUrl, setUploadedUrl] = useState("");
+
+  const [uploadimage, setuploadimage] = useState("");
+
 
   useEffect(() => {
     // Ensure code only runs on the client-side
@@ -47,22 +51,43 @@ export default function Settings() {
 
       const image = localStorage.getItem("image");
       setProfileImage(image);
+
+      console.log('here is the new image', image);
+
     }
   }, []); // Only run once, after component mount
 
-  const handleEdit = () => {
+  const handleEdit = (newprofileimage) => {
     setIsEditing((prev) => !prev);
     if (isEditing && isClient) {
       const token = localStorage.getItem("token");
       const email = localStorage.getItem("email");
 
+
+
+      // localStorage.setItem('image', newprofileimage);
+
+      // console.log('the image from function passed', newprofileimage);
+
+
+      console.log('hey new image', uploadimage);
+
+
+
+
       const data = JSON.stringify({
         token: token,
         about: role,
         name: name,
-        email: email,
-        profile_pic: profileImage,
+        email: "0codehorizonai0@gmail.com",
+        profile_pic: uploadimage,
       });
+
+
+
+
+      localStorage.setItem('image', uploadimage)
+
 
       const config = {
         method: "post",
@@ -81,7 +106,7 @@ export default function Settings() {
             localStorage.setItem("about", role);
           }
         })
-        .catch((error) => console.error(error));
+        .catch((error) => console.log(error));
     }
   };
 
@@ -178,16 +203,25 @@ export default function Settings() {
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (file) {
+
+
       setProfileImage(URL.createObjectURL(file)); // Temporarily show the selected image
       handleImageUpload(file); // Trigger upload
     }
   };
 
+
+
+
   const handleImageUpload = async (file) => {
+    setloading(true);
     if (!file) {
       alert("Please select an image to upload.");
+      setloading(false);
       return;
     }
+
+
 
     const formData = new FormData();
     formData.append("photo", file);
@@ -197,7 +231,9 @@ export default function Settings() {
 
     if (!token) {
       alert("No token found. Please log in again.");
-      // Stop uploading
+
+      setloading(false);
+
       return;
     }
 
@@ -206,17 +242,44 @@ export default function Settings() {
       {
         method: "POST",
 
-        body: formData, // Send formData with the file
+        body: formData,
       }
     );
     const result = await response.json();
 
     if (result.action === "success") {
-      setProfileImage(result.filename);
-      localStorage.removeItem("image");
-      localStorage.setItem("image", result.filename);
+
+
+
+      const newProfileImage = result.filename;
+
+
+      setTimeout(() => {
+        setuploadimage(newProfileImage);
+        localStorage.setItem("image", profileImage);
+        setloading(false);
+
+      }, 1000);
+
+      console.log('file name ');
+
+      setProfileImage(newProfileImage);
+      setuploadimage(newProfileImage);
+      localStorage.setItem("image", profileImage);
+
+
+
+
+
+
+
+
+
+
     } else {
       setError("Error uploading image");
+      setloading(false);
+
     }
   };
 
@@ -227,11 +290,11 @@ export default function Settings() {
 
   return (
     <SidebarLayout>
-      <div className="sm:w-full p-4 sm:mt-4 mb-5 w-auto mt-8">
+      <div className="sm:w-full p-4 sm:mt-0 mb-5 w-auto mt-8">
         <p className="text-lg font-semibold text-[#049C01] mb-5  mt-1  sm:mt-0">
           Settings
         </p>
-        <div className="flex sm:items-center gap-80 items-start">
+        <div className="flex sm:items-center sm:gap-80 gap-10 items-start">
           <div className="flex items-center gap-2">
             <div onClick={handleImageClick} className="cursor-pointer">
               <Image
@@ -245,7 +308,7 @@ export default function Settings() {
             <input
               ref={fileInputRef}
               type="file"
-              accept="image/*"
+              accept=".jpeg, .png , .jpg"
               onChange={handleFileChange}
               className="hidden" // Hide the file input
             />
@@ -272,14 +335,32 @@ export default function Settings() {
               )}
             </div>
           </div>
-          <Button
-            variant="ghost"
-            size="icon"
-            className="text-green-500 border w-24"
-            onClick={handleEdit}
-          >
-            {isEditing ? "Save" : "Edit Profile"}
-          </Button>
+
+          {
+            loading ?
+              <Button
+                variant="ghost"
+                size="icon"
+                className="text-green-500 border w-24"
+                onClick={handleEdit}
+              >
+                Saving...
+
+
+              </Button>
+              :
+              <Button
+                variant="ghost"
+                size="icon"
+                className="text-green-500 border w-24"
+                onClick={handleEdit}
+              >
+                {isEditing ? "Save" : "Edit Profile"}
+
+
+
+              </Button>
+          }
         </div>
 
         <div className="space-y-4 mt-3 max-w-full flex justify-between gap-10 flex-col sm:flex-row">

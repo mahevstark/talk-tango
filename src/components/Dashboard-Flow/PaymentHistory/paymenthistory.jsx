@@ -48,7 +48,7 @@ export default function Page() {
 
   return (
     <SidebarLayout>
-      <div className="sm:pt-6 mt-2 pl-6 sm:w-[1311px] w-auto">
+      <div className="sm:pt-6 mt-2 pl-10  sm:w-[1311px] w-auto">
         <p className="text-[#049C01] font-semibold">Payment History</p>
 
         {loading ? (

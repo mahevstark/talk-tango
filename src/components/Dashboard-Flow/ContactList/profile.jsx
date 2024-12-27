@@ -149,7 +149,7 @@ export default function profile() {
 
   return (
     <SidebarLayout>
-      <div className="flex sm:flex-row flex-col sm:mt-0 mt-1.5 gap-4">
+      <div className="flex sm:flex-row flex-col sm:mt-0 mt-1.5 gap-4  w-full">
         <div className="sm:w-1/4 sm:pl-3 sm:mt-4 w-full md:block">
           <h1 className="text-xl text-[#049C01] font-semibold mx-6">
             Contact List
@@ -282,9 +282,9 @@ export default function profile() {
               </p>
             </span>
           </div>
-          <div className="p-4  mx-3">
+          <div className="p-4  mx-3 ">
             <h3 className=" font-medium mb-2">Media</h3>
-            <div className="grid grid-cols-6 gap-1">
+            <div className="grid grid-cols-6 gap-1 h-64 overflow-scroll ">
               {medialoading ? (
                 <div className="flex items-center space-x-4">
                   <Skeleton className="h-12 w-12 rounded-full " />
@@ -295,12 +295,11 @@ export default function profile() {
                 </div>
               ) : media && media.length > 0 ? (
                 media.map((pic, i) => (
-                  <div key={i} className="relative aspect-square">
+                  <div key={i} className="relative aspect-[10/7]">
                     <Image
                       src={pic.image}
                       alt="media"
-                      width={200}
-                      height={100}
+                      fill
                       loading="lazy"
                     />
                   </div>

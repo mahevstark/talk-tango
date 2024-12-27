@@ -51,7 +51,7 @@ export default function aboutus() {
             </motion.h1>
             <motion.p
               variants={fadeInUp}
-              className="text-lg md:text-sm text-white "
+              className="text-lg md:text-lg text-white "
             >
               Stay connected with your loved ones and manage your finances all
               in one place. SwiftConnect offers a safe and easy way to send

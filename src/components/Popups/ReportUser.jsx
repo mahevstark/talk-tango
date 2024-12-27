@@ -66,11 +66,12 @@ export default function Component({ userid, convoid }) {
           </div>
           <div className="mt-4 space-y-2">
             {[
-              "Lorem ipsum dolor sit amet",
-              "Phasellus efficitur congue",
-              "Praesent imperdiet",
-              "Aenean pharetra, arcu",
-              "Nulla nec orci ac",
+              "Spam",
+              "Harrasment",
+              "Inappropiate Content",
+              "Fake Profile",
+              "Hate Speech",
+              "Scam or Fraud"
             ].map((option, index) => (
               <div
                 key={index}

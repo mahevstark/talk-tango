@@ -98,7 +98,7 @@ export default function invite() {
                 href={option.link}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-2 p-3 rounded-full hover:shadow-lg shadow-md border border-[#E9EAEB]"
+                className="flex items-center gap-2 p-3 rounded-full hover:shadow-lg shadow-mdnp border border-[#E9EAEB]"
               >
                 <div className="flex h-6 w-6 items-center justify-center">
                   <Image src={option.icon} alt={option.text} loading="lazy" />

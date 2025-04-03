@@ -87,7 +87,7 @@ export default function LeftSidebar() {
   };
 
   return (
-    <div className="w-[2px]  sm:w-auto sm:h-[100vh]  bg-[#ECECEC] fixed top-0 left-0  z-20   ">
+    <div className="w-[2px]  sm:w-auto sm:h-[100vh]  bg-[#ECECEC] fixed top-0 left-0  z-[1px]  ">
       <button
         ref={buttonRef}
         onClick={toggleSidebar}
@@ -98,7 +98,7 @@ export default function LeftSidebar() {
 
       <div
         ref={sidebarRef}
-        className={`flex flex-col sm:h-auto  w-28 bg-[#ECECEC] border-r justify-between pt-4 transition-transform z-[100000] absolute sm:relative sm:z-0 ${
+        className={`flex flex-col sm:h-auto min-h-screen w-28 bg-[#ECECEC] border-r justify-between pt-4 transition-transform z-[100000] absolute sm:relative sm:z-0 ${
           isSidebarOpen ? "transform-none" : "transform -translate-x-full"
         } md:transform-none md:translate-x-0 md:w-28`}
       >

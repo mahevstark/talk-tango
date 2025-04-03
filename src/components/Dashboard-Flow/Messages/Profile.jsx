@@ -64,7 +64,7 @@ export default function profile() {
     axios
       .request(config)
       .then((response) => {
-        // console.log(response.data.data);
+        console.log('data form messages profile', response);
 
         setData(response.data.data);
 
@@ -170,13 +170,13 @@ export default function profile() {
 
   return (
     <SidebarLayout>
-      <div className="flex sm:flex-row flex-col sm:mt-0  pt-1.5 gap-4  min-h-screen">
+      <div className="flex sm:flex-row flex-col sm:mt-0  pt-1.5 gap-4 w-full">
         <div className="sm:w-1/4 sm:pl-3 sm:mt-4 w-full md:block">
           <h1 className="text-xl text-[#049C01] font-semibold mx-6">
             Messages
           </h1>
           <div className="p-4">
-            <div className="relative rounded-full border-[#E9EAF0] bg-[#F5F5F5]">
+            <div className="flex rounded-full border-[#E9EAF0] bg-[#F5F5F5]">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-6 text-black" />
               <Input
                 placeholder="Search..."
@@ -199,11 +199,10 @@ export default function profile() {
               filteredContacts.map((contact) => (
                 <div
                   key={contact.id}
-                  className={`flex items-start gap-3 px-4 py-2 cursor-pointer ${
-                    selectedContact === contact.id
+                  className={`flex items-start gap-3 px-4 py-2 cursor-pointer ${selectedContact === contact.id
                       ? "bg-[#049C01] text-white"
                       : ""
-                  }`}
+                    }`}
                   onClick={() =>
                     handleContactClick(
                       contact.id,
@@ -233,11 +232,10 @@ export default function profile() {
                       </h2>
                     </div>
                     <p
-                      className={`text-sm truncate ${
-                        selectedContact === contact.id
+                      className={`text-sm truncate ${selectedContact === contact.id
                           ? "text-white "
                           : "text-[#6E7485]"
-                      }`}
+                        }`}
                     >
                       {contact.last_msg.image ? (
                         <span>Image</span>
@@ -250,11 +248,10 @@ export default function profile() {
                   </div>
                   <div className="text-white text-xs rounded-full gap-1 flex items-end justify-center flex-col">
                     <span
-                      className={`text-sm truncate ${
-                        selectedContact === contact.id
+                      className={`text-sm truncate ${selectedContact === contact.id
                           ? "text-white"
                           : "text-[#6E7485]"
-                      }`}
+                        }`}
                     >
                       {contact.last_msg.createdAt}
                     </span>
@@ -296,7 +293,7 @@ export default function profile() {
                 </div>
               ) : (
                 <Image
-                  src={data.profile_pic || profilepic}
+                  src={data?.profile_pic || profilepic}
                   alt="Maryam's profile picture"
                   width={100}
                   height={100}
@@ -329,7 +326,7 @@ export default function profile() {
           </div>
           <div className="p-4 ">
             <h3 className="font-medium mb-2">Media</h3>
-            <div className="grid grid-cols-6 gap-1">
+            <div className="grid grid-cols-6 gap-1 h-64 overflow-scroll ">
               {medialoading ? (
                 <div className="flex items-center space-x-4">
                   <Skeleton className="h-12 w-12 rounded-full " />
@@ -340,12 +337,11 @@ export default function profile() {
                 </div>
               ) : media && media.length > 0 ? (
                 media.map((pic, i) => (
-                  <div key={i} className="relative aspect-square">
+                  <div key={i} className="relative aspect-[10/7]   ">
                     <Image
                       src={pic.image}
                       alt="media"
-                      width={200}
-                      height={100}
+                      fill
                       loading="lazy"
                     />
                   </div>

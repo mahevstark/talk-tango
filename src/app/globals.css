@@ -109,5 +109,16 @@ body {
   .customspacing2{
     height:100vh!important;
   }
+
+  .custommt{
+    margin-top: 12px!important;
+  }
   
+}
+audio::-webkit-media-controls-volume-slider {
+  display: none;
+}
+
+audio::-webkit-media-controls-mute-button {
+  display: none;
 }

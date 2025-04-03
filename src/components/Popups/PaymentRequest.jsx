@@ -147,7 +147,7 @@ export default function MoneyTransferPopups({ newid }) {
       }}
     >
       <DialogTrigger asChild>
-        <Button variant="outline" className=" border-none bg-transparent">
+        <Button variant="outline" className=" border-none bg-transparent ">
           <Image src={balance} alt="balance" loading="lazy" />
         </Button>
       </DialogTrigger>
@@ -158,7 +158,7 @@ export default function MoneyTransferPopups({ newid }) {
             {/* <Image src={close} alt="" /> */}
           </DialogClose>
         </DialogHeader>
-        <div className="flex flex-col  items-start">
+        <div className="flex flex-col  items-start gap-2">
           <Button
             onClick={() => {
               setIsRequestOpen(true);

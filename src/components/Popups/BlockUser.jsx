@@ -52,12 +52,7 @@ export default function Component({ name, userid, convoid, block, unblock }) {
             <h2 className="text-lg text-center font-semibold">
               {block == 1 ? "Unblock User " : "Block User"}
             </h2>
-            <button
-              onClick={handleClose}
-              className="text-gray-500 hover:text-gray-700 "
-            >
-              <X className="h-5 w-5" />
-            </button>
+           
           </div>
           <div className="mt-4">
             <p className="text-sm">

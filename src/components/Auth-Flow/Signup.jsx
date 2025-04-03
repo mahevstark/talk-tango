@@ -43,6 +43,8 @@ export default function Signup() {
       const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
       return emailRegex.test(email);
     };
+
+
     if (username === "" || password === "") {
       setError("One or more fields are empty");
       setloading(false);
@@ -57,12 +59,12 @@ export default function Signup() {
       setloading(false);
       return;
     }
+    else if (password !== showConfirmPassword) {
+      setError("Passwords not matched")
+      setloading(false);
+      return;
+    }
 
-    // else if (password !== showConfirmPassword) {
-    //   setErrorMessage("Password does not match");
-    //   setloading(false);
-
-    // }
 
     try {
       const response = await axios.post(
@@ -154,7 +156,7 @@ export default function Signup() {
         />
 
         <motion.div
-          className="w-full max-w-md space-y-6 z-10 relative overflow-y-auto h-full mt-40"
+          className="w-full max-w-md space-y-6 z-10 relative overflow-y-auto h-full justify-center flex flex-col "
           variants={staggerContainer}
           initial="initial"
           animate="animate"

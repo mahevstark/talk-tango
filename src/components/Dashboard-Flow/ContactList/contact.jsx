@@ -15,6 +15,7 @@ import audio from "../../../../public/messages/Audio.svg";
 import PlayAudio from "../../Popups/PlayAudio";
 import startchat from "../../../../public/svgs/startchat.svg";
 import { Skeleton } from "@/components/ui/skeleton";
+import PreviewImages from '../../Popups/PreviewImages'
 
 import Link from "next/link";
 
@@ -577,26 +578,26 @@ export default function ContactList() {
         />
       )}
 
-      <div className="flex w-full  customspacing bg-white h-[700px] sm:pt-4 sm:flex-row flex-col mt-1.5 sm:mr-0 mr-4">
-        <div className="sm:w-1/4 w-full md:block">
-          <h1 className="text-xl text-[#049C01] font-semibold mx-6">
+      <div className="flex w-full  customspacing bg-white sm:h-[700px] sm:pt-4 sm:flex-row flex-col mt-2.5 sm:mr-0  sm:ml-auto  ">
+        <div className="sm:w-1/4  w-full md:block">
+          <h1 className="text-xl text-[#049C01] font-semibold mx-6 ml-8">
             Contact List
           </h1>
           <div className="p-4">
-            <div className="relative rounded-full border-[#E9EAF0] bg-[#F5F5F5]">
+            <div className="flex pl-4 items-center rounded-full border-[#E9EAF0] bg-[#F5F5F5]">
               <Search
-                className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-6 text-black
+                className="h-5 w-6 text-black
 "
               />
               <Input
                 placeholder="Search..."
-                className="pl-10 w-full border-none placeholder:text-black placeholder:font-medium text-black focus:outline-none focus:ring-0 focus:border-none"
+                className=" w-full border-none placeholder:text-black placeholder:font-medium text-black focus:outline-none focus:ring-0 focus:border-none"
                 value={searchTerm}
                 onChange={handlesearching}
               />
             </div>
           </div>
-          <div className="overflow-y-auto flex flex-col gap-4 max-h-[calc(100vh-200px)] sm:max-h-[500px]">
+          <div className="overflow-y-auto flex flex-col gap-4 max-h-[calc(100vh-200px)] sm:max-h-[500px] ml-3">
             {loading ? (
               <div className="flex items-center space-x-4">
                 <Skeleton className="h-12 w-12 rounded-full" />
@@ -609,11 +610,10 @@ export default function ContactList() {
               filteredContact?.map((contact) => (
                 <div
                   key={contact.id}
-                  className={`flex items-start gap-3 px-4 py-2 cursor-pointer ${
-                    selectedContact === contact.id
-                      ? "bg-[#049C01] text-white"
-                      : ""
-                  }`}
+                  className={`flex items-start gap-3 px-4 py-2 cursor-pointer w-full ${selectedContact === contact.id
+                    ? "bg-[#049C01] text-white"
+                    : ""
+                    }`}
                   onClick={() =>
                     handleContactClick(
                       contact?.id,
@@ -635,35 +635,33 @@ export default function ContactList() {
                       className="rounded-full w-[36px] h-[37px]"
                     />
                   </div>
-                  <div className="flex-1 min-w-0">
+                  <div className="flex gap-1 w-full justify-between">
                     <div className="flex justify-between items-baseline">
                       <h2 className="font-semibold truncate">{contact.name}</h2>
                     </div>
-                    <p
-                      className={`text-sm truncate ${
-                        selectedContact === contact.id
-                          ? "text-white "
-                          : "text-[#6E7485]"
-                      }`}
+                    <span
+                      className={`text-sm truncate ${selectedContact === contact.id
+                        ? "text-white "
+                        : "text-[#6E7485]"
+                        }`}
                     >
                       {contact?.last_msg?.image ? (
                         <span>Image</span>
                       ) : contact?.last_msg?.audio ? (
                         <span>Audio</span>
                       ) : (
-                        <p className="max-w-24 inline-block">
+                        <p className="inline-block ">
                           {contact?.last_msg?.text || "Tap to Send Message"}
                         </p>
                       )}
-                    </p>
+                    </span>
                   </div>
                   <div className="text-white text-xs rounded-full gap-1 flex items-end justify-center flex-col">
                     <span
-                      className={`text-sm truncate ${
-                        selectedContact === contact.id
-                          ? "text-white"
-                          : "text-[#6E7485]"
-                      }`}
+                      className={`text-sm truncate ${selectedContact === contact.id
+                        ? "text-white"
+                        : "text-[#6E7485]"
+                        }`}
                     >
                       {contact?.last_msg?.createdAt}
                     </span>
@@ -680,11 +678,10 @@ export default function ContactList() {
               filteredContacts.map((contact) => (
                 <div
                   key={contact.id}
-                  className={`flex items-start gap-3 px-4 py-2 cursor-pointer ${
-                    selectedContact === contact.id
-                      ? "bg-[#049C01] text-white"
-                      : ""
-                  }`}
+                  className={`flex items-start gap-3 px-4 py-2 cursor-pointer ${selectedContact === contact.id
+                    ? "bg-[#049C01] text-white"
+                    : ""
+                    }`}
                   onClick={() =>
                     handleContactClicks(
                       contact?.id,
@@ -697,7 +694,7 @@ export default function ContactList() {
                     )
                   }
                 >
-                  <div className="relative flex-shrink-0">
+                  <div className=" flex-shrink-0">
                     <Image
                       src={contact?.image || user}
                       alt="User"
@@ -707,18 +704,17 @@ export default function ContactList() {
                       loading="lazy"
                     />
                   </div>
-                  <div className="flex-1 min-w-0">
+                  <div className="flex min-w-0 flex-col">
                     <div className="flex justify-between items-baseline">
                       <h2 className="font-semibold truncate">
                         {contact.title}
                       </h2>
                     </div>
                     <p
-                      className={`text-sm truncate ${
-                        selectedContact === contact.id
-                          ? "text-white "
-                          : "text-[#6E7485]"
-                      }`}
+                      className={`text-sm truncate ${selectedContact === contact.id
+                        ? "text-white "
+                        : "text-[#6E7485]"
+                        }`}
                     >
                       {contact?.last_msg?.image ? (
                         <span>Image</span>
@@ -731,11 +727,10 @@ export default function ContactList() {
                   </div>
                   <div className="text-white text-xs rounded-full gap-1 flex items-end justify-center flex-col">
                     <span
-                      className={`text-sm truncate ${
-                        selectedContact === contact.id
-                          ? "text-white"
-                          : "text-[#6E7485]"
-                      }`}
+                      className={`text-sm truncate ${selectedContact === contact.id
+                        ? "text-white"
+                        : "text-[#6E7485]"
+                        }`}
                     >
                       {contact?.last_msg?.createdAt}
                     </span>
@@ -913,7 +908,7 @@ export default function ContactList() {
           </div>
         </div>
         {selectedContact ? (
-          <div className="flex-1  flex flex-col sm:ml-4 ml-0 sm:mr-4 mr-0 sm:h-auto  sm:mt-0 mt-12 border shadow-lg rounded-lg">
+          <div className="sm:flex-1  flex flex-col sm:ml-4 ml-0 sm:mr-4 mr-0 sm:h-auto  sm:mt-0 mt-12 border shadow-lg rounded-lg  overflow-scroll h-96 ">
             <div className="flex items-center  justify-between p-4 border-b ">
               <div className="flex items-center gap-3">
                 <Button
@@ -980,24 +975,22 @@ export default function ContactList() {
 
             <div
               ref={chatContainerRef}
-              className="flex-1  overflow-y-auto p-4 space-y-4 max-h-[calc(100vh-200px)] sm:max-h-[500px]"
+              className="flex-1 sm:overflow-y-auto p-4 space-y-4  overflow-scroll  h-72"
             >
               {messages.length > 0 ? (
                 messages.map((message) => (
                   <div
                     key={message._id}
-                    className={`flex items-start gap-2 ${
-                      message.by_user_id === userid
-                        ? "justify-start"
-                        : "justify-end"
-                    }`}
+                    className={`flex items-start gap-2 ${message.by_user_id === userid
+                      ? "justify-start"
+                      : "justify-end"
+                      }`}
                   >
                     <div
-                      className={`flex gap-3 items-center ${
-                        message.by_user_id === userid
-                          ? "flex-row"
-                          : "flex-row-reverse"
-                      }`}
+                      className={`flex gap-3 items-center ${message.by_user_id === userid
+                        ? "flex-row"
+                        : "flex-row-reverse"
+                        }`}
                     >
                       <Image
                         src={
@@ -1012,16 +1005,15 @@ export default function ContactList() {
                         loading="lazy"
                       />
                       <div
-                        className={`px-4 py-2 rounded-xl ${
-                          message?.by_user_id !== userid &&
+                        className={`px-4 py-2 rounded-xl ${message?.by_user_id !== userid &&
                           !message.audio &&
                           !message.image &&
                           !message.audio
-                            ? "text-white bg-[#049C01]"
-                            : !message.audio
+                          ? "text-white bg-[#049C01]"
+                          : !message.audio
                             ? "text-black bg-none"
-                            : "text-black bg-[#f1f1f1]"
-                        }`}
+                            : "text-black"
+                          }`}
                       >
                         {message.text && (
                           <p className="text-sm  max-w-[500px]">{message.text}</p>
@@ -1031,14 +1023,15 @@ export default function ContactList() {
                           <PlayAudio audioUri={message.audio} />
                         )}
                         {message?.image && (
-                          <Image
-                            src={message.image}
-                            alt="Image"
-                            width={100}
-                            height={100}
-                            className="rounded-md"
-                            loading="lazy"
-                          />
+                          // <Image
+                          //   src={message.image}
+                          //   alt="Image"
+                          //   width={100}
+                          //   height={100}
+                          //   className="rounded-md"
+                          //   loading="lazy"
+                          // />
+                        <PreviewImages image={message.image} />
                         )}
                       </div>
                     </div>
@@ -1052,11 +1045,11 @@ export default function ContactList() {
             </div>
 
             {block == 1 ? (
-              <div className="text-red-500 text-center">
+              <div className="text-white text-center bg-[#fa5757] shadow-lg p-2">
                 <p>Unblock the User First To send Message </p>
               </div>
             ) : (
-              <div className="py-1 mx-4 border-2 flex items-center gap-3 px-4 rounded-lg mt-12 sm:mb-0 mb-12 ">
+              <div className="py-1 ml-3 mr-3 border-2 flex items-center gap-3 px-4 rounded-lg mt-12 sm:mb-2 mb-12 ">
                 <Input
                   placeholder={
                     block == 1 ? "Unblock user first" : "Type a message"

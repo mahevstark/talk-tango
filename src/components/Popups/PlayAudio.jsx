@@ -55,43 +55,26 @@ export default function CustomAudioPlayer({ audioUri }) {
   }, []);
 
   return (
-    <div className="bg-gray-800 text-white p-2 rounded-lg max-w-md mx-auto shadow-md">
-      <audio ref={audioRef} preload="auto" onTimeUpdate={handleTimeUpdate}>
+    <div className=" ">
+      <audio
+        ref={audioRef}
+        preload="auto"
+        controls
+        onTimeUpdate={handleTimeUpdate}
+        className="rounded-full"
+        controlsList="nodownload noremoteplayback no"
+      >
         <source src={audioUri} type="audio/mpeg" />
         Your browser does not support the audio element.
       </audio>
 
-      <div className="flex items-center space-x-4">
-        {/* Play/Pause Button */}
-        <button
-          onClick={togglePlayPause}
-          className="text-white focus:outline-none"
-        >
-          {isPlaying ? <IoPauseCircle size={40} /> : <IoPlayCircle size={40} />}
-        </button>
 
-        {/* Slider */}
-        <div className="w-full relative">
-          <input
-            type="range"
-            min="0"
-            max={duration || 0} // Dynamically set max to duration of audio
-            value={currentTime}
-            onChange={handleSeek} // Update currentTime on user interaction
-            className="w-full h-1 bg-gray-600 appearance-none"
-            style={{
-              WebkitAppearance: "none",
-            }}
-          />
-          {/* Circle Indicator */}
-         
-        </div>
-      </div>
+
 
       {/* Time Display */}
-      <div className="text-sm mt-2 text-end">
+      {/* <div className="text-sm mt-2 text-end">
         <span>{isNaN(currentTime) ? "0.00" : currentTime.toFixed(2)}s</span>
-      </div>
+      </div> */}
     </div>
   );
 }

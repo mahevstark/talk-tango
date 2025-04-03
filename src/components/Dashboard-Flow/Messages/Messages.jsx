@@ -15,7 +15,7 @@ import Recording from "../../Popups/Recording";
 import Link from "next/link";
 import PlayAudio from "../../Popups/PlayAudio";
 import { Skeleton } from "@/components/ui/skeleton";
-
+import PreviewImages from '../../Popups/PreviewImages'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -41,6 +41,10 @@ let login_data = {
 };
 
 export default function Messages() {
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
   const router = useRouter();
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -518,20 +522,20 @@ export default function Messages() {
         />
       )}
 
-      <div className="flex w-full  customspacing  bg-white sm:h-[700px]  sm:pt-4 sm:flex-row flex-col pt-1.5 sm:mr-0 mr-4">
-        <div className="sm:w-1/4 w-full md:block">
-          <h1 className="text-xl text-[#049C01] font-semibold mx-6">
+      <div className="flex w-full  customspacing  bg-white sm:h-[700px]  sm:pt-4 sm:flex-row flex-col pt-2.5 sm:mr-0 mr-4 sm:ml-auto">
+        <div className="sm:w-1/4 w-full md:block ">
+          <h1 className="text-xl text-[#049C01] font-semibold mx-6 ml-8 ">
             Messages
           </h1>
           <div className="p-4">
-            <div className="relative rounded-full border-[#E9EAF0] bg-[#F5F5F5]">
+            <div className="flex pl-4 items-center rounded-full border-[#E9EAF0] bg-[#F5F5F5]">
               <Search
-                className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-6 text-black 
+                className=" h-5 w-5 text-black 
 "
               />
               <Input
                 placeholder="Search..."
-                className="pl-10 w-full border-none placeholder:text-black placeholder:font-medium text-black focus:outline-none focus:ring-0 focus:border-none"
+                className="w-full border-none placeholder:text-black placeholder:font-medium text-black focus:outline-none focus:ring-0 focus:border-none"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
@@ -550,11 +554,10 @@ export default function Messages() {
               filteredContacts.map((contact) => (
                 <div
                   key={contact.id}
-                  className={`flex items-start gap-3 px-4 py-2 cursor-pointer ${
-                    selectedContact === contact.id
-                      ? "bg-[#049C01] text-white"
-                      : ""
-                  }`}
+                  className={`flex items-start gap-3 px-4 py-2 cursor-pointer ${selectedContact === contact.id
+                    ? "bg-[#049C01] text-white"
+                    : ""
+                    }`}
                   onClick={() =>
                     handleContactClick(
                       contact.id,
@@ -568,7 +571,7 @@ export default function Messages() {
                     )
                   }
                 >
-                  <div className="relative flex-shrink-0">
+                  <div className=" flex-shrink-0">
                     <Image
                       src={contact?.image || user}
                       alt="User"
@@ -585,11 +588,10 @@ export default function Messages() {
                       </h2>
                     </div>
                     <p
-                      className={`text-sm truncate ${
-                        selectedContact === contact.id
-                          ? "text-white "
-                          : "text-[#6E7485]"
-                      }`}
+                      className={`text-sm truncate ${selectedContact === contact.id
+                        ? "text-white "
+                        : "text-[#6E7485]"
+                        }`}
                     >
                       {contact.last_msg.image ? (
                         <span>Image</span>
@@ -604,11 +606,10 @@ export default function Messages() {
                   </div>
                   <div className="text-white text-xs rounded-full gap-1 flex items-end justify-center flex-col">
                     <span
-                      className={`text-sm truncate ${
-                        selectedContact === contact.id
-                          ? "text-white"
-                          : "text-[#6E7485]"
-                      }`}
+                      className={`text-sm truncate ${selectedContact === contact.id
+                        ? "text-white"
+                        : "text-[#6E7485]"
+                        }`}
                     >
                       {contact.last_msg.createdAt}
                     </span>
@@ -636,7 +637,7 @@ export default function Messages() {
           </div>
         </div>
         {selectedContact ? (
-          <div className="flex-1  customspacing2   flex flex-col sm:ml-4 ml-0 sm:mr-4 mr-0 sm:h-auto  sm:mt-0 mt-12 border-l pl-4 border shadow-lg rounded-lg 2xl: ">
+          <div className="flex-1  customspacing2  sm:flex flex-col sm:ml-4 ml-0 sm:mr-4 mr-0 sm:h-auto  sm:mt-0 mt-12 border-l  border shadow-lg rounded-lg 2xl: overflow-scroll h-5 ">
             <div className="flex items-center justify-between p-4 border-b">
               <div className="flex items-center gap-3">
                 <Button
@@ -699,28 +700,33 @@ export default function Messages() {
                   </DropdownMenuContent>
                 </DropdownMenu>
               </div>
+
+              {blocking == 1 ? (
+                null
+              ) :
+                (null)
+              }
+
             </div>
 
             <div
               ref={chatContainerRef}
-              className="flex-1 overflow-y-auto p-4 space-y-4 "
+              className="flex-1 sm:overflow-y-auto p-4 space-y-4 overflow-scroll  h-56 "
             >
               {messages.length > 0 ? (
                 messages?.map((message) => (
                   <div
                     key={message._id}
-                    className={`flex items-start gap-2 ${
-                      message.by_user_id !== userid
-                        ? "justify-end"
-                        : "justify-start"
-                    }`}
+                    className={`flex items-start gap-2 ${message.by_user_id !== userid
+                      ? "justify-end"
+                      : "justify-start"
+                      }`}
                   >
                     <div
-                      className={`flex gap-3 items-center ${
-                        message.by_user_id !== userid
-                          ? "flex-row-reverse"
-                          : "flex-row"
-                      }`}
+                      className={`flex gap-3 items-center ${message.by_user_id !== userid
+                        ? "flex-row-reverse"
+                        : "flex-row"
+                        }`}
                     >
                       <Image
                         src={
@@ -735,26 +741,26 @@ export default function Messages() {
                         loading="lazy"
                       />
                       <div
-                        className={`px-4 py-2 rounded-xl ${
-                          message?.by_user_id !== userid &&
+                        className={`px-4 py-2 rounded-xl ${message?.by_user_id !== userid &&
                           !message.audio &&
                           !message.image &&
                           !message.audio
-                            ? "text-white bg-[#049C01]"
-                            : !message.audio
+                          ? "text-white bg-[#049C01]"
+                          : !message.audio
                             ? "text-black bg-none"
                             : "text-black "
-                        }`}
+                          }`}
                       >
                         {message?.image && (
-                          <Image
-                            src={message.image}
-                            alt="Image"
-                            width={100}
-                            height={100}
-                            className="rounded-md"
-                            loading="lazy"
-                          />
+                          // <Image
+                          //   src={message.image}
+                          //   alt="Image"
+                          //   width={100}
+                          //   height={100}
+                          //   className="rounded-md"
+                          //   loading="lazy"
+                          // />
+                          <PreviewImages image={message.image} />
                         )}
                         {message?.text && (
                           <p className="text-sm  max-w-[500px]">
@@ -776,11 +782,11 @@ export default function Messages() {
             </div>
 
             {blocking == 1 ? (
-              <div className="text-red-500 text-center">
+              <div className="text-white text-center bg-[#fa5757] shadow-lg p-2">
                 <p>Unblock the User First To send Message </p>
               </div>
             ) : (
-              <div className="py-1 ml-1 mr-5 border-2 flex items-center gap-3 px-4 rounded-lg   sm:mb-4 mb-12">
+              <div className="py-1 ml-3 mr-3 border-2 flex items-center gap-3 px-4 rounded-lg   sm:mb-4 mb-12">
                 <Input
                   placeholder={
                     block == 1 ? "Unblock user first" : "Type a message"
@@ -806,9 +812,10 @@ export default function Messages() {
                   <input
                     ref={fileInputRef}
                     type="file"
-                    accept="image/*"
+                    accept=".png,.jpg,jpeg"
                     onChange={handleFileChange}
-                    className="hidden" // Hide the file input
+                    className="hidden"
+                    multiple
                   />
                 </div>
               </div>
@@ -856,6 +863,7 @@ export default function Messages() {
           </div>
         )}
       </div>
+
     </SidebarLayout>
   );
 }

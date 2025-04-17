@@ -48,12 +48,26 @@ export default function LeftSidebar() {
       isNotification: true,
     },
     {
+      name: "Leader Board",
+      href: "/dashboard/leader-board",
+      end: true,
+      activeicon: activesettings,
+      icon: settings,
+    }, {
+      name: "Earning Dashboard",
+      href: "/dashboard/earnings",
+      end: true,
+      activeicon: activesettings,
+      icon: settings,
+    },
+    {
       name: "Settings",
       href: "/dashboard/settings",
       end: true,
       activeicon: activesettings,
       icon: settings,
     },
+
   ];
 
   const toggleSidebar = () => {
@@ -98,9 +112,8 @@ export default function LeftSidebar() {
 
       <div
         ref={sidebarRef}
-        className={`flex flex-col sm:h-auto min-h-screen w-28 bg-[#ECECEC] border-r justify-between pt-4 transition-transform z-[100000] absolute sm:relative sm:z-0 ${
-          isSidebarOpen ? "transform-none" : "transform -translate-x-full"
-        } md:transform-none md:translate-x-0 md:w-28`}
+        className={`flex flex-col sm:h-auto min-h-screen w-28 bg-[#ECECEC] border-r justify-between pt-4 transition-transform z-[100000] absolute sm:relative sm:z-0 ${isSidebarOpen ? "transform-none" : "transform -translate-x-full"
+          } md:transform-none md:translate-x-0 md:w-28`}
       >
         {navigation.map((item, index) => {
           const isActive =
@@ -112,9 +125,8 @@ export default function LeftSidebar() {
             (item.name === "Contact List" &&
               pathname.includes("/contact-list"));
 
-          const itemClasses = `flex flex-col items-center justify-center p-4 gap-1 transition-colors ${
-            isActive ? "text-[#333333]" : "text-[#868686]"
-          }`;
+          const itemClasses = `flex flex-col items-center justify-center p-4 gap-1 transition-colors ${isActive ? "text-[#333333]" : "text-[#868686]"
+            }`;
 
           return (
             <Link

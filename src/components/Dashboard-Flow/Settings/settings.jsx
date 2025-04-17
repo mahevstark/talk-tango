@@ -18,6 +18,8 @@ import logout from "../../../../public/svgs/logout.svg";
 import SidebarLayout from "../../../components/Layouts/SideBarLayout";
 import { useRouter } from "next/navigation";
 import Deleteaccount from "../../../components/Popups/DeleteAccount";
+import Reward from '../../../../public/reward/reward.png'
+
 
 export default function Settings() {
   const [isEditing, setIsEditing] = useState(false);
@@ -174,6 +176,17 @@ export default function Settings() {
       link: "/dashboard/settings/change-account",
       hasSwitch: false,
       icon: bankacc,
+    }, {
+      label: "Rewards",
+      link: "/dashboard/settings/rewards",
+      hasSwitch: false,
+      icon: bankacc,
+    },
+    {
+      label: "Referrals",
+      link: "/dashboard/settings/referrals",
+      hasSwitch: false,
+      icon: Reward,
     },
     {
       label: "Privacy Policy ",

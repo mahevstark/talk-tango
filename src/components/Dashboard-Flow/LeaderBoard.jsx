@@ -2,15 +2,14 @@
 
 import { useState, useCallback, useEffect } from "react"
 import Image from "next/image"
-import { ArrowLeft } from "lucide-react"
 import { useRouter } from "next/navigation"
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Card } from "@/components/ui/card"
 import SidebarLayout from "../Layouts/SideBarLayout"
+import GlobalApi from "../../../utils/GlobalApi"
 
 const TABS = ["This week", "Last 30 days", "All time"]
 
-// Sample data for demonstration
 const TOP_USERS = [
     {
         id: 1,
@@ -60,22 +59,44 @@ export default function Leaderboard() {
     const [remainingUsersData, setRemainingUsersData] = useState(LIST_USERS)
     const [loading, setLoading] = useState(false)
 
-    useEffect(() => {
-        getData(TABS.indexOf(activeTab))
-    }, [activeTab])
+    let token = null;
 
     const getData = async (index = 0) => {
         try {
             setLoading(true)
 
-            // Simulate API call delay
-            await new Promise((resolve) => setTimeout(resolve, 500))
+            const response = await GlobalApi.getleaderboad(token);
+
+            console.log('rr', response);
+
+            if (response?.action === "success") {
+                const { topUsers, otherUsers } = response?.leaderboards;
+                const mappedTopUsers = topUsers.map(user => ({
+                    id: user.id,
+                    name: user.name,
+                    country: user.country || "Unknown",
+                    total_coins: `${(user.total_coins / 1_000_000).toFixed(1)} Million`,
+                    profile_pic: user.profile_pic || "/placeholder.svg",
+                    position: user.position,
+                }));
+
+                const mappedOtherUsers = otherUsers.map((user, i) => ({
+                    id: user.id,
+                    name: user.name,
+                    country: user.country || "Unknown",
+                    total_coins: `${user.total_coins} pts`,
+                    rank: user.rank || `$${(user.total_coins * 2).toFixed(0)}`,
+                    profile_pic: user.profile_pic || "/placeholder.svg",
+                }));
+
+                setTopUsersData(mappedTopUsers);
+                setRemainingUsersData(mappedOtherUsers);
+            }
 
             if (index === 0) {
                 setTopUsersData(TOP_USERS)
                 setRemainingUsersData(LIST_USERS)
             } else if (index === 1) {
-                // Simulate different data for different tabs
                 setTopUsersData(
                     TOP_USERS.map((user) => ({
                         ...user,
@@ -109,10 +130,12 @@ export default function Leaderboard() {
         }
     }
 
+    useEffect(() => {
+        getData(TABS.indexOf(activeTab))
+        token = localStorage.getItem('token');
+    }, [activeTab])
 
-    // Sort users by position
     const sortedTopUsers = [...topUsersData].sort((a, b) => {
-        // Custom sort to get 2nd, 1st, 3rd order
         if (a.position === 2) return -1
         if (b.position === 2) return 1
         if (a.position === 1) return -1
@@ -152,14 +175,10 @@ export default function Leaderboard() {
     return (
         <SidebarLayout>
             <div className="flex flex-col min-h-screen bg-[#049C01] w-full">
-                {/* Header */}
                 <div className="flex items-center justify-center px-4 h-[60px]">
-
                     <h1 className="text-xl font-bold text-white">Leader Boards</h1>
-                    <div className="w-10"></div> {/* Empty div for spacing */}
                 </div>
 
-                {/* Tabs */}
                 <div className="flex justify-center items-center my-4">
                     <Tabs defaultValue="This week" value={activeTab} onValueChange={setActiveTab} className="w-full max-w-full border-t border-b rounded-md">
                         <TabsList className="grid grid-cols-3 bg-[#049C01]/30 backdrop-blur-sm">
@@ -176,7 +195,6 @@ export default function Leaderboard() {
                     </Tabs>
                 </div>
 
-                {/* Loading state */}
                 {loading && (
                     <div className="absolute inset-0 flex items-center justify-center bg-black/10 z-50">
                         <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-white"></div>
@@ -184,12 +202,9 @@ export default function Leaderboard() {
                 )}
 
                 <div className="flex-1 flex flex-col">
-                    {/* Podium design */}
                     <div className="relative px-12 pt-4">
                         <div className="flex items-end h-full">
-                            {/* Map through users in the order: 2nd, 1st, 3rd */}
                             {sortedTopUsers.map((user) => {
-                                // Determine podium height based on position
                                 const podiumHeight =
                                     user.position === 1
                                         ? "h-[180px] md:h-[220px]"
@@ -197,12 +212,10 @@ export default function Leaderboard() {
                                             ? "h-[140px] md:h-[180px]"
                                             : "h-[100px] md:h-[140px]"
 
-                                // Determine width based on position
                                 const podiumWidth = user.position === 1 ? "w-[38%]" : "w-[33%]"
 
                                 return (
                                     <div key={user.id} className={`flex flex-col items-center ${podiumWidth}`}>
-                                        {/* Profile image */}
                                         <div className="relative z-10 mb-2">
                                             <div className="rounded-full overflow-hidden border-4 border-white shadow-lg w-16 h-16 md:w-20 md:h-20">
                                                 <Image
@@ -215,7 +228,6 @@ export default function Leaderboard() {
                                             </div>
                                         </div>
 
-                                        {/* User info */}
                                         <div className="text-center z-10 mb-2">
                                             <h3 className="text-white text-sm font-medium truncate max-w-[100px] md:max-w-[120px]">
                                                 {user.name}
@@ -223,7 +235,6 @@ export default function Leaderboard() {
                                             <p className="text-white/80 text-xs">{user.country}</p>
                                         </div>
 
-                                        {/* Podium */}
                                         <div
                                             className={`relative w-full ${podiumHeight} bg-[#7CDF7F] flex flex-col justify-end items-center`}
                                             style={{
@@ -231,12 +242,10 @@ export default function Leaderboard() {
                                                 marginTop: "10px",
                                             }}
                                         >
-                                            {/* Position badge */}
                                             <div className="absolute top-4 left-1/2 transform -translate-x-1/2 w-8 h-8 rounded-full bg-[#9747FF] flex items-center justify-center">
                                                 <span className="text-white font-bold">{user.position}</span>
                                             </div>
 
-                                            {/* Points */}
                                             <div className="mb-4 text-center">
                                                 <p className="text-[#049C01] font-bold">{user.total_coins}</p>
                                             </div>
@@ -247,27 +256,16 @@ export default function Leaderboard() {
                         </div>
                     </div>
 
-                    {/* Remaining users list */}
                     <div className="bg-white rounded-t-3xl flex-1 shadow-lg overflow-hidden mx-6">
                         <div className="pt-4 pb-2 px-4 border-b border-gray-100">
                             <h2 className="text-gray-800 font-semibold">Other Rankings</h2>
                         </div>
-                        <div className="h-full overflow-y-auto pb-safe max-h-[calc(100vh-520px)] md:max-h-[calc(100vh-570px)]">
-                            {remainingUsersData.length === 0 ? (
-                                <div className="flex flex-col items-center justify-center h-40">
-                                    <p className="text-center text-base text-gray-500 mt-5">No users in this timeframe</p>
-                                </div>
-                            ) : (
-                                <div className="p-2">{remainingUsersData.map(renderListItem)}</div>
-                            )}
+                        <div className="h-full overflow-y-auto">
+                            {remainingUsersData.map(renderListItem)}
                         </div>
                     </div>
                 </div>
             </div>
-
-
-
-
         </SidebarLayout>
     )
 }

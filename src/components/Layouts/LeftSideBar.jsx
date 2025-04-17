@@ -101,7 +101,7 @@ export default function LeftSidebar() {
   };
 
   return (
-    <div className="w-[2px]  sm:w-auto sm:h-[100vh]  bg-[#ECECEC] fixed top-0 left-0  z-[1px]  ">
+    <div className="w-[2px] sm:w-auto sm:h-[100vh]  bg-[#ECECEC] fixed top-0 left-0  z-[1px]  ">
       <button
         ref={buttonRef}
         onClick={toggleSidebar}

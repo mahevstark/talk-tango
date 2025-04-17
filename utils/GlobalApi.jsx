@@ -59,7 +59,31 @@ const getearning = async (token) => {
     }
 }
 
+
+const getleaderboad = async (token) => {
+    try {
+
+        let config = {
+            method: 'get',
+            maxBodyLength: Infinity,
+            url: 'https://talktango.estamart.com/api/get_leaderboard',
+            headers: {
+
+            },
+
+        };
+
+        const response = await axios.request(config);
+        return response?.data;
+    } catch (error) {
+        console.log('error getting earnign data');
+
+        return error;
+    }
+}
+
 export default {
     getReward,
-    getearning
+    getearning,
+    getleaderboad
 }

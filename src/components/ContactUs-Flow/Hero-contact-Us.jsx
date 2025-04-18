@@ -70,7 +70,7 @@ export default function herocontactus() {
             className="relative mx-auto w-full max-w-2xl"
           >
             <motion.img
-              src="assets/contact-image.png"
+              src="assets/contact-image.svg"
               alt="Contact illustration"
               className="object-contain w-full aspect-[1.18] max-md:max-w-full"
               variants={scaleIn}

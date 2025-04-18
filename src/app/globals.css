@@ -93,27 +93,23 @@ body {
     padding-bottom: 42px !important;
   }
 
-  .customcss2{
+  .customcss2 {
     padding: 0px !important;
     padding-top: 42px !important;
     padding-bottom: 42px !important;
   }
 
-  .customspacing{
-    height: auto!important;
-
-    
-
+  .customspacing {
+    height: auto !important;
   }
 
-  .customspacing2{
-    height:100vh!important;
+  .customspacing2 {
+    height: 100vh !important;
   }
 
-  .custommt{
-    margin-top: 12px!important;
+  .custommt {
+    margin-top: 12px !important;
   }
-  
 }
 audio::-webkit-media-controls-volume-slider {
   display: none;
@@ -121,4 +117,12 @@ audio::-webkit-media-controls-volume-slider {
 
 audio::-webkit-media-controls-mute-button {
   display: none;
+}
+.no-scrollbar {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* Internet Explorer 10+ */
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
 }

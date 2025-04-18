@@ -10,10 +10,11 @@ import settings from "../../../public/svgs/settings.svg";
 import activechat from "../../../public/svgs/activechat.svg";
 import activecontact from "../../../public/svgs/activecontact.svg";
 import activepayment from "../../../public/svgs/activepayment.svg";
-
+import leaderboard from '../../../public/svgs/trophy.svg'
 import activesettings from "../../../public/svgs/activesettings.svg";
 import Image from "next/image";
 import Notification from "../../components/Popups/Notification";
+import dashb from '../../../public/svgs/wallet.svg'
 
 import { useState, useEffect, useRef } from "react";
 export default function LeftSidebar() {
@@ -48,17 +49,17 @@ export default function LeftSidebar() {
       isNotification: true,
     },
     {
-      name: "Leader Board",
+      name: "LeaderBoard",
       href: "/dashboard/leader-board",
-      end: true,
-      activeicon: activesettings,
-      icon: settings,
+      end: false,
+      activeicon: leaderboard,
+      icon: leaderboard,
     }, {
       name: "Earning Dashboard",
       href: "/dashboard/earnings",
-      end: true,
-      activeicon: activesettings,
-      icon: settings,
+      end: false,
+      activeicon: dashb,
+      icon: dashb,
     },
     {
       name: "Settings",
@@ -101,7 +102,7 @@ export default function LeftSidebar() {
   };
 
   return (
-    <div className="w-[2px] sm:w-auto sm:h-[100vh]  bg-[#ECECEC] fixed top-0 left-0  z-[1px]  ">
+    <div className="w-[2px] sm:w-auto sm:h-[100vh]  bg-[#ECECEC] fixed top-0 left-0  z-[1px]  overflow-scroll no-scrollbar">
       <button
         ref={buttonRef}
         onClick={toggleSidebar}
@@ -123,7 +124,7 @@ export default function LeftSidebar() {
               pathname.startsWith("/dashboard/messages") &&
               !pathname.includes("contact-list")) ||
             (item.name === "Contact List" &&
-              pathname.includes("/contact-list"));
+              pathname.includes("/contact-list")) || (item.name === "LeaderBoard" && pathname.startsWith("/Leaderboard"));
 
           const itemClasses = `flex flex-col items-center justify-center p-4 gap-1 transition-colors ${isActive ? "text-[#333333]" : "text-[#868686]"
             }`;

@@ -2,7 +2,7 @@
 import Link from "next/link";
 import SidebarLayout from "../../../components/Layouts/SideBarLayout";
 import Back from "../../../../public/svgs/back.svg";
-import noblocked from "../../../../public/svgs/noblocked.jpg";
+import noblock from "../../../../public/svgs/noblock.svg";
 
 import Image from "next/image";
 import { useState, useEffect } from "react";
@@ -137,7 +137,7 @@ export default function Component() {
             ))
           ) : (
             <div className="w-full flex  flex-col items-center  justify-center ">
-              <Image src={noblocked} alt="No blocked users" width={200} />
+              <Image src={noblock} alt="No blocked users" width={400} />
               <p className="text-xl font-semibold"> No blocked users found</p>
             </div>
           )}

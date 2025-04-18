@@ -61,79 +61,211 @@ export default function Leaderboard() {
 
     let token = null;
 
+    // const getData = async (index = 0) => {
+    //     try {
+    //         setLoading(true)
+
+    //         const response = await GlobalApi.getleaderboad(token);
+
+    //         console.log('rr', response);
+
+    //         if (response?.action === "success") {
+    //             const { topUsers, otherUsers } = response?.leaderboards;
+    //             const mappedTopUsers = topUsers.map(user => ({
+    //                 id: user.id,
+    //                 name: user.name,
+    //                 country: user.country || "Unknown",
+    //                 total_coins: `${(user.total_coins / 1_000_000).toFixed(1)} Million`,
+    //                 profile_pic: user.profile_pic || "/placeholder.svg",
+    //                 position: user.position,
+    //             }));
+
+    //             const mappedOtherUsers = otherUsers.map((user, i) => ({
+    //                 id: user.id,
+    //                 name: user.name,
+    //                 country: user.country || "Unknown",
+    //                 total_coins: `${user.total_coins} pts`,
+    //                 rank: user.rank || `$${(user.total_coins * 2).toFixed(0)}`,
+    //                 profile_pic: user.profile_pic || "/placeholder.svg",
+    //             }));
+
+    //             setTopUsersData(mappedTopUsers);
+    //             setRemainingUsersData(mappedOtherUsers);
+    //         }
+
+    //         if (index === 0) {
+    //             setTopUsersData(TOP_USERS)
+    //             setRemainingUsersData(LIST_USERS)
+    //         } else if (index === 1) {
+    //             setTopUsersData(
+    //                 TOP_USERS.map((user) => ({
+    //                     ...user,
+    //                     total_coins: `${Math.floor(Math.random() * 15) + 5} Million`,
+    //                 })),
+    //             )
+    //             setRemainingUsersData(
+    //                 LIST_USERS.map((user) => ({
+    //                     ...user,
+    //                     total_coins: `${Math.floor(Math.random() * 4000) + 1000} pts`,
+    //                 })),
+    //             )
+    //         } else if (index === 2) {
+    //             setTopUsersData(
+    //                 TOP_USERS.map((user) => ({
+    //                     ...user,
+    //                     total_coins: `${Math.floor(Math.random() * 50) + 20} Million`,
+    //                 })),
+    //             )
+    //             setRemainingUsersData(
+    //                 LIST_USERS.map((user) => ({
+    //                     ...user,
+    //                     total_coins: `${Math.floor(Math.random() * 10000) + 5000} pts`,
+    //                 })),
+    //             )
+    //         }
+    //     } catch (error) {
+    //         console.error("Error fetching leaderboard data:", error)
+    //     } finally {
+    //         setLoading(false)
+    //     }
+    // }
+    // const getData = async (index = 0) => {
+    //     try {
+    //         setLoading(true);
+
+    //         const response = await GlobalApi.getleaderboad(token);
+
+
+
+    //         if (response?.action === "success") {
+    //             const leaderboards = response?.leaderboards;
+
+    //             // Determine which leaderboard to use based on the active tab
+    //             let selectedLeaderboard;
+    //             if (index === 0) {
+    //                 selectedLeaderboard = leaderboards?.week;
+    //             } else if (index === 1) {
+    //                 selectedLeaderboard = leaderboards?.month;
+    //             } else if (index === 2) {
+    //                 selectedLeaderboard = leaderboards?.all;
+    //             }
+
+    //             const { top_users, remaining_users } = selectedLeaderboard;
+
+    //             // Map top_users and remaining_users
+    //             const mappedTopUsers = top_users.map(user => ({
+    //                 id: user.id,
+    //                 name: user.name,
+    //                 country: user.country || "Unknown",
+    //                 total_coins: `${(user.total_coins / 1_000_000).toFixed(1)} Million`,
+    //                 profile_pic: user.profile_pic || "/placeholder.svg",
+    //                 position: user.position,
+    //             }));
+
+    //             const mappedOtherUsers = remaining_users.map(user => ({
+    //                 id: user.id,
+    //                 name: user.name,
+    //                 country: user.country || "Unknown",
+    //                 total_coins: `${user.total_coins} pts`,
+    //                 rank: user.rank || `$${(user.total_coins * 2).toFixed(0)}`,
+    //                 profile_pic: user.profile_pic || "/placeholder.svg",
+    //             }));
+
+    //             // Set data according to the selected tab
+    //             setTopUsersData(mappedTopUsers);
+    //             setRemainingUsersData(mappedOtherUsers);
+    //         } else {
+    //             // Default data if the response doesn't contain leaderboard data
+    //             if (index === 0) {
+    //                 setTopUsersData(TOP_USERS);
+    //                 setRemainingUsersData(LIST_USERS);
+    //             } else if (index === 1) {
+    //                 setTopUsersData(
+    //                     TOP_USERS.map((user) => ({
+    //                         ...user,
+    //                         total_coins: `${Math.floor(Math.random() * 15) + 5} Million`,
+    //                     }))
+    //                 );
+    //                 setRemainingUsersData(
+    //                     LIST_USERS.map((user) => ({
+    //                         ...user,
+    //                         total_coins: `${Math.floor(Math.random() * 4000) + 1000} pts`,
+    //                     }))
+    //                 );
+    //             } else if (index === 2) {
+    //                 setTopUsersData(
+    //                     TOP_USERS.map((user) => ({
+    //                         ...user,
+    //                         total_coins: `${Math.floor(Math.random() * 50) + 20} Million`,
+    //                     }))
+    //                 );
+    //                 setRemainingUsersData(
+    //                     LIST_USERS.map((user) => ({
+    //                         ...user,
+    //                         total_coins: `${Math.floor(Math.random() * 10000) + 5000} pts`,
+    //                     }))
+    //                 );
+    //             }
+    //         }
+    //     } catch (error) {
+    //         console.error("Error fetching leaderboard data:", error);
+    //     } finally {
+    //         setLoading(false);
+    //     }
+    // };
+
     const getData = async (index = 0) => {
         try {
-            setLoading(true)
-
+            setLoading(true);
+            token = localStorage?.getItem('token');
             const response = await GlobalApi.getleaderboad(token);
 
-            console.log('rr', response);
+            if (response?.action === 'success') {
+                // pick the right slice by tab
+                const key = index === 0
+                    ? 'week'
+                    : index === 1
+                        ? 'month'
+                        : 'all';
 
-            if (response?.action === "success") {
-                const { topUsers, otherUsers } = response?.leaderboards;
-                const mappedTopUsers = topUsers.map(user => ({
-                    id: user.id,
-                    name: user.name,
-                    country: user.country || "Unknown",
-                    total_coins: `${(user.total_coins / 1_000_000).toFixed(1)} Million`,
-                    profile_pic: user.profile_pic || "/placeholder.svg",
-                    position: user.position,
+                const { top_users, remaining_users } = response?.leaderboards[key] || { top_users: [], remaining_users: [] };
+
+
+                // map top users
+                const mappedTop = top_users?.map(u => ({
+                    id: u.id,
+                    name: u.name,
+                    country: u.country || 'Unknown',
+                    total_coins: `${u.total_coins} pts`,      // or format to millions if you want
+                    profile_pic: u.profile_pic || '/placeholder.svg',
+                    position: u.position,
                 }));
 
-                const mappedOtherUsers = otherUsers.map((user, i) => ({
-                    id: user.id,
-                    name: user.name,
-                    country: user.country || "Unknown",
-                    total_coins: `${user.total_coins} pts`,
-                    rank: user.rank || `$${(user.total_coins * 2).toFixed(0)}`,
-                    profile_pic: user.profile_pic || "/placeholder.svg",
+                // map remaining users
+                const mappedRemain = remaining_users?.map(u => ({
+                    id: u.id,
+                    name: u.name,
+                    country: u.country || 'Unknown',
+                    total_coins: `${u.total_coins} pts`,
+                    rank: u.rank != null ? u.rank : `#${u.position || '?'}`,
+                    profile_pic: u.profile_pic || '/placeholder.svg',
                 }));
 
-                setTopUsersData(mappedTopUsers);
-                setRemainingUsersData(mappedOtherUsers);
+                setTopUsersData(mappedTop);
+                setRemainingUsersData(mappedRemain);
             }
-
-            if (index === 0) {
-                setTopUsersData(TOP_USERS)
-                setRemainingUsersData(LIST_USERS)
-            } else if (index === 1) {
-                setTopUsersData(
-                    TOP_USERS.map((user) => ({
-                        ...user,
-                        total_coins: `${Math.floor(Math.random() * 15) + 5} Million`,
-                    })),
-                )
-                setRemainingUsersData(
-                    LIST_USERS.map((user) => ({
-                        ...user,
-                        total_coins: `${Math.floor(Math.random() * 4000) + 1000} pts`,
-                    })),
-                )
-            } else if (index === 2) {
-                setTopUsersData(
-                    TOP_USERS.map((user) => ({
-                        ...user,
-                        total_coins: `${Math.floor(Math.random() * 50) + 20} Million`,
-                    })),
-                )
-                setRemainingUsersData(
-                    LIST_USERS.map((user) => ({
-                        ...user,
-                        total_coins: `${Math.floor(Math.random() * 10000) + 5000} pts`,
-                    })),
-                )
-            }
-        } catch (error) {
-            console.error("Error fetching leaderboard data:", error)
+        } catch (err) {
+            console.error('Error fetching leaderboard:', err);
         } finally {
-            setLoading(false)
+            setLoading(false);
         }
-    }
+    };
 
     useEffect(() => {
-        getData(TABS.indexOf(activeTab))
-        token = localStorage.getItem('token');
-    }, [activeTab])
+        token = localStorage?.getItem('token');
+        getData(TABS.indexOf(activeTab));
+    }, [activeTab]);
+
 
     const sortedTopUsers = [...topUsersData].sort((a, b) => {
         if (a.position === 2) return -1
@@ -256,14 +388,23 @@ export default function Leaderboard() {
                         </div>
                     </div>
 
-                    <div className="bg-white rounded-t-3xl flex-1 shadow-lg overflow-hidden mx-6">
+
+                    {/* …inside your render, replace the “Other Rankings” container with: */}
+
+                    <div className="bg-white rounded-t-3xl flex flex-col h-56 overflow-scroll shadow-lg mx-6">
                         <div className="pt-4 pb-2 px-4 border-b border-gray-100">
                             <h2 className="text-gray-800 font-semibold">Other Rankings</h2>
                         </div>
-                        <div className="h-full overflow-y-auto">
-                            {remainingUsersData.map(renderListItem)}
+
+                        {/* make this area take all remaining space and scroll */}
+                        <div className="flex-1 overflow-y-auto">
+
+                            {
+                                remainingUsersData?.length === 0 ? <p className="text-center">No other Rankings Available</p> : remainingUsersData?.map(renderListItem)
+                            }
                         </div>
                     </div>
+
                 </div>
             </div>
         </SidebarLayout>

@@ -10,6 +10,7 @@ import accept from "../../../public/svgs/accept.svg";
 import { Skeleton } from "@/components/ui/skeleton";
 import { parseISO, formatDistanceToNow } from "date-fns";
 import reject from "../../../public/svgs/reject.svg";
+import demonotif from '../../../public/svgs/demonotif.svg'
 import {
   Sheet,
   SheetContent,
@@ -215,6 +216,8 @@ export default function NotificationsDrawer({ onNotificationChange }) {
                 You’re all caught up! Check back later for new updates or
                 messages
               </p>
+
+              <Image src={demonotif} alt="notifications" width={200} className="mx-auto py-4" />
             </span>
           ) : (
             notifications.map((notification) => (
@@ -240,16 +243,14 @@ export default function NotificationsDrawer({ onNotificationChange }) {
                         {notification.p_status === "0" &&
                           ` sent you a Payment Request of $${notification.amount}`}
                         {notification.p_status === "2" &&
-                          ` Payment Request was ${
-                            notification.request_status === "1"
-                              ? "approved"
-                              : "rejected"
+                          ` Payment Request was ${notification.request_status === "1"
+                            ? "approved"
+                            : "rejected"
                           }`}
                         {notification.p_status === "1" &&
-                          ` Payment Request was ${
-                            notification.request_status === "1"
-                              ? "approved"
-                              : "rejected"
+                          ` Payment Request was ${notification.request_status === "1"
+                            ? "approved"
+                            : "rejected"
                           }`}
                       </p>
 

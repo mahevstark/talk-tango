@@ -49,14 +49,16 @@ export default function header() {
       >
         <div className="flex gap-10 items-center">
           <Link className="flex items-center space-x-2 text-white" href="/">
-            <motion.img
+            {/* <motion.img
               className=""
               src="/assets/tango-logo.png"
               alt="Logo"
               initial={{ y: -30 }}
               animate={{ y: 0 }}
               transition={{ duration: 0.5 }}
-            />
+            /> */}
+
+            <h1 className="text-2xl font-semibold">GranaME</h1>
           </Link>
           <motion.nav className="hidden items-center space-x-8 lg:flex">
             {navItems.map((item, index) => (
@@ -92,11 +94,10 @@ export default function header() {
             >
               <Link href={item.path}>
                 <button
-                  className={`hidden bg-[#049C01] transition-all duration-300 px-3 py-1 text-[20px]  lg:inline-flex ${
-                    index === 1
-                      ? "rounded-full border text-black bg-white "
-                      : "text-white "
-                  }`}
+                  className={`hidden bg-[#049C01] transition-all duration-300 px-3 py-1 text-[20px]  lg:inline-flex ${index === 1
+                    ? "rounded-full border text-black bg-white "
+                    : "text-white "
+                    }`}
                 >
                   {item.name}
                 </button>

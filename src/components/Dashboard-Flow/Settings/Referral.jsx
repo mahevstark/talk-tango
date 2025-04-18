@@ -83,7 +83,7 @@ export default function ReferralPage() {
         router.push('/dashboard/messages')
     }, [router])
     return (
-        <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white flex justify-center py-8 px-4 sm:px-6 lg:px-8">
+        <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white flex justify-center py-8 px-4 sm:px-6 lg:px-8 flex-col">
             <div className="w-full ">
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
@@ -131,66 +131,7 @@ export default function ReferralPage() {
                     </div>
                 </motion.div>
 
-                <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5, delay: 0.2 }}
-                    className="bg-[#F3F3F3] rounded-xl shadow-lg overflow-hidden"
-                >
-                    <div className="p-4 border-b border-gray-100">
-                        <h3 className="text-xl font-semibold text-gray-800 mb-4">Invite a friend</h3>
-                        <div className="relative">
-                            <input
-                                type="text"
-                                placeholder="Search contacts..."
-                                value={searchQuery}
-                                onChange={(e) => setSearchQuery(e.target.value)}
-                                className="w-full pl-10 pr-4 py-3 bg-gray-100 rounded-lg focus:outline-none focus:ring-2 border focus:ring-green-500 focus:bg-white transition-all"
-                            />
-                            <Search className="absolute left-3 top-3.5 h-5 w-5 text-gray-400" />
-                        </div>
-                    </div>
 
-                    <div className="divide-y divide-gray-100 max-h-[400px] overflow-y-auto">
-                        {filteredContacts.map((contact) => (
-                            <motion.div
-                                key={contact.id}
-                                initial={{ opacity: 0 }}
-                                animate={{ opacity: 1 }}
-                                transition={{ duration: 0.3 }}
-                                className="flex items-center justify-between p-4 hover:bg-gray-50"
-                            >
-                                <div className="flex items-center">
-                                    <div className="relative h-12 w-12 rounded-full overflow-hidden border-2 border-gray-200">
-                                        <Image src={contact.image || "/placeholder.svg"} alt={contact.name} fill className="object-cover" />
-                                    </div>
-                                    <div className="ml-3">
-                                        <p className="font-medium text-gray-800">{contact.name}</p>
-                                        <p className="text-sm text-gray-500">{contact.platform}</p>
-                                    </div>
-                                </div>
-                                {contact.status === "pending" ? (
-                                    <motion.button
-                                        whileHover={{ scale: 1.05 }}
-                                        whileTap={{ scale: 0.95 }}
-                                        onClick={() => handleInvite(contact.id)}
-                                        className="px-4 py-1.5 bg-green-600 text-white text-sm font-medium rounded-full hover:bg-green-700 transition-colors"
-                                    >
-                                        Invite
-                                    </motion.button>
-                                ) : (
-                                    <span className="px-4 py-1.5 bg-gray-600 text-white text-sm font-medium rounded-full">Accepted</span>
-                                )}
-                            </motion.div>
-                        ))}
-                    </div>
-
-                    <div className="p-4 bg-gray-50 border-t border-gray-100">
-                        <p className="text-center text-sm text-gray-500">
-                            You've invited <span className="font-medium text-green-600">2</span> friends so far
-                        </p>
-                    </div>
-                </motion.div>
 
                 <motion.div
                     initial={{ opacity: 0 }}
@@ -255,6 +196,10 @@ export default function ReferralPage() {
                     </motion.div>
                 )}
             </AnimatePresence>
+
+            <motion.div className="mx-auto">
+                <Image src='/reward/coins.svg' width={400} height={400} alt="img" />
+            </motion.div>
         </div>
     )
 }

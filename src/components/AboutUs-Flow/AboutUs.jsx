@@ -72,7 +72,7 @@ export default function aboutus() {
             className="relative mx-auto w-full md:w-1/2 mt-8 md:mt-0 flex justify-center items-center"
           >
             <img
-              src="assets/contact-image.png"
+              src="assets/contact-image.svg"
               alt="Contact illustration"
               className="object-contain w-full md:w-3/4 lg:w-2/3 h-auto"
             />

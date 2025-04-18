@@ -19,6 +19,9 @@ import SidebarLayout from "../../../components/Layouts/SideBarLayout";
 import { useRouter } from "next/navigation";
 import Deleteaccount from "../../../components/Popups/DeleteAccount";
 import Reward from '../../../../public/reward/reward.png'
+import gifts from '../../../../public/svgs/gift.svg'
+import users from '../../../../public/svgs/users.svg'
+
 
 
 export default function Settings() {
@@ -44,8 +47,18 @@ export default function Settings() {
     if (typeof window !== "undefined") {
       setIsClient(true);
       const name = localStorage.getItem("name");
-      const role = localStorage.getItem("about");
-      const userData = JSON.parse(localStorage.getItem("usersdata"));
+      const role = localStorage?.getItem("about");
+      let userData = null;
+      const rawData = localStorage.getItem("usersdata");
+
+      if (rawData) {
+        try {
+          userData = JSON.parse(rawData);
+        } catch (error) {
+          console.log("Invalid JSON in localStorage for 'usersdata':", error);
+        }
+      }
+
       setNotifications(userData?.notification_status === "1" ? true : false);
       setUserData(userData);
       setName(name);
@@ -180,13 +193,13 @@ export default function Settings() {
       label: "Rewards",
       link: "/dashboard/settings/rewards",
       hasSwitch: false,
-      icon: bankacc,
+      icon: gifts,
     },
     {
       label: "Referrals",
       link: "/dashboard/settings/referrals",
       hasSwitch: false,
-      icon: Reward,
+      icon: users,
     },
     {
       label: "Privacy Policy ",

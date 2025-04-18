@@ -1031,7 +1031,7 @@ export default function ContactList() {
                           //   className="rounded-md"
                           //   loading="lazy"
                           // />
-                        <PreviewImages image={message.image} />
+                          <PreviewImages image={message.image} />
                         )}
                       </div>
                     </div>

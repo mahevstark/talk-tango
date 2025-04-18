@@ -7,10 +7,7 @@ export default function Footer() {
       <div className="container mx-auto sm:px-4 py-6">
         <div className="flex flex-col items-center justify-between space-y-4 md:flex-row md:space-y-0">
           <Link href="/">
-            <img
-              className="flex items-center space-x-4"
-              src="/svgs/footer-logo.svg"
-            ></img>
+            <h1 className="text-2xl font-semibold text-[#049C01]">GranaME</h1>
           </Link>
           <nav className="flex space-x-6 ">
             <Link
@@ -66,7 +63,7 @@ export default function Footer() {
           </div>
 
           <div className="text-sm text-gray-600">
-            ©All Right Reserves. Talk Tango {new Date().getFullYear()}
+            ©All Right Reserves. GranaME {new Date().getFullYear()}
           </div>
         </div>
       </div>

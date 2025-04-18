@@ -15,6 +15,7 @@ import Errorpopup from "../.../../../components/Popups/ErrorPopup";
 
 export default function Signup() {
   const [showPassword, setShowPassword] = useState(false);
+  const [confirmPass, setConfirmPass] = useState("");
 
   const [username, setusername] = useState("");
   const [password, setpassword] = useState("");
@@ -59,7 +60,10 @@ export default function Signup() {
       setloading(false);
       return;
     }
-    else if (password !== showConfirmPassword) {
+
+
+    else if (password !== confirmPass) {
+
       setError("Passwords not matched")
       setloading(false);
       return;
@@ -222,6 +226,9 @@ export default function Signup() {
                 placeholder="Confirm Password"
                 required
                 className="w-full border rounded-[90px] p-3 pl-10 focus:outline-[#049C01]"
+                onChange={(e) => {
+                  setConfirmPass(e.target.value)
+                }}
               />
               <span
                 className="absolute right-3 cursor-pointer text-gray-500"

@@ -184,7 +184,7 @@ export default function Component() {
               </span>
               <span className="text-black">
                 We're sorry to see you go. If you're sure you want to delete
-                your Talk Tango account, please be aware that this action is
+                your GramaMe account, please be aware that this action is
                 permanent and can't be undone. All of your personal information,
                 including your jokes and settings, will be permanently deleted.
               </span>
@@ -193,7 +193,7 @@ export default function Component() {
                 please reach out to us at{" "}
                 <span className="font-medium">[contact email]</span> or support
                 page before proceeding with the account deletion. We'd love to
-                help you resolve any issues and keep you as a valued Talk Tango
+                help you resolve any issues and keep you as a valued GramaMe
                 user.
               </span>
             </DialogDescription>

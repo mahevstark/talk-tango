@@ -189,7 +189,7 @@ export default function Collaborate() {
             {/* Card with image */}
             <img
               className="z-10 h-full transform max-md:translate-x-4 max-md:translate-y-7 md:translate-x-[20px] rounded-[30px] md:translate-y-[30px] w-full"
-              src="svgs/collab.svg"
+              src="assets/landing-page.svg"
             />
           </div>
         </motion.div>

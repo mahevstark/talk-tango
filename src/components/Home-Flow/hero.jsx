@@ -84,9 +84,9 @@ export default function Hero() {
             variants={imageVariants}
           >
             <motion.img
-              alt="Talk Tango interface preview"
+              alt="granme interface preview"
               className="object-cover w-full h-full"
-              src="assets/landing-page.png"
+              src="assets/landing-page.svg"
               initial={{ scale: 1.2 }}
               animate={{ scale: 1 }}
               transition={{ duration: 1.5, ease: [0.6, -0.05, 0.01, 0.99] }}

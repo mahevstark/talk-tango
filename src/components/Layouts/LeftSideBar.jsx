@@ -15,6 +15,9 @@ import activesettings from "../../../public/svgs/activesettings.svg";
 import Image from "next/image";
 import Notification from "../../components/Popups/Notification";
 import dashb from '../../../public/svgs/wallet.svg'
+import activedashb from '../../../public/svgs/activewallet.svg'
+import activeleaderboard from '../../../public/svgs/activetrophy.svg'
+
 
 import { useState, useEffect, useRef } from "react";
 export default function LeftSidebar() {
@@ -52,13 +55,13 @@ export default function LeftSidebar() {
       name: "LeaderBoard",
       href: "/dashboard/leader-board",
       end: false,
-      activeicon: leaderboard,
+      activeicon: activeleaderboard,
       icon: leaderboard,
     }, {
       name: "Earning Dashboard",
       href: "/dashboard/earnings",
       end: false,
-      activeicon: dashb,
+      activeicon: activedashb,
       icon: dashb,
     },
     {
@@ -119,12 +122,17 @@ export default function LeftSidebar() {
         {navigation.map((item, index) => {
           const isActive =
             pathname === item.href ||
-            (item.name === "Settings" && pathname.startsWith("/settings")) ||
+            (item.name === "Settings" && pathname.startsWith("/dashboard/settings")) ||
             (item.name === "All Chats" &&
               pathname.startsWith("/dashboard/messages") &&
               !pathname.includes("contact-list")) ||
             (item.name === "Contact List" &&
-              pathname.includes("/contact-list")) || (item.name === "LeaderBoard" && pathname.startsWith("/Leaderboard"));
+              pathname.includes("/dashboard/contact-list")) ||
+            (item.name === "LeaderBoard" &&
+              pathname.startsWith("/dashboard/leader-board")) ||
+            (item.name === "Earning Dashboard" &&
+              pathname.startsWith("/dashboard/earnings"));
+
 
           const itemClasses = `flex flex-col items-center justify-center p-4 gap-1 transition-colors ${isActive ? "text-[#333333]" : "text-[#868686]"
             }`;

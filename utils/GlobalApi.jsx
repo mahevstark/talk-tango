@@ -33,7 +33,7 @@ const getReward = async (token) => {
 
 const getearning = async (token) => {
     try {
-        console.log('ttoken', token);
+
 
         let data = JSON.stringify({
             "token": token

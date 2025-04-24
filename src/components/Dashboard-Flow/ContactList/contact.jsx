@@ -201,6 +201,8 @@ export default function ContactList() {
 
   const displaymessages = async (contactId) => {
     setloading(true);
+    console.log('convo id', contactId);
+
     const token = localStorage.getItem("token");
     const axios = require("axios");
     let data = JSON.stringify({

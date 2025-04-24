@@ -255,7 +255,7 @@ export default function Leaderboard() {
                 setRemainingUsersData(mappedRemain);
             }
         } catch (err) {
-            console.error('Error fetching leaderboard:', err);
+            console.log('Error fetching leaderboard:', err);
         } finally {
             setLoading(false);
         }
@@ -391,22 +391,26 @@ export default function Leaderboard() {
 
                     {/* …inside your render, replace the “Other Rankings” container with: */}
 
-                    <div className="bg-white rounded-t-3xl flex flex-col h-56 overflow-scroll shadow-lg mx-6">
+                    <div className="bg-white rounded-t-3xl flex flex-col h-auto sm:h-56 md:h-52 lg:h-48 xl:h-96 2xl:h-56 overflow-hidden shadow-lg mx-6">
                         <div className="pt-4 pb-2 px-4 border-b border-gray-100">
                             <h2 className="text-gray-800 font-semibold">Other Rankings</h2>
                         </div>
 
-                        {/* make this area take all remaining space and scroll */}
-                        <div className="flex-1 overflow-y-auto">
-
+                        {/* Scrollable area that takes remaining space */}
+                        <div className={`${remainingUsersData?.length === 0 ? 'flex-1 overflow-y-auto flex items-center justify-center' : 'flex-1 overflow-y-auto'}`}>
                             {
-                                remainingUsersData?.length === 0 ? <p className="text-center">No other Rankings Available</p> : remainingUsersData?.map(renderListItem)
+                                remainingUsersData?.length === 0
+                                    ? <p className="text-center ">No other Rankings Available</p>
+                                    : remainingUsersData?.map(renderListItem)
                             }
                         </div>
+
+
                     </div>
+
 
                 </div>
             </div>
-        </SidebarLayout>
+        </SidebarLayout >
     )
 }

@@ -193,6 +193,7 @@ export default function Collaborate() {
             />
           </div>
         </motion.div>
+
       </div>
     </div>
   );

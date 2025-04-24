@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { XCircle } from "lucide-react";
 
-const ErrorPopup = ({ message, duration = 5000, onClose }) => {
+const ErrorPopup = ({ message, duration = 2000, onClose, color }) => {
   const [isVisible, setIsVisible] = useState(true);
 
   useEffect(() => {
@@ -20,20 +20,27 @@ const ErrorPopup = ({ message, duration = 5000, onClose }) => {
   };
 
   if (!isVisible) return null;
+  console.log('coloor', color);
 
+  const colors = {
+    red: 'bg-red-200 border border-red-400 text-red-700',
+    green: 'bg-green-200 border border-green-400 text-green-700',
+    blue: 'bg-blue-200 border border-blue-400 text-blue-700',
+    // add more colors as needed
+  };
   return (
-    <div className="fixed top-4 right-4 z-50 max-w-sm">
+    <div className="fixed top-4 right-4 z-[1000000] max-w-sm ">
       <div
-        className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative"
+        className={`${colors[color] || colors.red} px-4 py-3 rounded relative`}
         role="alert"
       >
-        <strong className="font-bold">Error!</strong>
+
         <span className="block sm:inline"> {message}</span>
         <button
           onClick={handleClose}
           className="absolute top-0 bottom-0 right-0 px-4 py-3"
         >
-     
+
         </button>
       </div>
     </div>

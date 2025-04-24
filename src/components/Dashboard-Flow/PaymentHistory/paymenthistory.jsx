@@ -48,7 +48,7 @@ export default function Page() {
 
   return (
     <SidebarLayout>
-      <div className="sm:pt-6 mt-2 pl-10  sm:w-[1311px] w-auto">
+      <div className="sm:pt-6 mt-2 pl-10 sm:w-[1311px] w-auto">
         <p className="text-[#049C01] font-semibold">Payment History</p>
 
         {loading ? (
@@ -62,47 +62,37 @@ export default function Page() {
         ) : payment && payment.length > 0 ? (
           payment?.map((day, index) => (
             <div key={index} className="mt-4">
-              <div
-                key={index}
-                className="flex sm:items-center sm:justify-between pt-5 w-full flex-col justify-start items-start gap-4 sm:gap-0 sm:flex-row"
-              >
+              <div className="flex sm:items-center sm:justify-between pt-5 w-full flex-col justify-start items-start gap-4 sm:gap-0 sm:flex-row">
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 bg-green-50 rounded-full flex items-center justify-center">
                     {day.approval_status === "1" ? (
-                      <Image src={receive} alt="Received" />
+                      <Image src={receive || "/placeholder.svg"} alt="Received" />
                     ) : (
-                      <Image src={arrow} alt="Sent" />
+                      <Image src={arrow || "/placeholder.svg"} alt="Sent" />
                     )}
                   </div>
                   <div className="flex flex-col">
-                    <span className="text-sm text-black">
-                      {day.approval_status === "1" ? "Received" : "Sent"}
-                    </span>
-                    <span className="text-sm text-[#666666]">
-                      0817239419528913
-                    </span>
+                    <span className="text-sm text-black">{day.approval_status === "1" ? "Received" : "Sent"}</span>
+                    <span className="text-sm text-[#666666]">0817239419528913</span>
                   </div>
                 </div>
                 <div className="flex flex-col items-end">
                   <span className="font-medium text-black">$ {day.amount}</span>
                   <span className="text-sm text-[#666666]">
-                    {day.created_at
-                      .split(" ")[1]
-                      .split(":")
-                      .slice(0, 2)
-                      .join(":")}
+                    {day.created_at.split(" ")[1].split(":").slice(0, 2).join(":")}
                   </span>
                 </div>
               </div>
             </div>
           ))
         ) : (
-          <div className="flex items-center justify-center h-[50vh] text-center flex-col gap-4 mt-28 ">
-            <Image src={nopayment} alt="No Payment" />
-            <p className="text-[#666666] text-xl w-1/2">
-              It looks like you haven’t made any payments yet. Once you do,
-              they’ll show up here
-            </p>
+          <div className="absolute inset-0 flex items-center justify-center flex-col gap-4 text-center">
+            <div className="max-w-md mx-auto">
+              <Image src={nopayment || "/placeholder.svg"} alt="No Payment" className="mx-auto" />
+              <p className="text-[#666666] md:text-xl text-sm mt-4">
+                It looks like you haven't made any payments yet. Once you do, they'll show up here
+              </p>
+            </div>
           </div>
         )}
       </div>

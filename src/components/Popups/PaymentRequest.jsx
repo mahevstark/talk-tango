@@ -17,6 +17,7 @@ import balance from "../../../public/messages/balance.svg";
 import close from "../../../public/svgs/close.svg";
 import { X } from "lucide-react";
 import back from "../../../public/svgs/back.svg";
+import ErrorPopup from "./ErrorPopup";
 
 export default function MoneyTransferPopups({ newid }) {
   const [isMainOpen, setIsMainOpen] = useState(false);
@@ -25,6 +26,8 @@ export default function MoneyTransferPopups({ newid }) {
   const [isConfirmOpen, setIsConfirmOpen] = useState(false);
   const [sendamount, setSendAmount] = useState();
   const [password, setpassword] = useState();
+  const [error, setError] = useState("");
+  const [color, setColor] = useState('red');
 
   const closeAll = () => {
     setIsMainOpen(false);
@@ -35,7 +38,9 @@ export default function MoneyTransferPopups({ newid }) {
 
   //send money api :
   const handlesendmoney = () => {
-   
+    setloading(true)
+
+
     if (sendamount != undefined && password != undefined) {
       const token = localStorage.getItem("token");
 
@@ -47,7 +52,7 @@ export default function MoneyTransferPopups({ newid }) {
         to_user_id: newid,
       });
 
-      
+
 
       let config = {
         method: "post",
@@ -62,32 +67,46 @@ export default function MoneyTransferPopups({ newid }) {
       axios
         .request(config)
         .then((response) => {
-          console.log(response.data);
-          
+          console.log(response);
+
           if (response.data.action === "success") {
             setIsConfirmOpen(true);
-            setIsRequestOpen(false);
+            setIsSendOpen(false); // Add this line to close the send modal
+            setloading(false);
+
+
           } else {
-            console.log("error");
+
+            setloading(false)
+            if (response?.data?.error === "Must provide source or customer.") {
+              setError("Please setup a card before sending the payment.");
+              return;
+            }
+            setError(response?.data?.error || "Error Sending payment Request. Try again later");
+
           }
         })
         .catch((error) => {
           setIsRequestOpen(true);
           setIsConfirmOpen(false);
           console.log(error);
+          setloading(false)
+          setSendAmount(undefined);
+          setpassword(undefined);
+
         });
     }
 
-    setSendAmount(undefined);
-    setpassword(undefined);
+
   };
 
   // Request money API
 
   const [amount, setAmount] = useState();
+  const [loading, setloading] = useState(false);
   const requestmoney = () => {
 
-
+    setloading(true);
     setAmount(sendamount);
     if (sendamount != undefined) {
       const token = localStorage.getItem("token");
@@ -112,22 +131,34 @@ export default function MoneyTransferPopups({ newid }) {
       axios
         .request(config)
         .then((response) => {
-          // If the API call is successful, open the "Confirm" popup
-          setIsConfirmOpen(true);
-          setIsRequestOpen(false);
-          // console.log(JSON.stringify(response.data));
+
+          console.log('response?.data?.action', response?.data?.action);
+
+          if (response?.data?.action === "success") {
+            setloading(false)
+            setIsConfirmOpen(true);
+            setIsRequestOpen(false);
+
+          } else {
+            setloading(false)
+            setIsConfirmOpen(true);
+            setIsRequestOpen(false);
+          }
+
         })
         .catch((error) => {
           setIsRequestOpen(true);
           setIsConfirmOpen(false);
           console.log(error);
+          setloading(false)
+
         });
     }
 
     setSendAmount(undefined);
   };
 
-  
+
   const handleBack = () => {
     setIsRequestOpen(false);
     setIsMainOpen(true);
@@ -201,7 +232,7 @@ export default function MoneyTransferPopups({ newid }) {
             <div>
               <span className="text-center text-sm w-full">
                 <p className="text-[#3A3A3A] w-56 mx-auto">
-                Please enter the amount  below to proceed with your money request
+                  Please enter the amount  below to proceed with your money request
                 </p>
               </span>
             </div>
@@ -219,7 +250,7 @@ export default function MoneyTransferPopups({ newid }) {
               }}
               className="bg-[#049C01] rounded-lg hover:bg-[#049C01]"
             >
-              Send Money Request
+              {loading ? "  Sending..." : "  Send Money Request"}
             </Button>
           </div>
         </DialogContent>
@@ -257,7 +288,7 @@ export default function MoneyTransferPopups({ newid }) {
 
               className="bg-[#049C01] rounded-lg hover:bg-[#049C01]"
             >
-              Send Money
+              {loading ? "Sending Money..." : "Send Money"}
             </Button>
           </div>
         </DialogContent>
@@ -281,11 +312,12 @@ export default function MoneyTransferPopups({ newid }) {
           <div className="flex flex-col items-center">
             <p className="text-lg font-semibold">Money Request Sent</p>
             <p className="text-[#1A1A1A] w-72 text-center">
-            Your request for ${amount} has been successfully sent. The recipient will be notified shortly    
+              Your request for ${amount || sendamount} has been successfully sent. The recipient will be notified shortly
             </p>
           </div>
         </DialogContent>
       </Dialog>
+      {error && <ErrorPopup message={error} onClose={() => setError("")} color={color} />}
     </Dialog>
   );
 }

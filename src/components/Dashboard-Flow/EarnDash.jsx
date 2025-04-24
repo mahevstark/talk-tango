@@ -26,7 +26,7 @@ export default function EarningsDashboard() {
         try {
             const response = await GlobalApi.getearning(token);
 
-            console.log('errr', response);
+
 
             if (response?.action === "success") {
                 const formattedToday = response?.earningsData?.map((item) => ({
@@ -63,7 +63,7 @@ export default function EarningsDashboard() {
 
     return (
         <SidebarLayout><div className="w-full mx-auto ">
-            <Card className="overflow-hidden min-h-screen bg-gradient-to-br from-slate-50 to-white dark:from-slate-950 dark:to-slate-900 border-slate-200 dark:border-slate-800 shadow-xl">
+            <Card className="overflow-hidden border min-h-screen bg-gradient-to-br from-slate-50 to-white dark:from-slate-950 dark:to-slate-900 border-slate-200 dark:border-slate-800 shadow-xl">
                 <CardHeader className="bg-[#049C01] text-white p-6">
                     <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
                         <div>
@@ -72,29 +72,33 @@ export default function EarningsDashboard() {
                                 <CardTitle className="text-3xl md:text-4xl font-bold">{totalearning}</CardTitle>
                                 <span className="ml-2 px-2 py-0.5 bg-green-500 text-white text-xs  flex items-center">
                                     <ArrowUp className="h-3 w-3 mr-0.5" />
-                                    4.5%
+                                    {totalearning} %
                                 </span>
                             </div>
                         </div>
 
-                        <DropdownMenu>
+                        <Button variant="secondary" className="bg-white/20 hover:bg-white/30 text-white border-0 bg-none">
+                            Your Earnings
+
+                        </Button>
+                        {/* <DropdownMenu>
                             <DropdownMenuTrigger asChild>
-                                <Button variant="secondary" className="bg-white/20 hover:bg-white/30 text-white border-0">
+                                <Button variant="secondary" className="bg-white/20 hover:bg-white/30 text-white border-0 bg-none">
                                     Earnings
                                     <ChevronDown className="ml-2 h-4 w-4" />
                                 </Button>
                             </DropdownMenuTrigger>
-                            {/* <DropdownMenuContent align="end">
+                            <DropdownMenuContent align="end">
                                 <DropdownMenuItem>Earnings</DropdownMenuItem>
                                 <DropdownMenuItem>Referrals</DropdownMenuItem>
                                 <DropdownMenuItem>Conversions</DropdownMenuItem>
-                            </DropdownMenuContent> */}
-                        </DropdownMenu>
+                            </DropdownMenuContent>
+                        </DropdownMenu> */}
                     </div>
                 </CardHeader>
 
-                <CardContent className="p-0">
-                    <Tabs defaultValue="today" className="w-full" onValueChange={setTimeframe}>
+                <CardContent className="p-0 ">
+                    <Tabs defaultValue="today" className="w-full flex flex-col justify-between" onValueChange={setTimeframe}>
                         <div className="px-6 pt-6 pb-2 flex justify-between items-center">
                             <TabsList className="bg-slate-100 dark:bg-slate-800">
                                 <TabsTrigger value="today">Today's Activity</TabsTrigger>
@@ -102,7 +106,7 @@ export default function EarningsDashboard() {
                             </TabsList>
                         </div>
 
-                        <div className="p-6 pt-2">
+                        <div className="p-6 pt-2  ">
                             <TabsContent value="today" className="mt-0">
                                 <div className="h-[300px] mt-4">
                                     <ResponsiveContainer width="100%" height="100%">
@@ -120,6 +124,7 @@ export default function EarningsDashboard() {
                                                 tick={{ fontSize: 12 }}
                                                 tickFormatter={(value) => `$${value}`}
                                                 dx={-10}
+                                                domain={[0, 'auto']}
                                             />
                                             <Tooltip
                                                 content={({ active, payload }) => {

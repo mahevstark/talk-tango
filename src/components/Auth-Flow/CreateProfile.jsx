@@ -29,6 +29,8 @@ export default function Component() {
   const [errorMessage, setErrorMessage] = useState(null);
   const [loading, setloading] = useState(false);
   const [error, setError] = useState("");
+  const [color, setColor] = useState('red');
+
 
   const router = useRouter();
 
@@ -77,15 +79,22 @@ export default function Component() {
       .request(config)
       .then((response) => {
         if (response.data.action === "success") {
+          setColor('green')
+
           setError("Profile Created Successfully");
           setloading(false);
-          router.push("/auth/login");
+          setTimeout(() => {
+            router.push("/auth/login");
+          }, 1000);
         } else {
+          setColor('red')
+
           setError("Profile Creation Failed");
           setloading(false);
         }
       })
       .catch((error) => {
+        setColor('red')
         setError("Profile Creation Faileds");
         setloading(false);
         console.log(error);
@@ -111,6 +120,7 @@ export default function Component() {
       alert("Please select an image to upload.");
       return;
     }
+    setUploading(true);
     const formData = new FormData();
 
     formData.append("photo", file);
@@ -129,10 +139,16 @@ export default function Component() {
     const result = await response.json();
 
     if (result.action === "success") {
+      setUploading(false);
+      setColor('green')
+      setError("Image Uploaded.");
       setProfileImage(result.filename);
       localStorage.removeItem("image");
       localStorage.setItem("image", result.filename);
     } else {
+      setUploading(false);
+      setColor('red')
+
       setError("Error uploading image");
     }
   };
@@ -242,20 +258,27 @@ export default function Component() {
           className="w-full  text-white bg-[#049C01] border-2 border-[#049C01] py-3 rounded-[20px] mt-[24px] transition duration-300 ease-in-out flex items-center  gap-4 justify-center"
           onClick={createProfile}
         >
-          {errorMessage ? (
-            <p className="text-white text-sm font-semibold text-center">
-              {errorMessage}
-            </p>
-          ) : loading ? (
-            <span className="flex gap-3">
-              Next <Loader />{" "}
-            </span>
-          ) : (
-            <p>Next</p>
-          )}
+          {
+
+            uploading ? (
+              <span className="flex gap-3">
+                Uploading Image <Loader />{" "}
+              </span>
+            ) :
+              errorMessage ? (
+                <p className="text-white text-sm font-semibold text-center">
+                  {errorMessage}
+                </p>
+              ) : loading ? (
+                <span className="flex gap-3">
+                  Next <Loader />{" "}
+                </span>
+              ) : (
+                <p>Next</p>
+              )}
         </motion.button>
       </motion.div>
-      {error && <Errorpopup message={error} onClose={() => setError("")} />}
+      {error && <Errorpopup message={error} onClose={() => setError("")} color={color} />}
     </motion.div>
   );
 }

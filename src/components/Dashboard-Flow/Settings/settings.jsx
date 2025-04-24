@@ -48,6 +48,7 @@ export default function Settings() {
       setIsClient(true);
       const name = localStorage.getItem("name");
       const role = localStorage?.getItem("about");
+      const email = localStorage?.getItem("email");
       let userData = null;
       const rawData = localStorage.getItem("usersdata");
 
@@ -64,7 +65,10 @@ export default function Settings() {
       setName(name);
       setRole(role);
 
+
       const image = localStorage.getItem("image");
+      console.log('image', image);
+
       setProfileImage(image);
 
       console.log('here is the new image', image);
@@ -72,11 +76,14 @@ export default function Settings() {
     }
   }, []); // Only run once, after component mount
 
+  const [load, setload] = useState(false);
   const handleEdit = (newprofileimage) => {
     setIsEditing((prev) => !prev);
     if (isEditing && isClient) {
+
+      setload(true)
       const token = localStorage.getItem("token");
-      const email = localStorage.getItem("email");
+      const email = localStorage?.getItem("email");
 
 
 
@@ -85,23 +92,22 @@ export default function Settings() {
       // console.log('the image from function passed', newprofileimage);
 
 
-      console.log('hey new image', uploadimage);
-
-
-
 
       const data = JSON.stringify({
         token: token,
         about: role,
         name: name,
-        email: "0codehorizonai0@gmail.com",
+        email: email,
         profile_pic: uploadimage,
       });
 
 
+      console.log('data to go', data);
 
 
-      localStorage.setItem('image', uploadimage)
+
+
+      // localStorage.setItem('image', uploadimage)
 
 
       const config = {
@@ -116,12 +122,24 @@ export default function Settings() {
       axios
         .request(config)
         .then((response) => {
+          console.log('rr by sending data', response?.data?.data?.profile_pic);
           if (response.data.action === "success") {
+            localStorage.setItem('image', response?.data?.data?.profile_pic)
             localStorage.setItem("name", name);
             localStorage.setItem("about", role);
+            setload(false);
+          }
+          else {
+            setload(false);
+
           }
         })
-        .catch((error) => console.log(error));
+        .catch((error) => {
+          console.log(error)
+
+          setload(false);
+
+        });
     }
   };
 
@@ -133,12 +151,14 @@ export default function Settings() {
     }
   };
 
+  const [loadCheck, setChecked] = useState(false);
   const handleNotificationToggle = (checked) => {
     const token = localStorage?.getItem("token");
     const data = JSON.stringify({
       token: token,
       status: checked ? 1 : 0,
     });
+    setChecked(true);
 
     const config = {
       method: "post",
@@ -152,12 +172,26 @@ export default function Settings() {
     axios
       .request(config)
       .then((response) => {
-        localStorage.setItem("usersdata", JSON.stringify(response.data?.data));
 
-        checked ? setNotifications(true) : setNotifications(false);
+        console.log('res', response);
+
+        if (response?.data?.action === "success") {
+          localStorage.setItem("usersdata", JSON.stringify(response.data?.data));
+
+          checked ? setNotifications(true) : setNotifications(false);
+
+          setChecked(false);
+
+        } else {
+          setChecked(false);
+
+        }
+
       })
       .catch((error) => {
         console.log(error);
+        setChecked(false);
+
       });
   };
 
@@ -273,7 +307,11 @@ export default function Settings() {
     );
     const result = await response.json();
 
+    console.log('rrresult', result?.filename);
+
+
     if (result.action === "success") {
+
 
 
 
@@ -287,7 +325,7 @@ export default function Settings() {
 
       }, 1000);
 
-      console.log('file name ');
+
 
       setProfileImage(newProfileImage);
       setuploadimage(newProfileImage);
@@ -363,7 +401,16 @@ export default function Settings() {
           </div>
 
           {
-            loading ?
+            load ? <Button
+              variant="ghost"
+              size="icon"
+              className="text-green-500 border w-24"
+              onClick={handleEdit}
+            >
+              Saving...
+
+
+            </Button> : loading ?
               <Button
                 variant="ghost"
                 size="icon"
@@ -414,12 +461,14 @@ export default function Settings() {
                     {setting.label !== "Delete" && <span>{setting.label}</span>}
                   </div>
 
-                  {setting.hasSwitch && (
-                    <Switch
-                      checked={notifications}
-                      onCheckedChange={handleNotificationToggle}
-                    />
-                  )}
+                  {
+                    loadCheck && setting.hasSwitch ? (!notifications ? "Enabling..." : "Disabling...") : setting.hasSwitch && (
+                      <Switch
+                        checked={notifications}
+                        onCheckedChange={handleNotificationToggle}
+                      />
+                    )
+                  }
                 </div>
               </Link>
             ))}

@@ -19,6 +19,7 @@ export default function OTPPage() {
   const [errorMessage, setErrorMessage] = useState(null);
   const [loading, setloading] = useState(false);
   const [error, setError] = useState("");
+  const [color, setColor] = useState('red');
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -132,6 +133,7 @@ export default function OTPPage() {
         console.log("success");
         clearInterval(intervalId);
         // localStorage.setItem("token", response.data.data.token);
+        setColor('green')
         setError("OTP confirmed successfully!");
         setloading(false);
         username
@@ -139,6 +141,8 @@ export default function OTPPage() {
           : router.push("/auth/create-profile");
         localStorage.removeItem("username__");
       } else {
+        setColor('')
+        setColor('red')
         setError("Invalid OTP");
 
         setloading(false);
@@ -341,7 +345,7 @@ export default function OTPPage() {
           </form>
         </motion.div>
       </motion.div>
-      {error && <Errorpopup message={error} onClose={() => setError("")} />}
+      {error && <Errorpopup message={error} onClose={() => setError("")} color={color} />}
     </div>
   );
 }

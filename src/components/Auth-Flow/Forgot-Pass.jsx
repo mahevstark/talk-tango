@@ -53,12 +53,14 @@ export default function ForgotPasswordPage() {
     try {
       const response = await axios.request(config);
 
+
+
       if (response.data.action === "success") {
-    
+
         router.push(`/auth/otp?username=${username}`);
       } else {
         console.log("Unexpected response:", response);
-        setError("Failed to send OTP. Please try again.");
+        setError(response?.data?.error || "Failed to send OTP. Please try again.");
       }
     } catch (error) {
       console.error("Error during forgot password request:", error);

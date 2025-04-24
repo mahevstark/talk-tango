@@ -76,7 +76,9 @@ export default function Signup() {
         values
       );
 
+
       if (response.data.action === "success") {
+
         const token = response.data.data.token;
         localStorage.removeItem("token");
         localStorage.setItem("token", token);

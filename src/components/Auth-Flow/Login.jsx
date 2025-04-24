@@ -61,12 +61,16 @@ export default function LoginPage() {
         "https://talktango.estamart.com/api/login_with_email",
         values
       );
-    
+
 
       if (response.data.action === "success") {
+
+
+
+
         localStorage.setItem("token", response.data.data.token);
         localStorage.setItem("id", response.data.data.id);
-        // localStorage.setItem("email", response.data.data.email);
+        localStorage.setItem("email", response?.data?.data?.email);
         localStorage.setItem("name", response.data.data.name);
         localStorage.setItem("about", response.data.data.about);
         localStorage.setItem("usersdata", JSON.stringify(response.data.data));
@@ -75,7 +79,7 @@ export default function LoginPage() {
         setloading(false);
         Router.push("/dashboard/messages");
       } else {
-        console.log("Unexpected response status:", response);
+
         setError("Invalid credentials");
         setloading(false);
       }

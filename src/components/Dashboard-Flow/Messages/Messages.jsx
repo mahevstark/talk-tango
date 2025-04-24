@@ -214,12 +214,15 @@ export default function Messages() {
             setAudioBlob(audios);
           }
         });
+        console.log('messages', messages);
+
 
         setMessages(
           Array.isArray(response.data.msgs)
             ? response.data.msgs.sort((a, b) => a.stamp - b.stamp)
             : response.data.msgs.sort((a, b) => a.stamp - b.stamp)
         );
+
 
         setupPusher();
         setloading(false);
@@ -522,7 +525,7 @@ export default function Messages() {
         />
       )}
 
-      <div className="flex w-full  customspacing  bg-white sm:h-[700px]  sm:pt-4 sm:flex-row flex-col pt-2.5 sm:mr-0 mr-4 sm:ml-auto">
+      <div className="flex w-full  customspacing  bg-white sm:h-[700px]  sm:pt-4 sm:flex-row flex-col pt-2.5 sm:mr-0 mr-4 sm:ml-auto md:min-h-screen  py-4">
         <div className="sm:w-1/4 w-full md:block ">
           <h1 className="text-xl text-[#049C01] font-semibold mx-6 ml-8 ">
             Messages

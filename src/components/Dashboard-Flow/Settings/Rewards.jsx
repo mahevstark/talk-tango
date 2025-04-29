@@ -85,7 +85,7 @@ export default function DailyRewards() {
     }
 
     const handleBack = useCallback(() => {
-        router.push('/dashboard/messages')
+        router.push('/dashboard/settings')
     }, [router])
 
     return (
@@ -242,15 +242,7 @@ export default function DailyRewards() {
             </div>
 
             {/* Floating action button with animation */}
-            <div className="fixed bottom-6 right-6 z-20">
-                <motion.button
-                    className="w-16 h-16 bg-gradient-to-r from-emerald-500 to-green-600 rounded-full flex items-center justify-center text-white shadow-xl hover:shadow-green-200/50"
-                    whileHover={{ scale: 1.1 }}
-                    whileTap={{ scale: 0.9 }}
-                >
-                    <Plus className="w-7 h-7" />
-                </motion.button>
-            </div>
+
 
             {/* Coin collection animation */}
             {showAnimation && (

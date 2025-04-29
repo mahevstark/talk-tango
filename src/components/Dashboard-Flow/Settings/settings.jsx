@@ -176,11 +176,17 @@ export default function Settings() {
         console.log('res', response);
 
         if (response?.data?.action === "success") {
-          localStorage.setItem("usersdata", JSON.stringify(response.data?.data));
-
-          checked ? setNotifications(true) : setNotifications(false);
-
+          const updatedUserData = {
+            ...userData,
+            notification_status: checked ? "1" : "0",
+          };
+          localStorage.setItem("usersdata", JSON.stringify(updatedUserData));
+          setUserData(updatedUserData); // keep the state in sync
+          setNotifications(checked); // immediately reflect change
           setChecked(false);
+
+          window.location.reload();
+
 
         } else {
           setChecked(false);
@@ -349,8 +355,11 @@ export default function Settings() {
 
   // Handle click to trigger image file input
   const handleImageClick = () => {
-    fileInputRef.current.click(); // Trigger the file input dialog when profile image is clicked
+    if (isEditing) {
+      fileInputRef.current.click();
+    }
   };
+
 
   return (
     <SidebarLayout>

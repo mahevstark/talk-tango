@@ -178,7 +178,7 @@ export default function paymenthistory() {
 
   return (
     <SidebarLayout>
-      <div className="flex sm:flex-row flex-col sm:mt-0  pt-1.5 gap-4 ">
+      <div className="flex sm:flex-row flex-col sm:mt-0  pt-1.5 gap-4 w-full ">
         <div className="sm:w-1/4 sm:pl-3 sm:mt-4 w-full md:block">
           <h1 className="text-xl text-[#049C01] font-semibold mx-6">
             Messages
@@ -207,11 +207,10 @@ export default function paymenthistory() {
               filteredContacts.map((contact) => (
                 <div
                   key={contact.id}
-                  className={`flex items-start gap-3 px-4 py-2 cursor-pointer ${
-                    selectedContact === contact.id
-                      ? "bg-[#049C01] text-white"
-                      : ""
-                  }`}
+                  className={`flex items-start gap-3 px-4 py-2 cursor-pointer ${selectedContact === contact.id
+                    ? "bg-[#049C01] text-white"
+                    : ""
+                    }`}
                   onClick={() =>
                     handleContactClick(
                       contact.id,
@@ -241,11 +240,10 @@ export default function paymenthistory() {
                       </h2>
                     </div>
                     <p
-                      className={`text-sm truncate ${
-                        selectedContact === contact.id
-                          ? "text-white "
-                          : "text-[#6E7485]"
-                      }`}
+                      className={`text-sm truncate ${selectedContact === contact.id
+                        ? "text-white "
+                        : "text-[#6E7485]"
+                        }`}
                     >
                       {contact.last_msg.image ? (
                         <span>Image</span>
@@ -258,11 +256,10 @@ export default function paymenthistory() {
                   </div>
                   <div className="text-white text-xs rounded-full gap-1 flex items-end justify-center flex-col">
                     <span
-                      className={`text-sm truncate ${
-                        selectedContact === contact.id
-                          ? "text-white"
-                          : "text-[#6E7485]"
-                      }`}
+                      className={`text-sm truncate ${selectedContact === contact.id
+                        ? "text-white"
+                        : "text-[#6E7485]"
+                        }`}
                     >
                       {contact.last_msg.createdAt}
                     </span>
@@ -287,7 +284,7 @@ export default function paymenthistory() {
             )}
           </div>
         </div>
-        <div className="flex w-full bg-white h-[700px] pt-4 sm:flex-row flex-col border shadow-lg rounded-lg  ">
+        <div className="flex w-full bg-white h-[700px] pt-4 sm:flex-row flex-col border shadow-lg rounded-lg  mx-4 px-2 min-h-screen  my-4 ">
           {/* Left Sidebar */}
           {/* <LeftLayoutMessages /> */}
           <div className="sm:pt-0 pt-7 pl-6 sm:w-full w-full">
@@ -299,7 +296,7 @@ export default function paymenthistory() {
             </span>
             {loadingpayment ? (
               <div className="flex items-center space-x-4 mt-12">
-               
+
                 <div className="space-y-2">
                   <Skeleton className="h-4 w-[150px]" />
                   <Skeleton className="h-4 w-[100px]" />

@@ -9,11 +9,15 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 export default function Page() {
   const [loading, setLoading] = useState(true);
+  const [id, setid] = useState(null);
 
   const [payment, setpayment] = useState([]);
   const fetchpayment = async () => {
     setLoading(true);
     const token = localStorage.getItem("token");
+    const user = localStorage.getItem("id");
+
+    setid(user);
     const axios = require("axios");
     let data = JSON.stringify({
       token: token,
@@ -32,6 +36,8 @@ export default function Page() {
     axios
       .request(config)
       .then((response) => {
+        console.log('rr', response);
+
         if (response.data.action === "success") {
           setpayment(response.data.data);
         }
@@ -65,14 +71,16 @@ export default function Page() {
               <div className="flex sm:items-center sm:justify-between pt-5 w-full flex-col justify-start items-start gap-4 sm:gap-0 sm:flex-row">
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 bg-green-50 rounded-full flex items-center justify-center">
-                    {day.approval_status === "1" ? (
+                    {day.user_id !== id ? (
                       <Image src={receive || "/placeholder.svg"} alt="Received" />
+
                     ) : (
                       <Image src={arrow || "/placeholder.svg"} alt="Sent" />
+
                     )}
                   </div>
                   <div className="flex flex-col">
-                    <span className="text-sm text-black">{day.approval_status === "1" ? "Received" : "Sent"}</span>
+                    <span className="text-sm text-black">{day.user_id !== id ? "Received" : "Sent"}</span>
                     <span className="text-sm text-[#666666]">0817239419528913</span>
                   </div>
                 </div>

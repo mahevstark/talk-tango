@@ -54,7 +54,7 @@ export default function herocontactus() {
               className="text-[20px] text-wrap text-white"
             >
               Stay connected with your loved ones and manage your finances all
-              in one place. SwiftConnect offers a safe and easy way to send
+              in one place. GranaMe  offers a safe and easy way to send
               instant messages, share photos, and transfer funds across the
               globe with just a few clicks.
             </motion.p>

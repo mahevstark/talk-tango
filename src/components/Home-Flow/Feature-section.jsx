@@ -19,19 +19,19 @@ export default function FeatureSection() {
           </h1>
           <p className="mb-8 text-sm text-white/90">
             Stay connected with your loved ones and manage your finances all in
-            one place. SwiftConnect offers a safe and easy way to send instant
+            one place. GranaMe offers a safe and easy way to send instant
             messages, share photos, and transfer funds across the globe with
             just a few clicks.
           </p>
-        <Link href="/auth/login">
-        <motion.button
-            className="rounded-full bg-white text-[black] hover:text-white border transition-all duration-300 py-2 px-6 text-[18px] font-normal border-white hover:bg-[#049C01]"
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }} // Triggering on view
-            transition={{ duration: 1, delay: 0.2 }}
-          >
-            Get Started
-          </motion.button></Link>
+          <Link href="/auth/login">
+            <motion.button
+              className="rounded-full bg-white text-[black] hover:text-white border transition-all duration-300 py-2 px-6 text-[18px] font-normal border-white hover:bg-[#049C01]"
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }} // Triggering on view
+              transition={{ duration: 1, delay: 0.2 }}
+            >
+              Get Started
+            </motion.button></Link>
         </motion.div>
       </section>
 
@@ -72,7 +72,7 @@ export default function FeatureSection() {
                   </button>
                 </div>
                 <p className="mb-6 sm:text-[20px] font-normal text-center text-gray-600">
-                Please confirm your request for funds. Once sent, the recipient will be notified and can approve or decline the transfe
+                  Please confirm your request for funds. Once sent, the recipient will be notified and can approve or decline the transfer
                 </p>
                 <div className="mb-6 text-center">
                   <span className="sm:text-[32px] font-semibold text-[#049C01]">
@@ -103,10 +103,10 @@ export default function FeatureSection() {
               money
               <br /> securely, making payments a breeze.
             </p>
-           <Link href="/auth/login">
-           <button className="rounded-full py-2  px-3 mt-5 sm:py-3 text-[20px] font-medium sm:px-6 border-2 border-black bg-white text-black transition-all duration-300 hover:text-white hover:border-[#049C01] hover:bg-[#049C01]">
-              Get Started For Free
-            </button></Link>
+            <Link href="/auth/login">
+              <button className="rounded-full py-2  px-3 mt-5 sm:py-3 text-[20px] font-medium sm:px-6 border-2 border-black bg-white text-black transition-all duration-300 hover:text-white hover:border-[#049C01] hover:bg-[#049C01]">
+                Get Started For Free
+              </button></Link>
           </motion.div>
         </motion.div>
       </section>

@@ -176,7 +176,7 @@ export default function profile() {
 
   return (
     <SidebarLayout>
-      <div className="flex sm:flex-row flex-col sm:mt-0 mt-1.5 gap-4">
+      <div className="flex sm:flex-row flex-col sm:mt-0 mt-1.5 gap-4 w-full ">
         <div className="sm:w-1/4 sm:pl-3 sm:mt-4 w-full md:block">
           <h1 className="text-xl text-[#049C01] font-semibold mx-6">
             Contact List
@@ -206,8 +206,8 @@ export default function profile() {
                 <div
                   key={contact.id}
                   className={`flex items-start gap-3 px-6 py-2 cursor-pointer ${selectedContact === contact.id
-                      ? "bg-[#049C01] text-white"
-                      : ""
+                    ? "bg-[#049C01] text-white"
+                    : ""
                     }`}
                   onClick={() =>
                     handleContactClick(
@@ -237,8 +237,8 @@ export default function profile() {
                     </div>
                     <p
                       className={`text-sm truncate text-[#6E7485] ${selectedContact === contact.id
-                          ? "text-white"
-                          : "text-[#6E7485]"
+                        ? "text-white"
+                        : "text-[#6E7485]"
                         }`}
                     >
                       {contact.last_msg.text}
@@ -247,8 +247,8 @@ export default function profile() {
                   <div className="text-white text-xs rounded-full gap-3 flex items-end justify-center flex-col">
                     <span
                       className={`text-sm truncate text-[#6E7485] ${selectedContact === contact.id
-                          ? "text-white"
-                          : "text-[#6E7485]"
+                        ? "text-white"
+                        : "text-[#6E7485]"
                         }`}
                     >
                       {contact.last_msg.createdAt}
@@ -267,7 +267,7 @@ export default function profile() {
             )}
           </div>
         </div>
-        <div className="flex w-full bg-white h-[700px] pt-4 sm:flex-row flex-col border shadow-lg rounded-lg  ">
+        <div className="flex w-full bg-white h-[700px] pt-4 sm:flex-row flex-col border shadow-lg rounded-lg mx-4 px-2 min-h-screen my-4 ">
           {/* Left Sidebar */}
           {/* <LeftLayoutMessages /> */}
           <div className="sm:pt-0 pt-7 pl-6 sm:w-full w-full">

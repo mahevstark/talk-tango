@@ -170,7 +170,7 @@ export default function Collaborate() {
             </h2>
 
             <p className="text-lg text-gray-600">
-              ClearLink is designed to give you a seamless messaging experience
+              GranaMe  is designed to give you a seamless messaging experience
               with unparalleled quality, clarity, and security. Connect with
               friends, family, and colleagues through crystal-clear messages,
               video calls, and photo sharing – all in a secure, easy-to-use

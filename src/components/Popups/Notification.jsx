@@ -19,6 +19,7 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { useRouter } from "next/navigation";
+import user from '../../../public/svgs/user.svg'
 
 export default function NotificationsDrawer({ onNotificationChange }) {
   const [notifications, setNotifications] = useState([]); // Initialize as an empty array
@@ -96,9 +97,7 @@ export default function NotificationsDrawer({ onNotificationChange }) {
   };
 
   const handleAction = (id, amount, action) => {
-    setNotifications((prevNotifications) =>
-      prevNotifications.filter((notification) => notification.id !== id)
-    );
+
 
     // Handle accept and reject actions
     if (action === "accept") {
@@ -145,6 +144,9 @@ export default function NotificationsDrawer({ onNotificationChange }) {
 
   // Accept request API call
   const acceptRequest = async (id, amount) => {
+    setNotifications((prevNotifications) =>
+      prevNotifications.filter((notification) => notification.id !== id)
+    );
     const token = localStorage.getItem("token");
 
     const axios = require("axios");
@@ -168,8 +170,13 @@ export default function NotificationsDrawer({ onNotificationChange }) {
     axios
       .request(config)
       .then((response) => {
+        console.log('aa', response);
+
         if (response.data.action === "success") {
           fetchnotifications();
+          setNotifications((prevNotifications) =>
+            prevNotifications.filter((notification) => notification.id !== id)
+          );
         }
       })
       .catch((error) => {
@@ -210,7 +217,7 @@ export default function NotificationsDrawer({ onNotificationChange }) {
           ) : notifications.length === 0 ? (
             <span>
               <p className=" text-gray-500 mt-48 text-center text-lg ">
-                No New Notifications{" "}
+                No New Notifications or turned off{" "}
               </p>
               <p className=" text-gray-500  text-center text-sm">
                 You’re all caught up! Check back later for new updates or
@@ -227,7 +234,7 @@ export default function NotificationsDrawer({ onNotificationChange }) {
               >
                 <div className="w-10 h-10 rounded-full  flex items-center justify-center">
                   <Image
-                    src={notification.profile_pic}
+                    src={notification.profile_pic || user}
                     alt="User"
                     width={100}
                     height={100}

@@ -580,7 +580,7 @@ export default function ContactList() {
         />
       )}
 
-      <div className="flex w-full  customspacing bg-white sm:h-[700px] sm:pt-4 sm:flex-row flex-col mt-2.5 sm:mr-0  sm:ml-auto  ">
+      <div className="flex w-full  customspacing  bg-white sm:h-[700px]  sm:pt-4 sm:flex-row flex-col pt-2.5 sm:mr-0 mr-4 sm:ml-auto md:min-h-screen  py-4">
         <div className="sm:w-1/4  w-full md:block">
           <h1 className="text-xl text-[#049C01] font-semibold mx-6 ml-8">
             Contact List

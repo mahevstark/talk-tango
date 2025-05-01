@@ -29,6 +29,9 @@ export default function MoneyTransferPopups({ newid }) {
   const [error, setError] = useState("");
   const [color, setColor] = useState('red');
 
+  const [isendmoney, setissendMoney] = useState(false);
+
+
   const closeAll = () => {
     setIsMainOpen(false);
     setIsRequestOpen(false);
@@ -40,6 +43,7 @@ export default function MoneyTransferPopups({ newid }) {
   const handlesendmoney = () => {
     setloading(true)
 
+    setissendMoney(true);
 
     if (sendamount != undefined && password != undefined) {
       const token = localStorage.getItem("token");
@@ -105,6 +109,8 @@ export default function MoneyTransferPopups({ newid }) {
   const [amount, setAmount] = useState();
   const [loading, setloading] = useState(false);
   const requestmoney = () => {
+
+    setissendMoney(false);
 
     setloading(true);
     setAmount(sendamount);
@@ -310,9 +316,10 @@ export default function MoneyTransferPopups({ newid }) {
             </DialogClose>
           </DialogHeader>
           <div className="flex flex-col items-center">
-            <p className="text-lg font-semibold">Money Request Sent</p>
+            <p className="text-lg font-semibold"> {isendmoney ? "Money Sent" : "Money Request Sent"} </p>
             <p className="text-[#1A1A1A] w-72 text-center">
-              Your request for ${amount || sendamount} has been successfully sent. The recipient will be notified shortly
+              {!isendmoney ? "Your request for" : "You have sent"} ${isendmoney ? sendamount : amount} {!isendmoney ? "has been successfully sent" : "successfully"}. The recipient will be notified shortly.
+
             </p>
           </div>
         </DialogContent>

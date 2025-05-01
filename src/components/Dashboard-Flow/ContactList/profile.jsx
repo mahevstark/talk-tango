@@ -50,6 +50,8 @@ export default function profile() {
       .request(config)
       .then((response) => {
         // console.log(JSON.stringify(response.data));
+
+
         setData(response.data.data);
         setMedia(response.data.media);
         setmedialoading(false);
@@ -170,11 +172,10 @@ export default function profile() {
               filteredContacts.map((contact) => (
                 <div
                   key={contact.id}
-                  className={`flex items-start gap-3 px-6 py-2 cursor-pointer ${
-                    selectedContact === contact.id
+                  className={`flex items-start gap-3 px-6 py-2 cursor-pointer ${selectedContact === contact.id
                       ? "bg-[#049C01] text-white"
                       : ""
-                  }`}
+                    }`}
                   onClick={() =>
                     handleContactClick(
                       contact.id,
@@ -202,22 +203,20 @@ export default function profile() {
                       </h2>
                     </div>
                     <p
-                      className={`text-sm truncate text-[#6E7485] ${
-                        selectedContact === contact.id
+                      className={`text-sm truncate text-[#6E7485] ${selectedContact === contact.id
                           ? "text-white"
                           : "text-[#6E7485]"
-                      }`}
+                        }`}
                     >
                       {contact.last_msg.text}
                     </p>
                   </div>
                   <div className="text-white text-xs rounded-full gap-3 flex items-end justify-center flex-col">
                     <span
-                      className={`text-sm truncate text-[#6E7485] ${
-                        selectedContact === contact.id
+                      className={`text-sm truncate text-[#6E7485] ${selectedContact === contact.id
                           ? "text-white"
                           : "text-[#6E7485]"
-                      }`}
+                        }`}
                     >
                       {contact.last_msg.createdAt}
                     </span>

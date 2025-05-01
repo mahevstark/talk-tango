@@ -20,6 +20,7 @@ import {
 } from "@/components/ui/sheet";
 import { useRouter } from "next/navigation";
 import user from '../../../public/svgs/user.svg'
+import ErrorPopup from "./ErrorPopup";
 
 export default function NotificationsDrawer({ onNotificationChange }) {
   const [notifications, setNotifications] = useState([]); // Initialize as an empty array
@@ -27,6 +28,9 @@ export default function NotificationsDrawer({ onNotificationChange }) {
   const [loading, setLoading] = useState(false);
   const [loading1, setLoading1] = useState(false);
   const router = useRouter();
+  const [errorMessage, setErrorMessage] = useState(null);
+  const [color, setColor] = useState('red');
+  const [error, setError] = useState("");
 
   const handleNotificationClick = () => {
     setIsOpen(!isOpen);
@@ -135,18 +139,23 @@ export default function NotificationsDrawer({ onNotificationChange }) {
       .then((response) => {
         if (response.data.action === "success") {
           fetchnotifications();
+          alert("Payment Rejected Successfully");
+
+        } else {
+          alert("Network Error.");
+
+
         }
       })
       .catch((error) => {
         console.log(error);
+        alert("Network Error.");
+
       });
   };
 
   // Accept request API call
   const acceptRequest = async (id, amount) => {
-    setNotifications((prevNotifications) =>
-      prevNotifications.filter((notification) => notification.id !== id)
-    );
     const token = localStorage.getItem("token");
 
     const axios = require("axios");
@@ -170,19 +179,32 @@ export default function NotificationsDrawer({ onNotificationChange }) {
     axios
       .request(config)
       .then((response) => {
-        console.log('aa', response);
 
-        if (response.data.action === "success") {
+        if (response?.data?.action === "success") {
           fetchnotifications();
           setNotifications((prevNotifications) =>
             prevNotifications.filter((notification) => notification.id !== id)
           );
+
+          setColor('green')
+          setError("Payment Approved Successfully");
+        } else {
+          console.log('error', response?.data?.error);
+
+          setColor('red')
+          setError(response?.data?.error === "Must provide source or customer." ? "Please Setup your Bank Account to accept payment request" : "error");
+
+
         }
       })
       .catch((error) => {
         console.log(error);
+        alert("Network Error.");
+
       });
   };
+
+
 
   return (
     <Sheet open={isOpen} onOpenChange={setIsOpen}>
@@ -228,100 +250,101 @@ export default function NotificationsDrawer({ onNotificationChange }) {
             </span>
           ) : (
             notifications.map((notification) => (
-              <div
-                key={notification.id}
-                className="flex items-start gap-3 mt-3"
-              >
-                <div className="w-10 h-10 rounded-full  flex items-center justify-center">
+              <div key={notification.id} className="flex items-start gap-3 mt-3">
+                {/* Profile picture with standardized size */}
+                <div className="relative w-10 h-10 rounded-full overflow-hidden flex-shrink-0">
                   <Image
                     src={notification.profile_pic || user}
                     alt="User"
-                    width={100}
-                    height={100}
-                    className="rounded-full"
+                    width={40}
+                    height={40}
+                    className="object-cover"
+                    priority={false}
                   />
                 </div>
 
-                <div className="flex min-w-1 ">
-                  <div className="flex items-start">
+                <div className="flex min-w-1 flex-grow">
+                  <div className="flex items-start flex-col">
                     <div className="text-sm">
                       <p className="text-black">
                         {notification.name || "no contact name"}
-                        {notification.p_status === "0" &&
-                          ` sent you a Payment Request of $${notification.amount}`}
-                        {notification.p_status === "2" &&
-                          ` Payment Request was ${notification.request_status === "1"
+                        {notification.status === "2"
+                          ? ` sent you a payment request of $${notification.amount}`
+                          : notification.status === "0"
+                            ? ` sent you a payment of $${notification.amount}`
+                            : null}
+
+                        {notification.p_status === "1"
+                          ? `payment request was ${notification.request_status === "1"
                             ? "approved"
-                            : "rejected"
-                          }`}
-                        {notification.p_status === "1" &&
-                          ` Payment Request was ${notification.request_status === "1"
-                            ? "approved"
-                            : "rejected"
-                          }`}
+                            : notification.request_status === "2"
+                              ? "rejected"
+                              : "responded"
+                          }`
+                          : notification.p_status === "2"
+                            ? ` payment request was ${notification.request_status === "1"
+                              ? "approved"
+                              : notification.request_status === "2"
+                                ? "rejected"
+                                : "responded"
+                            }`
+                            : null}
                       </p>
 
                       <p className="text-sm text-muted-foreground">
-                        {formatDistanceToNow(
-                          parseISO(notification.created_at),
-                          {
-                            addSuffix: true,
-                          }
-                        )}
+                        {formatDistanceToNow(parseISO(notification.created_at), {
+                          addSuffix: true,
+                        })}
                       </p>
                     </div>
                   </div>
 
-                  {/* Display buttons for pending requests */}
-                  {notification.p_status === "0" &&
-                    notification.request_status === "0" && (
-                      <div className="flex gap-3 ml-1">
-                        <Button
-                          size="sm"
-                          variant="outline"
-                          className="h-8 bg-none border-none p-0"
-                          onClick={() =>
-                            handleAction(
-                              notification.id,
-                              notification.amount,
-                              "accept"
-                            )
-                          }
-                        >
+                  {/* Display buttons for pending requests with standardized image sizes */}
+                  {notification.status === "2" && notification.request_status === "0" && (
+                    <div className="flex ">
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        className="h-8 bg-none border-none p-0"
+                        onClick={() => handleAction(notification.id, notification.amount, "accept")}
+                      >
+                        <div className="relative w-[45px] h-[45px]">
                           <Image
-                            src={accept}
-                            width={45}
+                            src={accept || "/placeholder.svg"}
                             alt="Accept"
+                            width={30}
+                            height={30}
+                            className="object-contain"
                             loading="lazy"
                           />
-                          <span className="sr-only">Accept request</span>
-                        </Button>
-                        <Button
-                          size="sm"
-                          variant="outline"
-                          className="h-8 bg-none border-none p-0"
-                          onClick={() =>
-                            handleAction(
-                              notification.id,
-                              notification.amount,
-                              "reject"
-                            )
-                          }
-                        >
+                        </div>
+                        <span className="sr-only">Accept request</span>
+                      </Button>
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        className="h-8 bg-none border-none p-0"
+                        onClick={() => handleAction(notification.id, notification.amount, "reject")}
+                      >
+                        <div className="relative w-[45px] h-[45px]">
                           <Image
-                            src={reject}
-                            width={45}
+                            src={reject || "/placeholder.svg"}
                             alt="Reject"
+                            width={30}
+                            height={30}
+                            className="object-contain"
                             loading="lazy"
                           />
-                          <span className="sr-only">Reject request</span>
-                        </Button>
-                      </div>
-                    )}
+                        </div>
+                        <span className="sr-only">Reject request</span>
+                      </Button>
+                    </div>
+                  )}
                 </div>
               </div>
             ))
           )}
+          {error && <ErrorPopup message={error} onClose={() => setError("")} color={color} />}
         </ScrollArea>
       </SheetContent>
     </Sheet>

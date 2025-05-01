@@ -275,6 +275,8 @@ export default function Leaderboard() {
         return a.position - b.position
     })
 
+    console.log(sortedTopUsers.length);
+
     const renderListItem = useCallback(
         (user, index) => (
             <Card
@@ -335,8 +337,8 @@ export default function Leaderboard() {
 
                 <div className="flex-1 flex flex-col">
                     <div className="relative px-12 pt-4">
-                        <div className="flex items-end h-full">
-                            {sortedTopUsers.map((user) => {
+                        <div className="flex items-end h-full ">
+                            {sortedTopUsers.length === 0 && !loading ? (<div className="text-white text-center  w-full text-2xl font-semibold ">No Leader Board Data Available for {activeTab}.</div>) : sortedTopUsers.map((user) => {
                                 const podiumHeight =
                                     user.position === 1
                                         ? "h-[180px] md:h-[220px]"
@@ -383,6 +385,7 @@ export default function Leaderboard() {
                                             </div>
                                         </div>
                                     </div>
+
                                 )
                             })}
                         </div>
@@ -391,22 +394,26 @@ export default function Leaderboard() {
 
                     {/* …inside your render, replace the “Other Rankings” container with: */}
 
-                    <div className="bg-white rounded-t-3xl flex flex-col h-auto sm:h-56 md:h-52 lg:h-48 xl:h-96 2xl:h-56 overflow-hidden shadow-lg mx-6">
-                        <div className="pt-4 pb-2 px-4 border-b border-gray-100">
-                            <h2 className="text-gray-800 font-semibold">Other Rankings</h2>
-                        </div>
-
-                        {/* Scrollable area that takes remaining space */}
-                        <div className={`${remainingUsersData?.length === 0 ? 'flex-1 overflow-y-auto flex items-center justify-center' : 'flex-1 overflow-y-auto'}`}>
-                            {
-                                remainingUsersData?.length === 0
-                                    ? <p className="text-center ">No other Rankings Available</p>
-                                    : remainingUsersData?.map(renderListItem)
-                            }
-                        </div>
 
 
-                    </div>
+                    {
+                        remainingUsersData?.length > 0 ? (<div className="bg-white rounded-t-3xl flex flex-col h-auto sm:h-56 md:h-52 lg:h-48 xl:h-96 2xl:h-56 overflow-hidden shadow-lg mx-6">
+                            <div className="pt-4 pb-2 px-4 border-b border-gray-100">
+                                <h2 className="text-gray-800 font-semibold">Other Rankings</h2>
+                            </div>
+
+                            {/* Scrollable area that takes remaining space */}
+                            <div className={`${remainingUsersData?.length === 0 ? 'flex-1 overflow-y-auto flex items-center justify-center' : 'flex-1 overflow-y-auto'}`}>
+                                {
+                                    remainingUsersData?.length === 0
+                                        ? <p className="text-center ">No other Rankings Available</p>
+                                        : remainingUsersData?.map(renderListItem)
+                                }
+                            </div>
+
+
+                        </div>) : null
+                    }
 
 
                 </div>

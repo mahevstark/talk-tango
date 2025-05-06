@@ -41,8 +41,11 @@ export default function profile() {
   const [media, setMedia] = useState([]);
   const [loading, setloading] = useState(false);
   const [medialoading, setmedialoading] = useState(false);
+  const [bac, setbac] = useState(null);
 
   const fetchdata = async () => {
+    const bankAcc = JSON.parse(localStorage.getItem("usersdata"));
+    setbac(bankAcc?.stripe_customer_id || "No stripe Account Setup");
     setmedialoading(true);
     const axios = require("axios");
     let data = JSON.stringify({
@@ -50,6 +53,7 @@ export default function profile() {
       user_id: userid,
       convo_id: convoid,
     });
+
 
     let config = {
       method: "post",
@@ -64,7 +68,7 @@ export default function profile() {
     axios
       .request(config)
       .then((response) => {
-        console.log('data form messages profile', response);
+        console.log('data form messages profiless', response);
 
         setData(response.data.data);
 
@@ -87,7 +91,7 @@ export default function profile() {
   const [copied, setCopied] = useState(false);
 
   // Bank account number
-  const accountNumber = "2732834072382712";
+  const accountNumber = "273ss2834072382712";
 
   // Function to handle copying the text
   const handleCopy = () => {
@@ -200,8 +204,8 @@ export default function profile() {
                 <div
                   key={contact.id}
                   className={`flex items-start gap-3 px-4 py-2 cursor-pointer ${selectedContact === contact.id
-                      ? "bg-[#049C01] text-white"
-                      : ""
+                    ? "bg-[#049C01] text-white"
+                    : ""
                     }`}
                   onClick={() =>
                     handleContactClick(
@@ -233,8 +237,8 @@ export default function profile() {
                     </div>
                     <p
                       className={`text-sm truncate ${selectedContact === contact.id
-                          ? "text-white "
-                          : "text-[#6E7485]"
+                        ? "text-white "
+                        : "text-[#6E7485]"
                         }`}
                     >
                       {contact.last_msg.image ? (
@@ -249,8 +253,8 @@ export default function profile() {
                   <div className="text-white text-xs rounded-full gap-1 flex items-end justify-center flex-col">
                     <span
                       className={`text-sm truncate ${selectedContact === contact.id
-                          ? "text-white"
-                          : "text-[#6E7485]"
+                        ? "text-white"
+                        : "text-[#6E7485]"
                         }`}
                     >
                       {contact.last_msg.createdAt}
@@ -311,7 +315,7 @@ export default function profile() {
               <Image src={wallet} alt="wallet" loading="lazy" />
               <span>
                 <p className="text-black">Bank Account Number</p>
-                <p className="text-sm text-[#383838]">{accountNumber}</p>
+                <p className="text-sm text-[#383838]">{bac}</p>
               </span>
             </div>
             <span

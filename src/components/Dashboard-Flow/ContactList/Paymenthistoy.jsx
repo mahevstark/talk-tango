@@ -19,10 +19,14 @@ export default function profile() {
   const [media, setMedia] = useState([]);
   const [loading, setLoading] = useState(true);
   const [medialoading, setmedialoading] = useState(true);
+
   var userid;
   const fetchdata = async () => {
     setmedialoading(true);
     userid = localStorage.getItem("newid");
+
+
+
     console.log("user id is ", userid);
     const convoid = localStorage.getItem("contactId");
     const token = localStorage.getItem("token");
@@ -66,7 +70,7 @@ export default function profile() {
   const [copied, setCopied] = useState(false);
 
   // Bank account number
-  const accountNumber = "2732834072382712";
+  const accountNumber = "27328340723s82712";
 
   // Function to handle copying the text
   const handleCopy = () => {

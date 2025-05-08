@@ -100,19 +100,21 @@ export default function NotificationsDrawer({ onNotificationChange }) {
     }
   };
 
-  const handleAction = (id, amount, action) => {
+  const handleAction = (id, amount, action, fromid) => {
+
+    console.log('noti data', fromid?.from_user_id);
 
 
     // Handle accept and reject actions
     if (action === "accept") {
-      acceptRequest(id, amount);
+      acceptRequest(id, amount, fromid?.from_user_id);
     } else if (action === "reject") {
-      rejectRequest(id, amount);
+      rejectRequest(id, amount, fromid?.from_user_id);
     }
   };
 
   // Reject request API call
-  const rejectRequest = async (id, amount) => {
+  const rejectRequest = async (id, amount, fromid) => {
     // console.log("rejectRequest");
     // return;
     const token = localStorage.getItem("token");
@@ -122,7 +124,9 @@ export default function NotificationsDrawer({ onNotificationChange }) {
       id: parseInt(id),
       token: token,
       amount: amount,
+      from_user_id: fromid
     });
+
 
     let config = {
       method: "post",
@@ -139,23 +143,26 @@ export default function NotificationsDrawer({ onNotificationChange }) {
       .then((response) => {
         if (response.data.action === "success") {
           fetchnotifications();
-          alert("Payment Rejected Successfully");
 
+          setColor('green')
+          setError("Payment Rejected Successfully");
         } else {
-          alert("Network Error.");
 
+          setColor('red')
+          setError("Error while rejecting request please try again.");
 
         }
       })
       .catch((error) => {
         console.log(error);
-        alert("Network Error.");
 
+        setColor('red')
+        setError("Network Error. please try again later.");
       });
   };
 
   // Accept request API call
-  const acceptRequest = async (id, amount) => {
+  const acceptRequest = async (id, amount, fromid) => {
     const token = localStorage.getItem("token");
 
     const axios = require("axios");
@@ -164,6 +171,7 @@ export default function NotificationsDrawer({ onNotificationChange }) {
       id: parseInt(id),
       token: token,
       amount: amount,
+      from_user_id: fromid
     });
 
     let config = {
@@ -306,7 +314,7 @@ export default function NotificationsDrawer({ onNotificationChange }) {
                         size="sm"
                         variant="outline"
                         className="h-8 bg-none border-none p-0"
-                        onClick={() => handleAction(notification.id, notification.amount, "accept")}
+                        onClick={() => handleAction(notification.id, notification.amount, "accept", notification)}
                       >
                         <div className="relative w-[45px] h-[45px]">
                           <Image
@@ -324,7 +332,7 @@ export default function NotificationsDrawer({ onNotificationChange }) {
                         size="sm"
                         variant="outline"
                         className="h-8 bg-none border-none p-0"
-                        onClick={() => handleAction(notification.id, notification.amount, "reject")}
+                        onClick={() => handleAction(notification.id, notification.amount, "reject", notification)}
                       >
                         <div className="relative w-[45px] h-[45px]">
                           <Image

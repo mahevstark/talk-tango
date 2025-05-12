@@ -60,8 +60,7 @@ export default function Component({ userid, convoid }) {
           </div>
           <div className="mt-4 text-center">
             <p className="text-sm">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi
-              tristique leo a turpis consequat
+              Encountered inappropriate behavior? Help us keep the community safe by reporting this user
             </p>
           </div>
           <div className="mt-4 space-y-2">
@@ -75,9 +74,8 @@ export default function Component({ userid, convoid }) {
             ].map((option, index) => (
               <div
                 key={index}
-                className={`py-2 px-4 rounded-full text-center cursor-pointer ${
-                  selectedOption === option ? "bg-blue-300" : "bg-gray-100"
-                }`} // Highlight selected option
+                className={`py-2 px-4 rounded-full text-center cursor-pointer ${selectedOption === option ? "bg-blue-300" : "bg-gray-100"
+                  }`} // Highlight selected option
                 onClick={() => handleOptionClick(option)}
               >
                 {option}

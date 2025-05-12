@@ -640,7 +640,7 @@ export default function Messages() {
           </div>
         </div>
         {selectedContact ? (
-          <div className="flex-1  customspacing2  sm:flex flex-col sm:ml-4 ml-0 sm:mr-4 mr-0 sm:h-auto  sm:mt-0 mt-12 border-l  border shadow-lg rounded-lg 2xl: overflow-scroll h-5 ">
+          <div className="flex-1  customspacing2  sm:flex flex-col sm:ml-4 ml-0 sm:mr-4 mr-0 sm:h-auto  sm:mt-0 mt-12 border-l  border shadow-lg rounded-lg 2xl: overflow-scroll h-5 scrollbar-hide">
             <div className="flex items-center justify-between p-4 border-b">
               <div className="flex items-center gap-3">
                 <Button
@@ -714,8 +714,9 @@ export default function Messages() {
 
             <div
               ref={chatContainerRef}
-              className="flex-1 sm:overflow-y-auto p-4 space-y-4 overflow-scroll  h-56 "
+              className="flex-1 p-4 space-y-4 h-56 overflow-y-scroll sm:overflow-y-auto scrollbar-hide"
             >
+
               {messages.length > 0 ? (
                 messages?.map((message) => (
                   <div
@@ -789,7 +790,7 @@ export default function Messages() {
                 <p>Unblock the User First To send Message </p>
               </div>
             ) : (
-              <div className="py-1 ml-3 mr-3 border-2 flex items-center gap-3 px-4 rounded-lg   sm:mb-4 mb-12">
+              <div className="py-1 ml-3 mr-3 border-2 flex items-center gap-3 px-4 rounded-lg   sm:mb-4 ">
                 <Input
                   placeholder={
                     block == 1 ? "Unblock user first" : "Type a message"
@@ -822,6 +823,7 @@ export default function Messages() {
                   />
                 </div>
               </div>
+
             )}
             {/* <div className="py-1 border-2 flex items-center gap-3 px-4 rounded-lg mt-4 sm:mb-0 mb-12">
               <Input
@@ -867,6 +869,6 @@ export default function Messages() {
         )}
       </div>
 
-    </SidebarLayout>
+    </SidebarLayout >
   );
 }

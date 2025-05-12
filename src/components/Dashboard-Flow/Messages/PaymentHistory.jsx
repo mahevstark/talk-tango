@@ -25,6 +25,7 @@ export default function paymenthistory() {
     setloadingpayment(true);
     userid = localStorage.getItem("newid");
 
+
     const convoid = localStorage.getItem("contactId");
     const token = localStorage.getItem("token");
     const axios = require("axios");
@@ -47,7 +48,7 @@ export default function paymenthistory() {
     axios
       .request(config)
       .then((response) => {
-        // console.log(JSON.stringify(response.data));
+
         setData(response.data.data);
         setMedia(response.data.media);
         setloadingpayment(false);
@@ -94,6 +95,7 @@ export default function paymenthistory() {
 
   const fetchusercontacts = async () => {
     setloading(true);
+
     const token = localStorage.getItem("token");
     const axios = require("axios");
     let data = JSON.stringify({
@@ -128,8 +130,12 @@ export default function paymenthistory() {
     fetchusercontacts();
   }, []);
 
-  const handleContactClick = (contactId, contactname, userid, block, newid) => {
+  const handleContactClick = (contactId, contactname, userid, block, newid, contact) => {
     setSelectedContact(contactId);
+    console.log('clicked', contact);
+
+    getPaymenthistory(contact?.user_id)
+
 
     localStorage.setItem("contactname", contactname);
     // setuserid(userid);
@@ -147,18 +153,62 @@ export default function paymenthistory() {
   }, []);
 
   const [paymentData, setPaymentData] = useState([]);
-  useEffect(() => {
-    const token = localStorage.getItem("token");
+  // useEffect(() => {
+  //   const token = localStorage.getItem("token");
+  //   console.log('i am here')
+  //   const axios = require("axios");
+  //   var userid = localStorage.getItem("newid");
+
+  //   const convoid = localStorage.getItem("contactId");
+  //   let data = JSON.stringify({
+  //     token: token,
+  //     "other_user_id": convoid
+
+  //   });
+  //   // here to get history 
+  //   let config = {
+  //     method: "post",
+  //     maxBodyLength: Infinity,
+  //     url: "https://talktango.estamart.com/api/single_user_payment_history",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //     },
+  //     data: data,
+  //   };
+
+  //   axios
+  //     .request(config)
+  //     .then((response) => {
+
+  //       console.log('response.data.data', response.data.data);
+
+
+  //       setPaymentData(response.data.data);
+  //       // console.log("my data", JSON.stringify(response.data));
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //     });
+  // }, []);
+
+
+  const getPaymenthistory = async (id) => {
 
     const axios = require("axios");
+    const token = localStorage.getItem("token");
+    console.log('fetcing for..', Number(id));
+
+
     let data = JSON.stringify({
       token: token,
-    });
+      "other_user_id": Number(id)
 
+    });
+    // here to get history 
     let config = {
       method: "post",
       maxBodyLength: Infinity,
-      url: "https://talktango.estamart.com/api/payment_history",
+      url: "https://talktango.estamart.com/api/single_user_payment_history",
       headers: {
         "Content-Type": "application/json",
       },
@@ -168,17 +218,36 @@ export default function paymenthistory() {
     axios
       .request(config)
       .then((response) => {
-        setPaymentData(response.data.data);
+
+        // console.log('response.data.data', response.data.data);
+
+
+        // setPaymentData(response.data.data);
+        const allData = response.data.data;
+        const filteredData = allData.filter(
+          (item) => item.t_with === String(id)
+        );
+
+        console.log('filteredData:', filteredData);
+        setPaymentData(filteredData);
         // console.log("my data", JSON.stringify(response.data));
       })
       .catch((error) => {
         console.log(error);
       });
-  }, []);
+  }
+
+
+  useEffect(() => {
+    const userid = localStorage.getItem("newid");
+
+
+    getPaymenthistory(userid)
+  }, [])
 
   return (
     <SidebarLayout>
-      <div className="flex sm:flex-row flex-col sm:mt-0  pt-1.5 gap-4 w-full ">
+      <div className="flex sm:flex-row flex-col sm:mt-0  pt-1.5 gap-4 w-full mr-6">
         <div className="sm:w-1/4 sm:pl-3 sm:mt-4 w-full md:block">
           <h1 className="text-xl text-[#049C01] font-semibold mx-6">
             Messages
@@ -218,12 +287,14 @@ export default function paymenthistory() {
                       contact.user_id,
                       contact.is_blocked,
                       contact.user_id,
+                      contact,
                       contact?.image,
-                      contact?.is_blocked
+                      contact?.is_blocked,
+
                     )
                   }
                 >
-                  <div className="relative flex-shrink-0">
+                  <div className=" flex-shrink-0">
                     <Image
                       src={contact?.image || user}
                       alt="User"
@@ -284,10 +355,10 @@ export default function paymenthistory() {
             )}
           </div>
         </div>
-        <div className="flex w-full bg-white h-[700px] pt-4 sm:flex-row flex-col border shadow-lg rounded-lg  mx-4 px-2 min-h-screen  my-4 ">
+        <div className="flex w-full bg-white h-[700px] pt-4 sm:flex-row flex-col border shadow-lg rounded-lg  min-h-screen px-8 my-4 overflow-scroll  scrollbar-hide ">
           {/* Left Sidebar */}
           {/* <LeftLayoutMessages /> */}
-          <div className="sm:pt-0 pt-7 pl-6 sm:w-full w-full">
+          <div className="sm:pt-0 pt-7  sm:w-full w-full">
             <span className="flex gap-1 items-center">
               <Link href="/dashboard/messages/">
                 <Image src={Back} alt="back" width={18} loading="lazy" />
@@ -303,41 +374,45 @@ export default function paymenthistory() {
                 </div>
               </div>
             ) : paymentData && paymentData.length > 0 ? (
-              paymentData.map((day, index) => (
-                <div key={index} className="mt-4">
-                  <div className="flex sm:items-center sm:justify-between pt-5 w-full flex-col justify-start items-start gap-4 sm:gap-0 sm:flex-row">
-                    <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 bg-green-50 rounded-full flex items-center justify-center">
-                        {day.approval_status === "1" ? (
-                          <Image src={receive} alt="Received" />
-                        ) : (
-                          <Image src={arrow} alt="Sent" />
-                        )}
-                      </div>
-                      <div className="flex flex-col">
-                        <span className="text-sm text-black">
-                          {day.approval_status === "1" ? "Received" : "Sent"}
-                        </span>
-                        <span className="text-sm text-[#666666]">
-                          0817239419528913
-                        </span>
+              <div className="py-4">
+                {
+                  paymentData.map((day, index) => (
+                    <div key={index} className="mb-4">
+                      <div className="flex sm:items-center sm:justify-between w-full flex-col justify-start items-start gap-4 sm:gap-0 sm:flex-row ">
+                        <div className="flex items-center gap-3">
+                          <div className="w-10 h-10 bg-green-50 rounded-full flex items-center justify-center">
+                            {day.approval_status === "1" ? (
+                              <Image src={receive} alt="Received" />
+                            ) : (
+                              <Image src={arrow} alt="Sent" />
+                            )}
+                          </div>
+                          <div className="flex flex-col">
+                            <span className="text-sm text-black">
+                              {day.approval_status === "1" ? "Received" : "Sent"}
+                            </span>
+                            <span className="text-sm text-[#666666]">
+                              0817239419528913
+                            </span>
+                          </div>
+                        </div>
+                        <div className="flex flex-col items-end">
+                          <span className="font-medium text-black">
+                            $ {day.amount}
+                          </span>
+                          <span className="text-sm text-[#666666]">
+                            {new Date(day?.created_at).toLocaleTimeString('en-US', {
+                              hour: '2-digit',
+                              minute: '2-digit',
+                              hour12: true
+                            })}
+                          </span>
+                        </div>
                       </div>
                     </div>
-                    <div className="flex flex-col items-end">
-                      <span className="font-medium text-black">
-                        $ {day.amount}
-                      </span>
-                      <span className="text-sm text-[#666666]">
-                        {day.created_at
-                          .split(" ")[1]
-                          .split(":")
-                          .slice(0, 2)
-                          .join(":")}
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              ))
+                  ))
+                }
+              </div>
             ) : (
               <div className="flex w-full items-center justify-center mt-24 h-[50vh] text-center flex-col gap-4">
                 <Image src={nopayment} alt="No Payment" />

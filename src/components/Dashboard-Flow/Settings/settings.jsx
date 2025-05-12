@@ -363,7 +363,7 @@ export default function Settings() {
 
   return (
     <SidebarLayout>
-      <div className="sm:w-full p-4 sm:mt-0 mb-5 w-auto mt-8">
+      <div className="sm:w-full p-4 sm:mt-0 mb-5 w-auto mt-8 ">
         <p className="text-lg font-semibold text-[#049C01] mb-5  mt-1  sm:mt-0">
           Settings
         </p>
@@ -445,7 +445,7 @@ export default function Settings() {
           }
         </div>
 
-        <div className="space-y-4 mt-3 max-w-full flex justify-between gap-10 flex-col sm:flex-row">
+        <div className="space-y-4 pb-6 mt-3 max-w-full flex justify-between gap-10 flex-col sm:flex-row">
           <div className="flex flex-col gap-4 sm:w-[526px] w-auto">
             {settings.map((setting, index) => (
               <Link href={setting.link} key={index}>

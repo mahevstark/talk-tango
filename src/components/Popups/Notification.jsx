@@ -235,7 +235,7 @@ export default function NotificationsDrawer({ onNotificationChange }) {
             Notifications
           </SheetTitle>
         </SheetHeader>
-        <ScrollArea className="h-[calc(100vh-80px)] pr-4">
+        <ScrollArea className="h-[calc(100vh-80px)] pr-4" style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}>
           {loading ? (
             <div className="flex items-center space-x-4">
               <Skeleton className="h-12 w-12 rounded-full" />
@@ -309,14 +309,13 @@ export default function NotificationsDrawer({ onNotificationChange }) {
 
                   {/* Display buttons for pending requests with standardized image sizes */}
                   {notification.status === "2" && notification.request_status === "0" && (
-                    <div className="flex ">
-                      <Button
-                        size="sm"
-                        variant="outline"
-                        className="h-8 bg-none border-none p-0"
+                    <span className="flex items-start gap-4">
+                      <button
+
+                        className="h-8 bg-none hover:bg-none border-none  rounded-full"
                         onClick={() => handleAction(notification.id, notification.amount, "accept", notification)}
                       >
-                        <div className="relative w-[45px] h-[45px]">
+                        <div className="flex items-center  w-8 ">
                           <Image
                             src={accept || "/placeholder.svg"}
                             alt="Accept"
@@ -327,14 +326,13 @@ export default function NotificationsDrawer({ onNotificationChange }) {
                           />
                         </div>
                         <span className="sr-only">Accept request</span>
-                      </Button>
-                      <Button
-                        size="sm"
-                        variant="outline"
-                        className="h-8 bg-none border-none p-0"
+                      </button>
+                      <button
+
+                        className="h-8 bg-none hover:bg-none border-none  rounded-full"
                         onClick={() => handleAction(notification.id, notification.amount, "reject", notification)}
                       >
-                        <div className="relative w-[45px] h-[45px]">
+                        <div className="flex items-center  w-8 ">
                           <Image
                             src={reject || "/placeholder.svg"}
                             alt="Reject"
@@ -345,8 +343,8 @@ export default function NotificationsDrawer({ onNotificationChange }) {
                           />
                         </div>
                         <span className="sr-only">Reject request</span>
-                      </Button>
-                    </div>
+                      </button>
+                    </span>
                   )}
                 </div>
               </div>

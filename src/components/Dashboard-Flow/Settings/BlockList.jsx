@@ -3,7 +3,7 @@ import Link from "next/link";
 import SidebarLayout from "../../../components/Layouts/SideBarLayout";
 import Back from "../../../../public/svgs/back.svg";
 import noblock from "../../../../public/svgs/noblock.svg";
-
+import user from "../../../../public/messages/user.svg";
 import Image from "next/image";
 import { useState, useEffect } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -33,6 +33,8 @@ export default function Component() {
     try {
       const response = await axios.request(config);
 
+      console.log('blocked,', response);
+
       if (response.data.action === "success") {
         setLoading(false);
         setBlockList(response.data.data); // Set the blockList here
@@ -59,8 +61,9 @@ export default function Component() {
       token: token,
       convo_id: convoid,
       block_status: 0,
-      block_to: userid,
+
     });
+    console.log("block to user data", data)
 
     let config = {
       method: "post",
@@ -75,16 +78,21 @@ export default function Component() {
     axios
       .request(config)
       .then((response) => {
+        console.log('response', response);
         if (response.data.action === "success") {
-          if (typeof window !== "undefined") {
-            window.location.reload();
-          }
+          // if (typeof window !== "undefined") {
+          //   window.location.reload();
+          // }
+          fetchBlockList()
         }
       })
       .catch((error) => {
         console.log(error);
       });
   };
+
+  console.log(blockList);
+
 
   return (
     <SidebarLayout>
@@ -100,7 +108,7 @@ export default function Component() {
           <h1 className="text-lg font-medium">Block List</h1>
         </div>
 
-        <div className=" p-3 flex flex-col justify-between rounded-lg">
+        <div className=" p-3 flex flex-col justify-between rounded-lg gap-4">
           {loading ? (
             <div className="flex items-center space-x-4">
               <Skeleton className="h-12 w-12 rounded-full" />
@@ -110,14 +118,15 @@ export default function Component() {
               </div>
             </div>
           ) : blockList ? (
-            blockList.map((item, index) => (
+            blockList?.map((item, index) => (
               <div
                 key={index}
-                className=" gap-4 items-center  border p-3 flex flex-col justify-between bg-gray-100 rounded-lg"
+                className=" gap-4 items-center border p-3 flex  bg-gray-100 rounded-lg"
               >
                 <span className="flex gap-2 items-center">
+
                   <Image
-                    src={item.profile_pic}
+                    src={item?.profile_pic || user}
                     alt="Profile picture"
                     width={44}
                     className="rounded-full"

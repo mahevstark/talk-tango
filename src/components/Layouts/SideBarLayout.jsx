@@ -9,7 +9,7 @@ const SidebarLayout = ({ children }) => {
         <LeftSidebar />
       </div>
 
-      <main className="flex justify-between w-full sm:h-[100vh] pb-5  z-1">{children}</main>
+      <main className="flex justify-between w-full h-auto sm:h-[100vh] pb-5  z-1">{children}</main>
     </div>
   );
 };

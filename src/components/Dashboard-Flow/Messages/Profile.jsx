@@ -29,13 +29,29 @@ export default function profile() {
 
   let convoid;
   let token;
+  const handleContactClick = (contactId, contactname, userid, block, newid) => {
 
+
+    setSelectedContact(contactId);
+
+    localStorage.setItem("contactname", contactname);
+    // setuserid(userid);
+
+    localStorage.setItem("newid", newid); //
+    localStorage.setItem("contactId", contactId); //
+    // displaymessages(contactId);
+    fetchdata();
+
+  };
   useEffect(() => {
     userid = localStorage.getItem("newid");
 
+
     convoid = localStorage.getItem("contactId");
     token = localStorage.getItem("token");
-  }, []);
+  }, [handleContactClick]);
+
+  console.log('i am in profile ');
 
   const [data, setData] = useState([]);
   const [media, setMedia] = useState([]);
@@ -44,8 +60,17 @@ export default function profile() {
   const [bac, setbac] = useState(null);
 
   const fetchdata = async () => {
+
+
+    userid = localStorage.getItem("newid");
+    convoid = localStorage.getItem("contactId");
+    token = localStorage.getItem("token");
     const bankAcc = JSON.parse(localStorage.getItem("usersdata"));
-    setbac(bankAcc?.stripe_customer_id || "No stripe Account Setup");
+    let ran = Math.floor(Math.random() * 10000);
+    console.log(bankAcc?.stripe_customer_id);
+
+    setbac(bankAcc?.stripe_customer_id ? bankAcc.stripe_customer_id + ran : "No stripe Account Setup");
+
     setmedialoading(true);
     const axios = require("axios");
     let data = JSON.stringify({
@@ -53,6 +78,7 @@ export default function profile() {
       user_id: userid,
       convo_id: convoid,
     });
+
 
 
     let config = {
@@ -68,7 +94,7 @@ export default function profile() {
     axios
       .request(config)
       .then((response) => {
-        console.log('data form messages profiless', response);
+
 
         setData(response.data.data);
 
@@ -155,17 +181,7 @@ export default function profile() {
     fetchusercontacts();
   }, []);
 
-  const handleContactClick = (contactId, contactname, userid, block, newid) => {
-    setSelectedContact(contactId);
 
-    localStorage.setItem("contactname", contactname);
-    // setuserid(userid);
-
-    localStorage.setItem("newid", newid); //
-    localStorage.setItem("contactId", contactId); //
-    // displaymessages(contactId);
-    fetchdata();
-  };
   const [selectedContact, setSelectedContact] = useState();
 
   useEffect(() => {
@@ -181,7 +197,7 @@ export default function profile() {
           </h1>
           <div className="p-4">
             <div className="flex rounded-full border-[#E9EAF0] bg-[#F5F5F5]">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-6 text-black" />
+              <Search className="absolute md:mt-2 md:ml-2 mt-2 ml-0 h-5 w-6 text-black" />
               <Input
                 placeholder="Search..."
                 className="pl-7 w-auto border-none ml-3 placeholder:text-black placeholder:font-medium text-black focus:outline-none"
@@ -297,7 +313,7 @@ export default function profile() {
                 </div>
               ) : (
                 <Image
-                  src={data?.profile_pic || profilepic}
+                  src={data?.profile_pic || user}
                   alt="Maryam's profile picture"
                   width={100}
                   height={100}
@@ -306,8 +322,8 @@ export default function profile() {
               )}
             </div>
 
-            <h2 className="mt-4 text-xl font-medium">{data.name}</h2>
-            <p className="text-[#3C3C3C] text-small">{data.about}</p>
+            <h2 className="mt-4 text-xl font-medium">{data?.name}</h2>
+            <p className="text-[#3C3C3C] text-small">{data?.about}</p>
           </div>
 
           <div className="px-4 py-4 rounded-xl shadow-md flex justify-between items-center border">
@@ -318,15 +334,17 @@ export default function profile() {
                 <p className="text-sm text-[#383838]">{bac}</p>
               </span>
             </div>
-            <span
-              className="flex flex-col items-center gap-1"
-              onClick={handleCopy}
-            >
-              <Image src={copyies} alt="copy icon" loading="lazy" />
-              <p className="text-sm text-[#383838] cursor-pointer">
-                {copied ? "Copied!" : "Copy"}
-              </p>
-            </span>
+            {
+              bac !== "No stripe Account Setup" ? (<span
+                className="flex flex-col items-center gap-1"
+                onClick={handleCopy}
+              >
+                <Image src={copyies} alt="copy icon" loading="lazy" />
+                <p className="text-sm text-[#383838] cursor-pointer">
+                  {copied ? "Copied!" : "Copy"}
+                </p>
+              </span>) : (null)
+            }
           </div>
           <div className="p-4 ">
             <h3 className="font-medium mb-2">Media</h3>

@@ -680,7 +680,7 @@ export default function ContactList() {
               filteredContacts.map((contact) => (
                 <div
                   key={contact.id}
-                  className={`flex items-start gap-3 px-4 py-2 cursor-pointer ${selectedContact === contact.id
+                  className={`flex items-start justify-between gap-3 px-4 py-2 cursor-pointer ${selectedContact === contact.id
                     ? "bg-[#049C01] text-white"
                     : ""
                     }`}
@@ -696,36 +696,38 @@ export default function ContactList() {
                     )
                   }
                 >
-                  <div className=" flex-shrink-0">
-                    <Image
-                      src={contact?.image || user}
-                      alt="User"
-                      width={45}
-                      height={45}
-                      className="rounded-full w-[36px] h-[37px]"
-                      loading="lazy"
-                    />
-                  </div>
-                  <div className="flex min-w-0 flex-col">
-                    <div className="flex justify-between items-baseline">
-                      <h2 className="font-semibold truncate">
-                        {contact.title}
-                      </h2>
+                  <div className="flex gap-2">
+                    <div className=" flex-shrink-0">
+                      <Image
+                        src={contact?.image || user}
+                        alt="User"
+                        width={45}
+                        height={45}
+                        className="rounded-full w-[36px] h-[37px]"
+                        loading="lazy"
+                      />
                     </div>
-                    <p
-                      className={`text-sm truncate ${selectedContact === contact.id
-                        ? "text-white "
-                        : "text-[#6E7485]"
-                        }`}
-                    >
-                      {contact?.last_msg?.image ? (
-                        <span>Image</span>
-                      ) : contact?.last_msg?.audio ? (
-                        <span>Audio</span>
-                      ) : (
-                        <span className="max-w-24 inline-block">{contact?.last_msg?.text}</span>
-                      )}
-                    </p>
+                    <div className="flex min-w-0 flex-col">
+                      <div className="flex justify-between items-baseline">
+                        <h2 className="font-semibold truncate">
+                          {contact.title}
+                        </h2>
+                      </div>
+                      <p
+                        className={`text-sm truncate ${selectedContact === contact.id
+                          ? "text-white "
+                          : "text-[#6E7485]"
+                          }`}
+                      >
+                        {contact?.last_msg?.image ? (
+                          <span>Image</span>
+                        ) : contact?.last_msg?.audio ? (
+                          <span>Audio</span>
+                        ) : (
+                          <span className="max-w-24 inline-block">{contact?.last_msg?.text}</span>
+                        )}
+                      </p>
+                    </div>
                   </div>
                   <div className="text-white text-xs rounded-full gap-1 flex items-end justify-center flex-col">
                     <span
@@ -910,7 +912,7 @@ export default function ContactList() {
           </div>
         </div>
         {selectedContact ? (
-          <div className="sm:flex-1  flex flex-col sm:ml-4 ml-0 sm:mr-4 mr-0 sm:h-auto  sm:mt-0 mt-12 border shadow-lg rounded-lg  overflow-scroll h-96 ">
+          <div className="sm:flex-1  flex flex-col sm:ml-4 ml-0 sm:mr-4 mr-0 sm:h-auto  sm:mt-0 mt-12 border shadow-lg rounded-lg  overflow-scroll scrollbar-hide h-96 ">
             <div className="flex items-center  justify-between p-4 border-b ">
               <div className="flex items-center gap-3">
                 <Button
@@ -977,7 +979,7 @@ export default function ContactList() {
 
             <div
               ref={chatContainerRef}
-              className="flex-1 sm:overflow-y-auto p-4 space-y-4  overflow-scroll  h-72"
+              className="flex-1 sm:overflow-y-auto p-4 space-y-4 scrollbar-hide  overflow-scroll  h-72"
             >
               {messages.length > 0 ? (
                 messages.map((message) => (

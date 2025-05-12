@@ -27,11 +27,17 @@ export default function profile() {
   const [medialoading, setmedialoading] = useState(false);
   const [bac, setbac] = useState(null);
   const fetchdata = async () => {
+    console.log('i am here now ');
+
+
     setmedialoading(true);
     const userid = localStorage.getItem("newid");
     const token = localStorage.getItem("token");
     const bankAcc = JSON.parse(localStorage.getItem("usersdata"));
-    setbac(bankAcc?.stripe_customer_id || "No stripe Account Setup");
+    let ran = Math.floor(Math.random() * 101);
+
+    setbac(bankAcc?.stripe_customer_id ? bankAcc.stripe_customer_id + ran : "No stripe Account Setup");
+
     const axios = require("axios");
     let data = JSON.stringify({
       token: token,
@@ -52,7 +58,7 @@ export default function profile() {
     axios
       .request(config)
       .then((response) => {
-        // console.log(JSON.stringify(response.data));
+        console.log(JSON.stringify(response.data));
 
 
         setData(response.data.data);
@@ -162,7 +168,7 @@ export default function profile() {
           </h1>
           <div className="p-4">
             <div className="relative rounded-full border-[#E9EAF0] bg-[#F5F5F5]">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-6 text-black" />
+              <Search className="absolute md:mt-2 md:ml-2 mt-2 ml-0 h-5 w-6 text-black" />
               <Input
                 placeholder="Search..."
                 className="pl-7 w-auto border-none ml-3 placeholder:text-black placeholder:font-medium text-black focus:outline-none"
@@ -173,7 +179,7 @@ export default function profile() {
           </div>
           <div className="overflow-y-auto flex flex-col gap-4 ">
             {filteredContacts.length > 0 ? (
-              filteredContacts.map((contact) => (
+              filteredContacts?.map((contact) => (
                 <div
                   key={contact.id}
                   className={`flex items-start gap-3 px-6 py-2 cursor-pointer ${selectedContact === contact.id
@@ -192,7 +198,7 @@ export default function profile() {
                 >
                   <div className="relative">
                     <Image
-                      src={contact.image || user}
+                      src={contact?.image || user}
                       alt="User"
                       width={45}
                       height={45}
@@ -255,7 +261,7 @@ export default function profile() {
                 </div>
               ) : (
                 <Image
-                  src={data.profile_pic || profilepic}
+                  src={data?.profile_pic || user}
                   alt="Maryam's profile picture"
                   width={100}
                   height={100}
@@ -263,8 +269,8 @@ export default function profile() {
                 />
               )}
             </div>
-            <h2 className="mt-4 text-xl font-medium">{data.name}</h2>
-            <p className="text-[#3C3C3C] text-small">{data.about}</p>
+            <h2 className="mt-4 text-xl font-medium">{data?.name}</h2>
+            <p className="text-[#3C3C3C] text-small">{data?.about}</p>
           </div>
 
           <div className="px-4 py-4 rounded-xl shadow-lg flex justify-between items-center border  mx-5">
@@ -275,15 +281,18 @@ export default function profile() {
                 <p className="text-sm text-[#383838]">{bac}</p>
               </span>
             </div>
-            <span
-              className="flex flex-col items-center gap-1"
-              onClick={handleCopy}
-            >
-              <Image src={copyies} alt="copy icon" loading="lazy" />
-              <p className="text-sm text-[#383838] cursor-pointer">
-                {copied ? "Copied!" : "Copy"}
-              </p>
-            </span>
+            {
+              bac !== "No stripe Account Setup" ? (<span
+                className="flex flex-col items-center gap-1"
+                onClick={handleCopy}
+              >
+                <Image src={copyies} alt="copy icon" loading="lazy" />
+                <p className="text-sm text-[#383838] cursor-pointer">
+                  {copied ? "Copied!" : "Copy"}
+                </p>
+              </span>) : (null)
+            }
+
           </div>
           <div className="p-4  mx-3 ">
             <h3 className=" font-medium mb-2">Media</h3>
@@ -297,7 +306,7 @@ export default function profile() {
                   </div>
                 </div>
               ) : media && media.length > 0 ? (
-                media.map((pic, i) => (
+                media?.map((pic, i) => (
                   <div key={i} className="relative aspect-[10/7]">
                     <Image
                       src={pic.image}

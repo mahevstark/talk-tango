@@ -18,6 +18,8 @@ export default function Component({ name, userid, convoid, block, unblock }) {
       block_to: userid,
     });
 
+    console.log('user to unblock', data);
+
     let config = {
       method: "post",
       maxBodyLength: Infinity,
@@ -31,6 +33,7 @@ export default function Component({ name, userid, convoid, block, unblock }) {
     axios
       .request(config)
       .then((response) => {
+
         if (response.data.action === "success") {
           if (typeof window !== "undefined") {
             window.location.reload();
@@ -52,7 +55,7 @@ export default function Component({ name, userid, convoid, block, unblock }) {
             <h2 className="text-lg text-center font-semibold">
               {block == 1 ? "Unblock User " : "Block User"}
             </h2>
-           
+
           </div>
           <div className="mt-4">
             <p className="text-sm">

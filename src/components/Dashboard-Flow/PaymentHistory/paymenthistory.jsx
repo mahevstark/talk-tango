@@ -66,33 +66,39 @@ export default function Page() {
             </div>
           </div>
         ) : payment && payment.length > 0 ? (
-          payment?.map((day, index) => (
-            <div key={index} className="mt-4">
-              <div className="flex sm:items-center sm:justify-between pt-5 w-full flex-col justify-start items-start gap-4 sm:gap-0 sm:flex-row">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-green-50 rounded-full flex items-center justify-center">
-                    {day.user_id !== id ? (
-                      <Image src={receive || "/placeholder.svg"} alt="Received" />
+          <div className="py-4">{
+            payment?.map((day, index) => (
+              <div key={index} className="mb-6">
+                <div className="flex sm:items-center sm:justify-between w-full flex-col justify-start items-start gap-4 sm:gap-0 sm:flex-row">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 bg-green-50 rounded-full flex items-center justify-center">
+                      {day.user_id !== id ? (
+                        <Image src={receive || "/placeholder.svg"} alt="Received" />
 
-                    ) : (
-                      <Image src={arrow || "/placeholder.svg"} alt="Sent" />
+                      ) : (
+                        <Image src={arrow || "/placeholder.svg"} alt="Sent" />
 
-                    )}
+                      )}
+                    </div>
+                    <div className="flex flex-col">
+                      <span className="text-sm text-black">{day.user_id !== id ? "Received" : "Sent"}</span>
+                      <span className="text-sm text-[#666666]">0817239419528913</span>
+                    </div>
                   </div>
-                  <div className="flex flex-col">
-                    <span className="text-sm text-black">{day.user_id !== id ? "Received" : "Sent"}</span>
-                    <span className="text-sm text-[#666666]">0817239419528913</span>
+                  <div className="flex flex-col items-end">
+                    <span className="font-medium text-black">$ {day?.amount}</span>
+                    <span className="text-sm text-[#666666]">
+                      {new Date(day?.created_at).toLocaleTimeString('en-US', {
+                        hour: '2-digit',
+                        minute: '2-digit',
+                        hour12: true
+                      })}
+
+                    </span>
                   </div>
-                </div>
-                <div className="flex flex-col items-end">
-                  <span className="font-medium text-black">$ {day.amount}</span>
-                  <span className="text-sm text-[#666666]">
-                    {day.created_at.split(" ")[1].split(":").slice(0, 2).join(":")}
-                  </span>
                 </div>
               </div>
-            </div>
-          ))
+            ))}</div>
         ) : (
           <div className="absolute inset-0 flex items-center justify-center flex-col gap-4 text-center">
             <div className="max-w-md mx-auto">

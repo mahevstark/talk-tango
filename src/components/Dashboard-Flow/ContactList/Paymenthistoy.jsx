@@ -178,9 +178,11 @@ export default function profile() {
   //     });
   // }, []);
 
+  const [myid, setMyid] = useState(null)
 
 
   const getPaymenthistory = async (id) => {
+    setMyid(id)
 
     const axios = require("axios");
     const token = localStorage.getItem("token");
@@ -211,13 +213,13 @@ export default function profile() {
 
 
         // setPaymentData(response.data.data);
-        const allData = response.data.data;
-        const filteredData = allData.filter(
-          (item) => item.t_with === String(id)
-        );
+        // const allData = response.data.data;
+        // const filteredData = allData.filter(
+        //   (item) => item.t_with === String(id)
+        // );
 
-        console.log('filteredData:', filteredData);
-        setPaymentData(filteredData);
+        // console.log('filteredData:', filteredData);
+        setPaymentData(response.data.data);
         // console.log("my data", JSON.stringify(response.data));
       })
       .catch((error) => {
@@ -359,19 +361,20 @@ export default function profile() {
                       >
                         <div className="flex items-center gap-3">
                           <div className="w-10 h-10 bg-green-50 rounded-full flex items-center justify-center">
-                            {day.approval_status === "1" ? (
-                              <Image src={receive} alt="Received" />
+                            {day.user_id == myid ? (
+                              <Image src={receive || "/placeholder.svg"} alt="Received" />
+
                             ) : (
-                              <Image src={arrow} alt="Sent" />
+                              <Image src={arrow || "/placeholder.svg"} alt="Sent" />
+
                             )}
                           </div>
                           <div className="flex flex-col">
-                            <span className="text-sm text-black">
-                              {day.approval_status === "1" ? "Received" : "Sent"}
+                            <span className="text-base text-black">
+                              {day.user_id == myid ? "Received" : "Sent"}
+
                             </span>
-                            <span className="text-sm text-[#666666]">
-                              0817239419528913
-                            </span>
+
                           </div>
                         </div>
                         <div className="flex flex-col items-end">

@@ -36,7 +36,7 @@ export default function Page() {
     axios
       .request(config)
       .then((response) => {
-        console.log('rr', response);
+        console.log('rr by payment', response?.data);
 
         if (response.data.action === "success") {
           setpayment(response.data.data);
@@ -52,6 +52,7 @@ export default function Page() {
     fetchpayment();
   }, []);
 
+
   return (
     <SidebarLayout>
       <div className="sm:pt-6 mt-2 pl-10 sm:w-[1311px] w-auto">
@@ -65,6 +66,7 @@ export default function Page() {
               <Skeleton className="h-4 w-[200px]" />
             </div>
           </div>
+
         ) : payment && payment.length > 0 ? (
           <div className="py-4">{
             payment?.map((day, index) => (
@@ -81,8 +83,8 @@ export default function Page() {
                       )}
                     </div>
                     <div className="flex flex-col">
-                      <span className="text-sm text-black">{day.user_id !== id ? "Received" : "Sent"}</span>
-                      <span className="text-sm text-[#666666]">0817239419528913</span>
+                      <span className="text-base text-black">{day.user_id !== id ? "Received" : "Sent"}</span>
+
                     </div>
                   </div>
                   <div className="flex flex-col items-end">
@@ -100,7 +102,7 @@ export default function Page() {
               </div>
             ))}</div>
         ) : (
-          <div className="absolute inset-0 flex items-center justify-center flex-col gap-4 text-center">
+          <div className="border mt-24 inset-0 flex items-center justify-center flex-col gap-4 text-center">
             <div className="max-w-md mx-auto">
               <Image src={nopayment || "/placeholder.svg"} alt="No Payment" className="mx-auto" />
               <p className="text-[#666666] md:text-xl text-sm mt-4">

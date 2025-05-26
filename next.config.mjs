@@ -23,6 +23,8 @@
 // };
 
 // export default nextConfig;
+/**
+ * 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
@@ -37,7 +39,6 @@ const nextConfig = {
       {
         source: "/:path*",
         has: [{ type: "host", value: "granameapp.com" }],
-        protocol: "http",
         destination: "https://granameapp.com/:path*",
         permanent: true,
       },

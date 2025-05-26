@@ -92,9 +92,9 @@ export default function NotificationsDrawer({ onNotificationChange }) {
       case "send":
         return `Send $${notification.amount} to you`;
       case "request":
-        return `send you Payment Request of $${notification.amount}`;
+        return `send you Payment Request of $${notification.amount} `;
       case "accept":
-        return `Accepted your Payment Request and send you $${notification.amount}`;
+        return `Accepted your Payment Request and send you $${notification.amount} `;
       default:
         return "";
     }
@@ -200,14 +200,14 @@ export default function NotificationsDrawer({ onNotificationChange }) {
           console.log('error', response?.data?.error);
 
           setColor('red')
-          setError(response?.data?.error === "Must provide source or customer." ? "Please Setup your Bank Account to accept payment request" : "error");
+          setError(response?.data?.error === "Must provide source or customer." ? "Please Setup your Bank Account to accept payment request" : response?.data?.error);
 
 
         }
       })
       .catch((error) => {
         console.log(error);
-        alert("Network Error.");
+        setError(error || "Network Error");
 
       });
   };
@@ -283,7 +283,7 @@ export default function NotificationsDrawer({ onNotificationChange }) {
                             : null}
 
                         {notification.p_status === "1"
-                          ? `payment request was ${notification.request_status === "1"
+                          ? ` payment request was ${notification.request_status === "1"
                             ? "approved"
                             : notification.request_status === "2"
                               ? "rejected"

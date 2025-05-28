@@ -86,6 +86,13 @@ export default function MoneyTransferPopups({ newid }) {
               setError("Please setup a card before sending the payment.");
               return;
             }
+
+            if (response?.data?.error === "Amount must be at least $0.50 cad") {
+              setError("Minimum amount must be $50.");
+              return;
+            }
+
+
             setError(response?.data?.error || "Error Sending payment Request. Try again later");
 
           }

@@ -136,7 +136,10 @@ export default function profile() {
 
     localStorage.setItem("contactname", contactname);
     // setuserid(userid);
+    console.log('contact', contact);
+
     getPaymenthistory(contact?.user_id)
+
     localStorage.setItem("newid", newid); //
     localStorage.setItem("contactId", contactId); //
     // displaymessages(contactId);
@@ -183,10 +186,13 @@ export default function profile() {
 
   const getPaymenthistory = async (id) => {
     setMyid(id)
+    const user = JSON.parse(localStorage.getItem("usersdata"));
 
     const axios = require("axios");
     const token = localStorage.getItem("token");
-    console.log('fetcing for..', Number(id));
+    console.log('fetcing for the..', Number(id));
+
+    console.log('token', token);
 
 
     let data = JSON.stringify({
@@ -209,7 +215,7 @@ export default function profile() {
       .request(config)
       .then((response) => {
 
-        // console.log('response.data.data', response.data.data);
+        console.log('response.data.data', response.data.data);
 
 
         // setPaymentData(response.data.data);
@@ -219,7 +225,11 @@ export default function profile() {
         // );
 
         // console.log('filteredData:', filteredData);
-        setPaymentData(response.data.data);
+        const filteredData = response.data.data.filter(
+          (item) => item.t_with === String(id) && item.user_id === String(user?.id)
+        );
+
+        setPaymentData(filteredData);
         // console.log("my data", JSON.stringify(response.data));
       })
       .catch((error) => {
@@ -232,7 +242,6 @@ export default function profile() {
 
   useEffect(() => {
     const userid = localStorage.getItem("newid");
-
 
     getPaymenthistory(userid)
   }, [])

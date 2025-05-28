@@ -27,6 +27,7 @@ export default function paymenthistory() {
 
 
     const convoid = localStorage.getItem("contactId");
+
     const token = localStorage.getItem("token");
     const axios = require("axios");
     let data = JSON.stringify({
@@ -193,7 +194,13 @@ export default function paymenthistory() {
 
   const [myid, setMyid] = useState(null)
   const getPaymenthistory = async (id) => {
-    setMyid(id)
+    const user = JSON.parse(localStorage.getItem("usersdata"));
+
+    setMyid(user?.id)
+    console.log('id for getting', id);
+    console.log('id mine', user?.id);
+
+
     const axios = require("axios");
     const token = localStorage.getItem("token");
     console.log('fetcing for..', Number(id));
@@ -215,24 +222,23 @@ export default function paymenthistory() {
       data: data,
     };
 
+    console.log(data);
+
     axios
       .request(config)
       .then((response) => {
 
-        // console.log('response.data.data', response.data.data);
 
 
-        // setPaymentData(response.data.data);
-        // const allData = response.data.data;
-        // console.log('all the daa', allData);
-
-        // const filteredData = allData.filter(
-        //   (item) => item.t_with === String(id)
+        // const filteredData = response.data.data.filter(
+        //   (item) => item.t_with === String(id) && item.user_id === String(user?.id)
         // );
 
+        const filteredData = response.data.data.filter(
+          (item) => item.t_with === String(user?.id) && item.user_id === String(id) || item.t_with === String(id) && item.user_id === String(user?.id)
+        );
         console.log('filteredData:', response.data.data);
-        setPaymentData(response.data.data);
-        // console.log("my data", JSON.stringify(response.data));
+        setPaymentData(filteredData);
       })
       .catch((error) => {
         console.log(error);
@@ -242,7 +248,6 @@ export default function paymenthistory() {
 
   useEffect(() => {
     const userid = localStorage.getItem("newid");
-
 
     getPaymenthistory(userid)
   }, [])
@@ -387,17 +392,17 @@ export default function paymenthistory() {
                       <div className="flex sm:items-center sm:justify-between w-full flex-col justify-start items-start gap-4 sm:gap-0 sm:flex-row ">
                         <div className="flex items-center gap-3">
                           <div className="w-10 h-10 bg-green-50 rounded-full flex items-center justify-center">
-                            {day.user_id == myid ? (
-                              <Image src={receive || "/placeholder.svg"} alt="Received" />
+                            {day?.user_id === myid ? (
+                              <Image src={arrow || "/placeholder.svg"} alt="Received" />
 
                             ) : (
-                              <Image src={arrow || "/placeholder.svg"} alt="Sent" />
+                              <Image src={receive || "/placeholder.svg"} alt="Sent" />
 
                             )}
                           </div>
                           <div className="flex flex-col">
                             <span className="text-base font-base text-black">
-                              {day.user_id == myid ? "Received" : "Sent"}
+                              {day.user_id === myid ? "Sent" : "Received"}
                             </span>
 
                           </div>

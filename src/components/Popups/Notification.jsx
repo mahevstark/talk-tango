@@ -36,9 +36,14 @@ export default function NotificationsDrawer({ onNotificationChange }) {
     setIsOpen(!isOpen);
   };
 
+  const [userid, setuserid] = useState(null);
   // API call to fetch notifications
 
   const fetchnotifications = async () => {
+    const userid = JSON.parse(localStorage.getItem('usersdata'))
+    setuserid(userid?.id);
+    console.log('use id is ', userid?.id);
+
     setLoading(true);
     const token = localStorage.getItem("token");
     const axios = require("axios");
@@ -60,7 +65,7 @@ export default function NotificationsDrawer({ onNotificationChange }) {
       .request(config)
       .then((response) => {
         const notificationsData = response.data.data;
-        // console.log("notificationsData", notificationsData);
+        console.log("notificationsData", notificationsData);
 
         if (Array.isArray(notificationsData)) {
           setLoading(false);
@@ -212,6 +217,17 @@ export default function NotificationsDrawer({ onNotificationChange }) {
       });
   };
 
+  const shouldShowNotification = (notification, userid) => {
+    return (
+      (notification?.p_status === "0" && notification?.request_status === "0" && notification?.status === "2" && notification?.to_user_id === userid) ||
+      (notification?.p_status === "1" && notification?.request_status === "1" && notification?.status === "2") ||
+      (notification?.p_status === "2" && notification?.request_status === "2" && notification?.status === "2") ||
+      (notification?.p_status === "0" && notification?.request_status === "0" && notification?.status === "0" && notification?.from_user_id !== userid)
+      || (notification?.p_status === "0" && notification?.request_status === "0" && notification?.status === "0" && notification?.from_user_id === userid)
+    );
+  };
+
+
 
 
   return (
@@ -258,101 +274,131 @@ export default function NotificationsDrawer({ onNotificationChange }) {
             </span>
           ) : (
             notifications.map((notification) => (
-              <div key={notification.id} className="flex items-start gap-3 mt-3">
-                {/* Profile picture with standardized size */}
-                <div className="relative w-10 h-10 rounded-full overflow-hidden flex-shrink-0">
-                  <Image
-                    src={notification.profile_pic || user}
-                    alt="User"
-                    width={40}
-                    height={40}
-                    className="object-cover"
-                    priority={false}
-                  />
-                </div>
 
-                <div className="flex min-w-1 flex-grow">
-                  <div className="flex items-start flex-col">
-                    <div className="text-sm">
-                      <p className="text-black">
-                        {notification.name || "no contact name"}
-                        {notification.status === "2"
-                          ? ` sent you a payment request of $${notification.amount}`
-                          : notification.status === "0"
-                            ? ` sent you a payment of $${notification.amount}`
-                            : null}
-
-                        {notification.p_status === "1"
-                          ? ` payment request was ${notification.request_status === "1"
-                            ? "approved"
-                            : notification.request_status === "2"
-                              ? "rejected"
-                              : "responded"
-                          }`
-                          : notification.p_status === "2"
-                            ? ` payment request was ${notification.request_status === "1"
-                              ? "approved"
-                              : notification.request_status === "2"
-                                ? "rejected"
-                                : "responded"
-                            }`
-                            : null}
-                      </p>
-
-                      <p className="text-sm text-muted-foreground">
-                        {formatDistanceToNow(parseISO(notification.created_at), {
-                          addSuffix: true,
-                        })}
-                      </p>
-                    </div>
+              shouldShowNotification(notification, userid) && (
+                <div key={notification.id} className="flex items-start gap-3 mt-3">
+                  <div className="relative w-10 h-10 rounded-full overflow-hidden flex-shrink-0">
+                    {(notification?.p_status === "0" && notification?.request_status === "0" && notification?.status === "2" && notification?.to_user_id === userid) ||
+                      (notification?.p_status === "1" && notification?.request_status === "1" && notification?.status === "2") ||
+                      (notification?.p_status === "2" && notification?.request_status === "2" && notification?.status === "2") ||
+                      (notification?.p_status === "0" && notification?.request_status === "0" && notification?.status === "0" && notification?.from_user_id !== userid) || (notification?.p_status === "0" && notification?.request_status === "0" && notification?.status === "0" && notification?.from_user_id === userid) ? (
+                      <Image
+                        src={notification.profile_pic || user}
+                        alt="User"
+                        width={40}
+                        height={40}
+                        className="object-cover"
+                        priority={false}
+                      />
+                    ) : null}
                   </div>
 
-                  {/* Display buttons for pending requests with standardized image sizes */}
-                  {notification.status === "2" && notification.request_status === "0" && (
-                    <span className="flex items-start gap-4">
-                      <button
+                  <div className="flex min-w-1 flex-grow">
+                    <div className="flex items-start flex-col">
+                      <div className="text-sm">
+                        {notification?.p_status === "0" && notification?.request_status === "0" && notification?.status === "2" && notification?.to_user_id === userid &&
+                          `${notification.name} sent you a payment request of $${notification.amount}`
+                        }
 
-                        className="h-8 bg-none hover:bg-none border-none  rounded-full"
-                        onClick={() => handleAction(notification.id, notification.amount, "accept", notification)}
-                      >
-                        <div className="flex items-center  w-8 ">
-                          <Image
-                            src={accept || "/placeholder.svg"}
-                            alt="Accept"
-                            width={30}
-                            height={30}
-                            className="object-contain"
-                            loading="lazy"
-                          />
-                        </div>
-                        <span className="sr-only">Accept request</span>
-                      </button>
-                      <button
+                        {
+                          notification?.p_status === "1" && notification?.request_status === "1" && notification?.status === "2" && notification?.from_user_id !== userid && (
+                            'You approved payment request of $' + notification.amount + ' for ' + notification.name
+                          )
+                        }
+                        {
+                          notification?.p_status === "2" && notification?.request_status === "2" && notification?.status === "2" && notification?.from_user_id !== userid && (
+                            'You rejected payment request of $' + notification.amount + ' for ' + notification.name
+                          )
+                        }
+                        {
+                          notification?.p_status === "2" && notification?.request_status === "2" && notification?.status === "2" && notification?.from_user_id === userid && (
+                            'Your payment request for $' + notification.amount + ' was rejected by ' + notification.name
+                          )
+                        }
+                        {
+                          notification?.p_status === "1" && notification?.request_status === "1" && notification?.status === "2" && notification?.from_user_id === userid && (
+                            'Your payment request for $' + notification.amount + ' was accepted by ' + notification.name
+                          )
+                        }
+                        {
+                          notification?.p_status === "0" && notification?.request_status === "0" && notification?.status === "0" && notification?.from_user_id !== userid && (
+                            `${notification.name} sent you a payment of $${notification.amount}`
+                          )
+                        }
+                        {
+                          notification?.p_status === "0" && notification?.request_status === "0" && notification?.status === "0" && notification?.from_user_id === userid && (
+                            `$${notification.amount} Successfully sent  `
+                          )
+                        }
 
-                        className="h-8 bg-none hover:bg-none border-none  rounded-full"
-                        onClick={() => handleAction(notification.id, notification.amount, "reject", notification)}
-                      >
-                        <div className="flex items-center  w-8 ">
-                          <Image
-                            src={reject || "/placeholder.svg"}
-                            alt="Reject"
-                            width={30}
-                            height={30}
-                            className="object-contain"
-                            loading="lazy"
-                          />
-                        </div>
-                        <span className="sr-only">Reject request</span>
-                      </button>
-                    </span>
-                  )}
+
+
+
+                      </div>
+                      <p className="text-sm text-muted-foreground">
+
+                        {
+                          (notification?.p_status === "0" && notification?.request_status === "0" && notification?.status === "2" && notification?.to_user_id === userid) ||
+                            (notification?.p_status === "1" && notification?.request_status === "1" && notification?.status === "2") ||
+                            (notification?.p_status === "2" && notification?.request_status === "2" && notification?.status === "2") ||
+                            (notification?.p_status === "0" && notification?.request_status === "0" && notification?.status === "0" && notification?.from_user_id !== userid) || (notification?.p_status === "0" && notification?.request_status === "0" && notification?.status === "0" && notification?.from_user_id === userid) ? formatDistanceToNow(parseISO(notification.created_at), {
+                              addSuffix: true,
+                            }) : null
+                        }
+
+
+
+                      </p>
+
+                    </div>
+
+                    {/* Uncomment and customize this block if you want the Accept/Reject buttons again */}
+                    {notification?.p_status === "0" && notification?.request_status === "0" && notification?.status === "2" && notification?.to_user_id === userid && (
+                      <span className="flex items-start gap-4">
+                        <button
+                          className="h-8 bg-none hover:bg-none border-none rounded-full"
+                          onClick={() => handleAction(notification.id, notification.amount, "accept", notification)}
+                        >
+                          <div className="flex items-center w-8">
+                            <Image
+                              src={accept || "/placeholder.svg"}
+                              alt="Accept"
+                              width={30}
+                              height={30}
+                              className="object-contain"
+                              loading="lazy"
+                            />
+                          </div>
+                          <span className="sr-only">Accept request</span>
+                        </button>
+
+                        <button
+                          className="h-8 bg-none hover:bg-none border-none rounded-full"
+                          onClick={() => handleAction(notification.id, notification.amount, "reject", notification)}
+                        >
+                          <div className="flex items-center w-8">
+                            <Image
+                              src={reject || "/placeholder.svg"}
+                              alt="Reject"
+                              width={30}
+                              height={30}
+                              className="object-contain"
+                              loading="lazy"
+                            />
+                          </div>
+                          <span className="sr-only">Reject request</span>
+                        </button>
+                      </span>
+                    )}
+                  </div>
                 </div>
-              </div>
+              )
+
             ))
           )}
           {error && <ErrorPopup message={error} onClose={() => setError("")} color={color} />}
         </ScrollArea>
       </SheetContent>
-    </Sheet>
+    </Sheet >
   );
 }

@@ -15,9 +15,11 @@ export default function Page() {
   const fetchpayment = async () => {
     setLoading(true);
     const token = localStorage.getItem("token");
-    const user = localStorage.getItem("id");
+    const user = JSON.parse(localStorage.getItem("usersdata"));
 
-    setid(user);
+    setid(user?.id);
+    console.log('mine user', user?.id);
+
     const axios = require("axios");
     let data = JSON.stringify({
       token: token,
@@ -74,16 +76,18 @@ export default function Page() {
                 <div className="flex sm:items-center sm:justify-between w-full flex-col justify-start items-start gap-4 sm:gap-0 sm:flex-row">
                   <div className="flex items-center gap-3">
                     <div className="w-10 h-10 bg-green-50 rounded-full flex items-center justify-center">
-                      {day.user_id !== id ? (
-                        <Image src={receive || "/placeholder.svg"} alt="Received" />
+                      {day?.user_id === id ? (
+                        <Image src={arrow || "/placeholder.svg"} alt="Received" />
+
 
                       ) : (
-                        <Image src={arrow || "/placeholder.svg"} alt="Sent" />
+                        <Image src={receive || "/placeholder.svg"} alt="Sent" />
 
                       )}
+
                     </div>
                     <div className="flex flex-col">
-                      <span className="text-base text-black">{day.user_id !== id ? "Received" : "Sent"}</span>
+                      <span className="text-base text-black">{day.user_id === id ? "Sent" : "Received"}</span>
 
                     </div>
                   </div>
@@ -102,7 +106,7 @@ export default function Page() {
               </div>
             ))}</div>
         ) : (
-          <div className="border mt-24 inset-0 flex items-center justify-center flex-col gap-4 text-center">
+          <div className=" mt-24 inset-0 flex items-center justify-center flex-col gap-4 text-center">
             <div className="max-w-md mx-auto">
               <Image src={nopayment || "/placeholder.svg"} alt="No Payment" className="mx-auto" />
               <p className="text-[#666666] md:text-xl text-sm mt-4">

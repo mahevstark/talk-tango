@@ -397,7 +397,7 @@ export default function Leaderboard() {
 
 
                     {
-                        remainingUsersData?.length > 0 ? (<div className="bg-white rounded-t-3xl flex flex-col h-auto sm:h-56 md:h-52 lg:h-48 xl:h-96 2xl:h-56 overflow-hidden shadow-lg mx-6">
+                        remainingUsersData?.length > 0 ? (<div className="bg-white rounded-t-3xl flex flex-col max-sm:h-[37vh] md:h-[22vh] lg:h-[25vh] xl:h-[24vh] 2xl:h-[57vh] overflow-hidden shadow-lg mx-6 ">
                             <div className="pt-4 pb-2 px-4 border-b border-gray-100">
                                 <h2 className="text-gray-800 font-semibold">Other Rankings</h2>
                             </div>

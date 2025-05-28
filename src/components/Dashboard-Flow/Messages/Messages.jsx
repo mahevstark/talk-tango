@@ -670,7 +670,10 @@ export default function Messages() {
                 </div>
               </div>
               <div className="flex items-center">
-                <PaymentRequest newid={newid} />
+
+                {
+                  blocking == 1 ? (null) : (<PaymentRequest newid={newid} />)
+                }
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
                     <Button

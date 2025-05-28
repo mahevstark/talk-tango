@@ -273,30 +273,10 @@ export default function profile() {
             <p className="text-[#3C3C3C] text-small">{data?.about}</p>
           </div>
 
-          <div className="px-4 py-4 rounded-xl shadow-lg flex justify-between items-center border  mx-5">
-            <div className="flex items-center gap-4">
-              <Image src={wallet} alt="wallet" loading="lazy" />
-              <span>
-                <p className="text-black">Bank Account Number</p>
-                <p className="text-sm text-[#383838]">{bac}</p>
-              </span>
-            </div>
-            {
-              bac !== "No stripe Account Setup" ? (<span
-                className="flex flex-col items-center gap-1"
-                onClick={handleCopy}
-              >
-                <Image src={copyies} alt="copy icon" loading="lazy" />
-                <p className="text-sm text-[#383838] cursor-pointer">
-                  {copied ? "Copied!" : "Copy"}
-                </p>
-              </span>) : (null)
-            }
 
-          </div>
           <div className="p-4  mx-3 ">
-            <h3 className=" font-medium mb-2">Media</h3>
-            <div className="grid grid-cols-6 gap-1 h-64 overflow-scroll ">
+            <h3 className=" font-medium mb-2 ">Media</h3>
+            <div className="grid grid-cols-6 gap-1 h-64 overflow-scroll scrollbar-hide ">
               {medialoading ? (
                 <div className="flex items-center space-x-4">
                   <Skeleton className="h-12 w-12 rounded-full " />

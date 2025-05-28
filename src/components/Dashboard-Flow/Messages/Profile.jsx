@@ -119,6 +119,7 @@ export default function profile() {
   // Bank account number
   const accountNumber = "273ss2834072382712";
 
+  {/* // data to be gone */ }
   // Function to handle copying the text
   const handleCopy = () => {
     navigator.clipboard

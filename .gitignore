@@ -1,7 +1,6 @@
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
-
-# dependenciessss npmrssss
+# dependencies for npm/dev command or npmr
 /node_modules
+
 /.pnp
 .pnp.*
 .yarn/*

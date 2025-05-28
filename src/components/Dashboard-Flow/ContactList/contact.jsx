@@ -944,7 +944,9 @@ export default function ContactList() {
                 </div>
               </div>
               <div className="flex items-center">
-                <PaymentRequest newid={newid} />
+                {
+                  block == 1 ? (null) : (<PaymentRequest newid={newid} />)
+                }
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
                     <Button

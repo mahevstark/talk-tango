@@ -22,7 +22,7 @@ export default function profile() {
 
   const [data, setData] = useState([]);
   const [media, setMedia] = useState([]);
-
+  // data to be gone
   const [loading, setloading] = useState(false);
   const [medialoading, setmedialoading] = useState(false);
   const [bac, setbac] = useState(null);

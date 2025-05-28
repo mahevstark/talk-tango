@@ -69,8 +69,29 @@
 // };
 
 // export default nextConfig;
-
 /** @type {import('next').NextConfig} */
+
+const redirects = async () => [
+  {
+    source: "/:path*",
+    has: [{ type: "host", value: "www.granameapp.com" }],
+    destination: "https://granameapp.com/:path*",
+    permanent: true,
+  },
+];
+
+const headers = async () => [
+  {
+    source: "/:path*",
+    headers: [
+      {
+        key: "Link",
+        value: '<https://granameapp.com>; rel="canonical"',
+      },
+    ],
+  },
+];
+
 const nextConfig = {
   images: {
     domains: [
@@ -79,29 +100,8 @@ const nextConfig = {
       "picsum.photos",
     ],
   },
-  async redirects() {
-    return [
-      {
-        source: "/:path*",
-        has: [{ type: "host", value: "www.granameapp.com" }],
-        destination: "https://granameapp.com/:path*",
-        permanent: true,
-      },
-    ];
-  },
-  async headers() {
-    return [
-      {
-        source: "/:path*",
-        headers: [
-          {
-            key: "Link",
-            value: '<https://granameapp.com>; rel="canonical"',
-          },
-        ],
-      },
-    ];
-  },
+  redirects,
+  headers,
 };
 
 export default nextConfig;

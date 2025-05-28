@@ -418,6 +418,7 @@ export default function Messages() {
   // image
 
   const [profileImage, setProfileImage] = useState([]);
+  {/* // data to be gone */ }
 
   // localStorage.getItem("image")
 
@@ -655,6 +656,7 @@ export default function Messages() {
                     <ArrowLeft className="h-5 w-5" />
                   )}
                 </Button>
+
                 <Image
                   src={profilePic || user}
                   alt={name || "User"}

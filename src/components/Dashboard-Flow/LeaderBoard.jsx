@@ -393,7 +393,7 @@ export default function Leaderboard() {
 
 
                     {/* …inside your render, replace the “Other Rankings” container with: */}
-
+                    {/* remaining data to be  */}
 
 
                     {

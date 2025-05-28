@@ -758,6 +758,8 @@ export default function ContactList() {
               </span>
             )}
 
+            {/* // data to be gone */}
+
             {/* <div className="mt-4">
               {filteredContacts ?? null ? (
                 filteredContacts?.length > 0 ? (

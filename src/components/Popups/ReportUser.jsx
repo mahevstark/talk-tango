@@ -1,13 +1,12 @@
 import { useState } from "react";
 import { X } from "lucide-react";
-import { toast } from "../../../utils/Common";
 import ErrorPopup from "./ErrorPopup";
 
 export default function Component({ userid, convoid }) {
   const [isOpen, setIsOpen] = useState(true);
   const [report, setreport] = useState();
   const [selectedOption, setSelectedOption] = useState(null); // Track the selected option
-  const [loading, setloading] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [color, setColor] = useState('red');
   const [error, setError] = useState("");
 
@@ -15,11 +14,15 @@ export default function Component({ userid, convoid }) {
   const handleReportUser = () => {
     const token = localStorage.getItem("token");
     const axios = require("axios");
-    if (report === '') {
-      toast("Please provide report details.")
+    console.log('report', report);
 
+    if (report === undefined) {
+      setColor('red')
+
+      setError("Please provide report details.");
+      return;
     }
-    setloading(true);
+    setLoading(true);
 
     let data = JSON.stringify({
       token: token,
@@ -44,7 +47,7 @@ export default function Component({ userid, convoid }) {
         if (response?.data?.action === "success") {
           setColor('green')
           setError("The user has been reported successfully. We appreciate your feedback.");
-          setloading(false);
+          setLoading(false);
           setTimeout(() => {
             handleClose()
           }, 2000);
@@ -53,7 +56,7 @@ export default function Component({ userid, convoid }) {
           setColor('red')
           setError("Failed to report the user. Please try again later");
 
-          setloading(false);
+          setLoading(false);
           setTimeout(() => {
             handleClose()
           }, 2000);
@@ -63,8 +66,11 @@ export default function Component({ userid, convoid }) {
       })
       .catch((error) => {
         console.log('report user error', error);
-        toast("Network Error.")
-        setloading(false);
+        setColor('red')
+
+        setError("Network Error.");
+
+        setLoading(false);
         setTimeout(() => {
           handleClose()
         }, 2000);
@@ -75,6 +81,7 @@ export default function Component({ userid, convoid }) {
   };
 
   const handleOptionClick = (optionText) => {
+
     setreport(optionText);
     setSelectedOption(optionText);
   };

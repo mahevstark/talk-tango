@@ -1,15 +1,29 @@
 import { useState } from "react";
 import { X } from "lucide-react";
+import ErrorPopup from "./ErrorPopup";
 
 export default function Component({ userid, convoid }) {
   const [isOpen, setIsOpen] = useState(true);
   const [report, setreport] = useState();
   const [selectedOption, setSelectedOption] = useState(null); // Track the selected option
+  const [loading, setLoading] = useState(false);
+  const [color, setColor] = useState('red');
+  const [error, setError] = useState("");
 
   const handleClose = () => setIsOpen(false);
   const handleReportUser = () => {
     const token = localStorage.getItem("token");
     const axios = require("axios");
+    console.log('report', report);
+
+    if (report === undefined) {
+      setColor('red')
+
+      setError("Please provide report details.");
+      return;
+    }
+    setLoading(true);
+
     let data = JSON.stringify({
       token: token,
       report_text: report,
@@ -22,7 +36,7 @@ export default function Component({ userid, convoid }) {
       url: "https://talktango.estamart.com/api/report_user",
       headers: {
         "Content-Type": "application/json",
-        Cookie: "ci_session=m4qbje105o5208ulbq4l0ac0dm1bv9tm",
+
       },
       data: data,
     };
@@ -30,14 +44,44 @@ export default function Component({ userid, convoid }) {
     axios
       .request(config)
       .then((response) => {
-        console.log(JSON.stringify(response.data));
+        if (response?.data?.action === "success") {
+          setColor('green')
+          setError("The user has been reported successfully. We appreciate your feedback.");
+          setLoading(false);
+          setTimeout(() => {
+            handleClose()
+          }, 2000);
+
+        } else {
+          setColor('red')
+          setError("Failed to report the user. Please try again later");
+
+          setLoading(false);
+          setTimeout(() => {
+            handleClose()
+          }, 2000);
+
+
+        }
       })
       .catch((error) => {
-        console.log(error);
+        console.log('report user error', error);
+        setColor('red')
+
+        setError("Network Error.");
+
+        setLoading(false);
+        setTimeout(() => {
+          handleClose()
+        }, 2000);
+
+
       });
+
   };
 
   const handleOptionClick = (optionText) => {
+
     setreport(optionText);
     setSelectedOption(optionText);
   };
@@ -74,7 +118,7 @@ export default function Component({ userid, convoid }) {
             ].map((option, index) => (
               <div
                 key={index}
-                className={`py-2 px-4 rounded-full text-center cursor-pointer ${selectedOption === option ? "bg-blue-300" : "bg-gray-100"
+                className={`py-2 px-4 rounded-full text-center cursor-pointer ${selectedOption === option ? "bg-blue-300 text-white" : "bg-gray-100"
                   }`} // Highlight selected option
                 onClick={() => handleOptionClick(option)}
               >
@@ -87,10 +131,12 @@ export default function Component({ userid, convoid }) {
               onClick={handleReportUser}
               className="w-full py-2 bg-[#049C01] text-white rounded-full hover:bg-green-600"
             >
-              Report User
+              {loading ? 'Almost there...' : 'Report User'}
             </button>
           </div>
         </div>
+        {error && <ErrorPopup message={error} onClose={() => setError("")} color={color} />}
+
       </div>
     )
   );

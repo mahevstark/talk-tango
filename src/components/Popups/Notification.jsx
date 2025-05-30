@@ -203,12 +203,13 @@ export default function NotificationsDrawer({ onNotificationChange }) {
           setError("Payment Approved Successfully");
         } else {
           console.log('error', response?.data?.error);
+          setColor('red')
           if (response?.data?.error === "Amount must be at least $0.50 cad") {
             setError("Minimum amount must be $50.");
             return;
           }
 
-          setColor('red')
+
           setError(response?.data?.error === "Must provide source or customer." ? "Please Setup your Bank Account to accept payment request" : response?.data?.error);
 
 
